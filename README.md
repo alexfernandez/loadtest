@@ -6,6 +6,9 @@ Runs a load test on the selected URL or websocket. Easy to extend minimally for 
 Installation
 ------------
 
+Just run:
+    $ npm install loadtest
+
 Usage
 -----
 
