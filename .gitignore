@@ -13,6 +13,9 @@ results
 
 npm-debug.log
 
-# Alex 2013-06-22: libraries
+# libraries
 node_modules
+
+# vim swap files
+*.swp
 
