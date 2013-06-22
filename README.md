@@ -4,19 +4,36 @@ loadtest
 Runs a load test on the selected URL or websocket. Easy to extend minimally for your own ends.
 
 Installation
-============
+------------
 
 Usage
-=====
+-----
 
-Run as a cript to load test a URL:
+Run as a script to load test a URL:
   $ node loadtest.js [URL] or [websocket URL]
 
 To get online help run without parameters:
   $ node loadtest.js
 
+### Advanced Usage
+
+Add your own values for concurrency, requests per second and seconds measured:
+  $ node loadtest.js [concurrency [request per second [seconds measured]]] ...
+
+## Concurrency
+
+loadtest will create a simultaneous number of clients.
+
+## Requests Per Second
+
+Controls the number of requests per second for each client.
+
+## Seconds Measured
+
+How many seconds must be measured before showing the default latency.
+
 License
-=======
+-------
 
 (The MIT License)
 
