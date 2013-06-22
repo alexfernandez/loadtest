@@ -12,3 +12,7 @@ logs
 results
 
 npm-debug.log
+
+# Alex 2013-06-22: libraries
+node_modules
+
