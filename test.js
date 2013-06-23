@@ -8,6 +8,8 @@
 // requires
 var prototypes = require('./lib/prototypes.js');
 var timing = require('./lib/timing.js');
+var util = require('util');
+var async = require('async');
 var Log = require('log');
 
 // globals
@@ -17,24 +19,40 @@ var log = new Log('info');
 /**
  * Run all module tests.
  */
-exports.test = function()
+exports.test = function(callback)
 {
-	if (!prototypes.test())
+	var run = false;
+	var tests = {
+		prototypes: prototypes.test,
+		timing: timing.test,
+	};
+	async.series(tests, function(error, result)
 	{
-		log.error('Failure in prototypes test');
-		exit(1);
-	}
-	if (!timing.test())
+		run = true;
+		callback(error, result);
+	});
+	// give it time
+	setTimeout(function()
 	{
-		log.error('Failure in timing test');
-		exit(1);
-	}
-	log.notice('Tests run correctly');
+		if (!run)
+		{
+			callback('Latency did not call back in 10 ms');
+		}
+	}, 100);
 }
 
 // run tests if invoked directly
 if (__filename == process.argv[1])
 {
-	exports.test();
+	exports.test(function(error, result)
+	{
+		if (error)
+		{
+			log.error('Failure in tests: %s', error);
+			process.exit(1);
+			return;
+		}
+		log.info('All tests successful: %s', util.inspect(result, true, 10, true));
+	});
 }
 

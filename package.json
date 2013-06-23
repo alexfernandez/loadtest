@@ -13,6 +13,7 @@
 	"dependencies": {
 		"websocket": "*",
 		"microtime": "*",
+		"async": "*",
 		"log": "*"
 	},
 	"keywords" : ["testing", "test", "load test", "http", "websocket", "performance", "black box"],
