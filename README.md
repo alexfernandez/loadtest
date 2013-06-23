@@ -13,15 +13,18 @@ Usage
 -----
 
 Run as a script to load test a URL:
-  $ node loadtest.js [URL] or [websocket URL]
 
-To get online help run without parameters:
-  $ node loadtest.js
+    $ node lib/loadtest.js [URL] or [websocket URL]
+
+To get online help, run loadtest.js without parameters:
+
+    $ node lib/loadtest.js
 
 ### Advanced Usage
 
-Add your own values for concurrency, requests per second and seconds measured:
-  $ node loadtest.js [concurrency [request per second [seconds measured]]] ...
+Add your own values for concurrency and requests per second:
+
+    $ node lib/loadtest.js [concurrency [request per second]] ...
 
 ## Concurrency
 
@@ -31,9 +34,20 @@ loadtest will create a simultaneous number of clients.
 
 Controls the number of requests per second for each client.
 
-## Seconds Measured
+## --noagent
 
-How many seconds must be measured before showing the default latency.
+Open connections without keep-alive: send header 'Connection: Close' instead of 'Connection: Keep-alive'.
+
+Server
+------
+
+loadtest bundles a test server. To run it:
+
+    $ node lib/server.js [port]
+
+It will show the number of requests received per second, the latency in answering requests and the headers for selected requests.
+
+This server returns a short text 'OK' for every request, removing request processing from latency measurements.
 
 License
 -------
