@@ -8,6 +8,7 @@
 // requires
 var prototypes = require('./lib/prototypes.js');
 var timing = require('./lib/timing.js');
+var sample = require('./lib/sample.js');
 var util = require('util');
 var async = require('async');
 var Log = require('log');
@@ -25,6 +26,7 @@ exports.test = function(callback)
 	var tests = {
 		prototypes: prototypes.test,
 		timing: timing.test,
+		sample: sample.test,
 	};
 	async.series(tests, function(error, result)
 	{
@@ -38,7 +40,7 @@ exports.test = function(callback)
 		{
 			callback('Package tests did not call back');
 		}
-	}, 200);
+	}, 2200);
 }
 
 // run tests if invoked directly
