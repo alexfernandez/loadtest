@@ -1,16 +1,15 @@
-loadtest
-========
+# loadtest
 
-Runs a load test on the selected URL or websocket. Easy to extend minimally for your own ends.
+Runs a load test on the selected HTTP or websocket URL. The API allows for easy integration in your own tests.
 
-Installation
-------------
+## Installation
 
 Just run:
     $ npm install loadtest
 
-Usage
------
+Or add package loadtest to your package.json dependencies.
+
+## Usage
 
 Run as a script to load test a URL:
 
@@ -26,20 +25,19 @@ Add your own values for concurrency and requests per second:
 
     $ node lib/loadtest.js [concurrency [request per second]] ...
 
-## Concurrency
+#### Concurrency
 
-loadtest will create a simultaneous number of clients.
+loadtest will create a simultaneous number of clients; this parameter controls how many.
 
-## Requests Per Second
+#### Requests Per Second
 
 Controls the number of requests per second for each client.
 
-## --noagent
+#### --noagent
 
 Open connections without keep-alive: send header 'Connection: Close' instead of 'Connection: Keep-alive'.
 
-Server
-------
+### Server
 
 loadtest bundles a test server. To run it:
 
@@ -49,8 +47,46 @@ It will show the number of requests received per second, the latency in answerin
 
 This server returns a short text 'OK' for every request, removing request processing from latency measurements.
 
-License
--------
+## API
+
+loadtest is not limited to running from the command line; it can be controlled using an API, thus allowing you to load test your application in your own tests.
+
+### Invoke Load Test
+
+To run a load test use the exported function loadTest() passing it a set of options:
+
+    var loadtest = require('loadtest');
+    
+    loadtest.loadTest({
+        url: 'http://localhost:8000',
+        maxRequests: 1000,
+        callback: function(error, result)
+        {
+            if (error)
+            {
+                return console.error('Got an error: %s', error);
+            }
+            console.log('Tests run successfully');
+        });
+	});
+
+### Options
+
+This is the set of available options. Except where noted, all options are (as their name implies) optional.
+
+#### url
+
+Mandatory. The URL to invoke for each request.
+
+#### maxRequests
+
+Max number of requests to send.
+
+#### callback
+
+Function to call after the required number of requests have been sent.
+
+## License
 
 (The MIT License)
 
