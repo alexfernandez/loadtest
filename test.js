@@ -36,9 +36,9 @@ exports.test = function(callback)
 	{
 		if (!run)
 		{
-			callback('Latency did not call back in 10 ms');
+			callback('Package tests did not call back');
 		}
-	}, 100);
+	}, 200);
 }
 
 // run tests if invoked directly
