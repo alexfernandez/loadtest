@@ -53,22 +53,23 @@ loadtest is not limited to running from the command line; it can be controlled u
 
 ### Invoke Load Test
 
-To run a load test use the exported function loadTest() passing it a set of options:
+To run a load test use the exported function loadTest() passing it a set of options and an optional callback:
 
     var loadtest = require('loadtest');
-    
-    loadtest.loadTest({
+    var options = {
         url: 'http://localhost:8000',
         maxRequests: 1000,
-        callback: function(error, result)
+    };
+    loadtest.loadTest(options, function(error, result)
+    {
+        if (error)
         {
-            if (error)
-            {
-                return console.error('Got an error: %s', error);
-            }
-            console.log('Tests run successfully');
-        });
-	});
+            return console.error('Got an error: %s', error);
+        }
+        console.log('Tests run successfully');
+    });
+
+The callback will be invoked when the max number of requests is reached, or when the number of seconds has elapsed. Options are:
 
 ### Options
 
@@ -76,15 +77,30 @@ This is the set of available options. Except where noted, all options are (as th
 
 #### url
 
-Mandatory. The URL to invoke for each request.
+The URL to invoke.
+
+#### concurrency
+
+How many clients to start in parallel.
+
+#### requestsPerSecond
+
+How many requests each client will send per second.
 
 #### maxRequests
 
-Max number of requests to send.
+A max number of requests; after they are reached the test will end.
 
-#### callback
+### Start Test Server
 
-Function to call after the required number of requests have been sent.
+To start the test server use the exported function startServer() with a port and an optional callback:
+
+    var loadserver = require('loadserver');
+    loadserver.startServer(8000);
+
+### Complete Sample
+
+The file lib/sample.js shows a complete sample, which is also an integration test: it starts the server, send 1000 requests, waits for the callback and closes down the server.
 
 ## License
 
