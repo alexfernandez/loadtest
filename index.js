@@ -8,7 +8,7 @@
 
 // requires
 var loadtest = require('./lib/loadtest.js');
-var server = require('./lib/server.js');
+var loadserver = require('./lib/loadserver.js');
 
 // globals
 var log = new Log('info');
@@ -18,5 +18,5 @@ var agent = true;
 
 // exports
 exports.loadTest = loadtest.loadTest;
-exports.server = server.startServer;
+exports.startServer = loadserver.startServer;
 
