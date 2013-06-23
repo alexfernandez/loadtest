@@ -1,6 +1,6 @@
 {
 	"name": "loadtest",
-	"version": "0.0.3",
+	"version": "0.0.4",
 	"description": "Load test scripts.",
 	"homepage": "http://milliearth.org/",
 	"contributors": ["Alex Fernández <alexfernandeznpm@gmail.com>"],
