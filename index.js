@@ -7,6 +7,7 @@
 
 
 // requires
+var Log = require('log');
 var loadtest = require('./lib/loadtest.js');
 var loadserver = require('./lib/loadserver.js');
 
