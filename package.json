@@ -20,6 +20,11 @@
 	"engines": {
 		"node": "*"
 	},
+	"bin": {
+		"loadtest": "lib/cli-wrapper.js",
+		"testserver": "lib/cli-wrapper.js"
+	},
+	"preferGlobal": true,
 	"scripts": {
 		"test": "node test.js"
 	},
