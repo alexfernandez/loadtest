@@ -6,9 +6,6 @@
  */
 
 // requires
-var prototypes = require('./lib/prototypes.js');
-var timing = require('./lib/timing.js');
-var sample = require('./lib/sample.js');
 var util = require('util');
 var testing = require('testing');
 var Log = require('log');
@@ -22,11 +19,12 @@ var log = new Log('info');
  */
 exports.test = function(callback)
 {
-	var tests = {
-		prototypes: prototypes.test,
-		timing: timing.test,
-		sample: sample.test,
-	};
+	var tests = {};
+	var libs = [ 'prototypes', 'timing', 'sample', 'websocket' ];
+	libs.forEach(function(lib)
+	{
+		tests[lib] = require('./lib/' + lib + '.js').test;
+	});
 	testing.run(tests, 2200, callback);
 }
 
