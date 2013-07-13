@@ -16,9 +16,12 @@ For programmatic access, install locally or add package loadtest to your package
 
 Run as a script to load test a URL:
 
-    $ loadtest [-c concurrency] [URL]
+    $ loadtest [-n requests] [-c concurrency] [URL]
 
 The URL can be "http://" or "ws://" for websockets. (Note: websockets are not  working at the moment, patches welcome.) Set the desired level of concurrency with the -c parameter.
+
+Single-dash parameters (e.g. -n) are designed to be compatible with Apache's ab.
+  http://httpd.apache.org/docs/2.2/programs/ab.html
 
 To get online help, run loadtest without parameters:
 
@@ -30,17 +33,25 @@ Add your own values for concurrency and requests per second:
 
     $ loadtest [-n requests] [-c concurrency] ...
 
-#### Concurrency
+#### -n requests
+
+Number of requests to send out.
+
+#### -c concurrency
 
 loadtest will create a simultaneous number of clients; this parameter controls how many.
 
-#### Requests Per Second
+#### -t timelimit
 
-Controls the number of requests per second for each client.
+Number of seconds to wait until requests no longer go out. (Note: this is different than Apache's ab, which stops _receiving_ requests after the given seconds.)
 
-#### --noagent
+#### --rps requestsPerSecond
 
-Open connections without keep-alive: send header 'Connection: Close' instead of 'Connection: Keep-alive'.
+Controls the number of requests per second for each client. (Note: this parameter is not present in Apache's ab.)
+
+#### --agent
+
+Open connections using keep-alive: send header 'Connection: Keep-alive' instead of 'Connection: Close'. (Warning: uses the default node.js agent, which means there is a limit in outgoing connections.)
 
 ### Server
 
