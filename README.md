@@ -4,26 +4,31 @@ Runs a load test on the selected HTTP or websocket URL. The API allows for easy 
 
 ## Installation
 
-Just run:
-    $ npm install loadtest
+Install globally as root:
+    # npm install -g loadtest
 
-Or add package loadtest to your package.json dependencies.
+On Ubuntu or Mac OS X systems install using sudo:
+    $ sudo install -g loadtest
+
+For programmatic access, install locally or add package loadtest to your package.json dependencies.
 
 ## Usage
 
 Run as a script to load test a URL:
 
-    $ node node_modules/lib/loadtest.js [URL] or [websocket URL]
+    $ loadtest [-c concurrency] [URL]
+
+The URL can be "http://" or "ws://" for websockets. (Note: websockets are not  working at the moment, patches welcome.) Set the desired level of concurrency with the -c parameter.
 
 To get online help, run loadtest without parameters:
 
-    $ node node_modules/lib/loadtest.js
+    $ loadtest
 
 ### Advanced Usage
 
 Add your own values for concurrency and requests per second:
 
-    $ node node_modules/lib/loadtest.js [-n requests] [-c concurrency] ...
+    $ loadtest [-n requests] [-c concurrency] ...
 
 #### Concurrency
 
@@ -41,7 +46,7 @@ Open connections without keep-alive: send header 'Connection: Close' instead of 
 
 loadtest bundles a test server. To run it:
 
-    $ node node_modules/lib/testserver.js [port]
+    $ testserver [port]
 
 It will show the number of requests received per second, the latency in answering requests and the headers for selected requests.
 
