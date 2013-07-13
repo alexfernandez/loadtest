@@ -13,17 +13,17 @@ Or add package loadtest to your package.json dependencies.
 
 Run as a script to load test a URL:
 
-    $ node lib/loadtest.js [URL] or [websocket URL]
+    $ loadtest [URL] or [websocket URL]
 
-To get online help, run loadtest.js without parameters:
+To get online help, run loadtest without parameters:
 
-    $ node lib/loadtest.js
+    $ loadtest
 
 ### Advanced Usage
 
 Add your own values for concurrency and requests per second:
 
-    $ node lib/loadtest.js [concurrency [request per second]] ...
+    $ loadtest [-n requests] [-c concurrency] ...
 
 #### Concurrency
 

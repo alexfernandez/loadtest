@@ -20,6 +20,10 @@
 	"engines": {
 		"node": "*"
 	},
+	"bin": {
+		"loadtest": "lib/loadtest.js",
+		"testserver": "lib/testserver.js"
+	},
 	"scripts": {
 		"test": "node test.js"
 	},
