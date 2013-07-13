@@ -41,7 +41,7 @@ Open connections without keep-alive: send header 'Connection: Close' instead of 
 
 loadtest bundles a test server. To run it:
 
-    $ node lib/loadserver.js [port]
+    $ testserver [port]
 
 It will show the number of requests received per second, the latency in answering requests and the headers for selected requests.
 
@@ -95,8 +95,8 @@ A max number of requests; after they are reached the test will end.
 
 To start the test server use the exported function startServer() with a port and an optional callback:
 
-    var loadserver = require('loadserver');
-    loadserver.startServer(8000);
+    var testserver = require('testserver');
+    testserver.startServer(8000);
 
 ### Complete Sample
 
