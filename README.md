@@ -13,17 +13,17 @@ Or add package loadtest to your package.json dependencies.
 
 Run as a script to load test a URL:
 
-    $ loadtest [URL] or [websocket URL]
+    $ node node_modules/lib/loadtest.js [URL] or [websocket URL]
 
 To get online help, run loadtest without parameters:
 
-    $ loadtest
+    $ node node_modules/lib/loadtest.js
 
 ### Advanced Usage
 
 Add your own values for concurrency and requests per second:
 
-    $ loadtest [-n requests] [-c concurrency] ...
+    $ node node_modules/lib/loadtest.js [-n requests] [-c concurrency] ...
 
 #### Concurrency
 
@@ -41,7 +41,7 @@ Open connections without keep-alive: send header 'Connection: Close' instead of 
 
 loadtest bundles a test server. To run it:
 
-    $ testserver [port]
+    $ node node_modules/lib/testserver.js [port]
 
 It will show the number of requests received per second, the latency in answering requests and the headers for selected requests.
 

@@ -1,6 +1,6 @@
 {
 	"name": "loadtest",
-	"version": "0.0.5",
+	"version": "0.1.1",
 	"description": "Load test scripts.",
 	"homepage": "http://milliearth.org/",
 	"contributors": ["Alex Fernández <alexfernandeznpm@gmail.com>"],
@@ -19,10 +19,6 @@
 	"keywords" : ["testing", "test", "load test", "http", "websocket", "performance", "black box"],
 	"engines": {
 		"node": "*"
-	},
-	"bin": {
-		"loadtest": "lib/loadtest.js",
-		"testserver": "lib/testserver.js"
 	},
 	"scripts": {
 		"test": "node test.js"
