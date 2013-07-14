@@ -2,6 +2,14 @@
 
 Runs a load test on the selected HTTP or websocket URL. The API allows for easy integration in your own tests.
 
+Why use loadtest instead of any other of the available tools, notably Apache ab?
+loadtest allows you to configure and tweak requests, and simulate real world loads.
+E.g. you can create 1000 clients and have them send 5 requests per second each.
+
+Also, you can integrate loadtest with your package and run programmatic load tests.
+You might want to run some load tests as part of your systems test, before deploying your software.
+loadtest gives you mean response times and percentiles, so that you can abort deployment if 99% of the requests don't finish in 10 ms or less.
+
 ## Installation
 
 Install globally as root:
@@ -94,7 +102,7 @@ To run a load test use the exported function loadTest() passing it a set of opti
         console.log('Tests run successfully');
     });
 
-The callback will be invoked when the max number of requests is reached, or when the number of seconds has elapsed. Options are:
+The callback(error, result) will be invoked when the max number of requests is reached, or when the number of seconds has elapsed.
 
 ### Options
 
@@ -116,12 +124,32 @@ How many requests each client will send per second.
 
 A max number of requests; after they are reached the test will end.
 
+### Results
+
+The results passed to your callback at the end of the load test contains a full set of data, including: mean latency, and percentiles.
+An example follows:
+
+    {
+      totalRequests: 1000,
+      percentiles: {
+        '50': 7,
+        '90': 10,
+        '95': 11,
+        '99': 15
+      },
+      rps: 2824,
+      totalTimeSeconds: 0.354108,
+      meanLatencyMs: 7.72
+    }
+
 ### Start Test Server
 
-To start the test server use the exported function startServer() with a port and an optional callback:
+To start the test server use the exported function startServer() with a set of options and an optional callback:
 
     var testserver = require('testserver');
-    testserver.startServer({ port: 8000 });
+    var server = testserver.startServer({ port: 8000 });
+
+This function returns an HTTP server which can be close()d when it is no longer useful.
 
 The following options are available.
 
