@@ -18,7 +18,7 @@ Run as a script to load test a URL:
 
     $ loadtest [-n requests] [-c concurrency] [URL]
 
-The URL can be "http://" or "ws://" for websockets. (Note: websockets are not  working at the moment, patches welcome.) Set the desired level of concurrency with the -c parameter.
+The URL can be "http://" or "ws://" for websockets. (Note: websockets are not  working at the moment, patches welcome.) Set the max number of requests with -n, and the desired level of concurrency with the -c parameter.
 
 Single-dash parameters (e.g. -n) are designed to be compatible with Apache's ab.
   http://httpd.apache.org/docs/2.2/programs/ab.html
@@ -57,11 +57,13 @@ Open connections using keep-alive: send header 'Connection: Keep-alive' instead 
 
 loadtest bundles a test server. To run it:
 
-    $ testserver [port]
+    $ testserver [--delay ms] [port]
 
 It will show the number of requests received per second, the latency in answering requests and the headers for selected requests.
 
 This server returns a short text 'OK' for every request, removing request processing from latency measurements.
+
+The optional delay instructs the server to wait for the given number of milliseconds before answering each request, to simulate a busy server.
 
 ## API
 
@@ -112,7 +114,17 @@ A max number of requests; after they are reached the test will end.
 To start the test server use the exported function startServer() with a port and an optional callback:
 
     var testserver = require('testserver');
-    testserver.startServer(8000);
+    testserver.startServer({ port: 8000 });
+
+The following options are available.
+
+#### port
+
+The port to use for the server. Note: the default port 80 requires special privileges.
+
+#### delay
+
+Wait the given number of milliseconds to answer each request.
 
 ### Complete Sample
 
