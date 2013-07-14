@@ -42,6 +42,7 @@ Add your own values for concurrency and requests per second:
     $ loadtest [-n requests] [-c concurrency] ...
 
 The following parameters are available.
+Parameters that start with a single dash '-' are compatible with Apache ab, those that start with a double dash '--' are not.
 
 #### -n requests
 
@@ -59,14 +60,15 @@ Number of seconds to wait until requests no longer go out. (Note: this is differ
 
 Controls the number of requests per second for each client. Can be fractional, e.g. --rps 0.5 sends one request every two seconds per client.
 
-(Note: this parameter is not present in Apache's ab.)
-
 #### --agent
 
 Open connections using keep-alive: send header 'Connection: Keep-alive' instead of 'Connection: Close'.
 
 (Warning: uses the default node.js agent, which means there is a limit in outgoing connections.)
-(Note: this parameter is not present in Apache's ab.)
+
+#### --quiet
+
+Do not show any messages.
 
 ### Server
 
@@ -123,6 +125,19 @@ How many requests each client will send per second.
 #### maxRequests
 
 A max number of requests; after they are reached the test will end.
+
+#### maxSeconds
+
+Maxs number of seconds to run the tests.
+
+#### agent
+
+Use the default http agent.
+(Warning: may limit the number of outgoing connections.)
+
+#### quiet
+
+Do not show any messages.
 
 ### Results
 
