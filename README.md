@@ -58,6 +58,10 @@ loadtest will create a simultaneous number of clients; this parameter controls h
 
 Number of seconds to wait until requests no longer go out. (Note: this is different than Apache's ab, which stops _receiving_ requests after the given seconds.)
 
+#### -r
+
+Recover from errors. Always active: loadtest does not stop on errors.
+
 #### --rps requestsPerSecond
 
 Controls the number of requests per second for each client. Can be fractional, e.g. --rps 0.5 sends one request every two seconds per client.
