@@ -39,7 +39,7 @@ To get online help, run loadtest without parameters:
 
 ### Advanced Usage
 
-Add your own values for concurrency and requests per second:
+Add your own values for requests and concurrency:
 
     $ loadtest [-n requests] [-c concurrency] ...
 
