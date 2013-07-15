@@ -13,9 +13,11 @@ loadtest gives you mean response times and percentiles, so that you can abort de
 ## Installation
 
 Install globally as root:
+
     # npm install -g loadtest
 
 On Ubuntu or Mac OS X systems install using sudo:
+
     $ sudo install -g loadtest
 
 For programmatic access, install locally or add package loadtest to your package.json dependencies.
