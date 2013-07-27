@@ -1,3 +1,6 @@
+
+[![Build Status](https://secure.travis-ci.org/alexfernandez/loadtest.png)](http://travis-ci.org/alexfernandez/loadtest)
+
 # loadtest
 
 Runs a load test on the selected HTTP or websocket URL. The API allows for easy integration in your own tests.
