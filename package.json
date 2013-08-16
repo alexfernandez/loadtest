@@ -19,7 +19,7 @@
 	},
 	"keywords" : ["testing", "test", "load test", "http", "websocket", "performance", "black box"],
 	"engines": {
-		"node": "*"
+		"node": ">= 0.8"
 	},
 	"bin": {
 		"loadtest": "lib/cli-wrapper.js",
