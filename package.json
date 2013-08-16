@@ -1,6 +1,6 @@
 {
 	"name": "loadtest",
-	"version": "0.1.10",
+	"version": "0.1.11",
 	"description": "Load test scripts.",
 	"homepage": "http://milliearth.org/",
 	"contributors": ["Alex Fernández <alexfernandeznpm@gmail.com>"],
@@ -19,7 +19,7 @@
 	},
 	"keywords" : ["testing", "test", "load test", "http", "websocket", "performance", "black box"],
 	"engines": {
-		"node": ">= 0.8"
+		"node": "*"
 	},
 	"bin": {
 		"loadtest": "lib/cli-wrapper.js",
