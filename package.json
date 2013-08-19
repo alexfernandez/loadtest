@@ -1,8 +1,8 @@
 {
 	"name": "loadtest",
 	"version": "0.1.13",
-	"description": "Load test scripts.",
-	"homepage": "http://milliearth.org/",
+	"description": "Run load tests for your web application. Mostly ab-compatible interface, with an option to force requests per second. API for automated load testing.",
+	"homepage": "https://github.com/alexfernandez/loadtest",
 	"contributors": ["Alex Fernández <alexfernandeznpm@gmail.com>"],
 	"license": "MIT",
 	"main": "index.js",
