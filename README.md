@@ -3,7 +3,7 @@
 
 # loadtest
 
-Runs a load test on the selected HTTP or websocket URL. The API allows for easy integration in your own tests.
+Runs a load test on the selected HTTP URL. The API allows for easy integration in your own tests.
 
 Why use loadtest instead of any other of the available tools, notably Apache ab?
 loadtest allows you to configure and tweak requests, and simulate real world loads.
@@ -31,7 +31,7 @@ Run as a script to load test a URL:
 
     $ loadtest [-n requests] [-c concurrency] [URL]
 
-The URL can be "http://" or "ws://" for websockets. (Note: websockets are not  working at the moment, patches welcome.) Set the max number of requests with -n, and the desired level of concurrency with the -c parameter.
+The URL can be "http://" or "https://". Set the max number of requests with -n, and the desired level of concurrency with the -c parameter.
 
 Single-dash parameters (e.g. -n) are designed to be compatible with Apache's ab.
   http://httpd.apache.org/docs/2.2/programs/ab.html

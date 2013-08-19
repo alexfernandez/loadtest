@@ -17,7 +17,7 @@
 		"agentkeepalive": "*",
 		"log": "*"
 	},
-	"keywords" : ["testing", "test", "load test", "http", "websocket", "performance", "black box"],
+	"keywords" : ["testing", "test", "load test", "load testing", "http", "performance", "black box"],
 	"engines": {
 		"node": "*"
 	},
