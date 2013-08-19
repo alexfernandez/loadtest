@@ -67,13 +67,20 @@ Recover from errors. Always active: loadtest does not stop on errors.
 
 #### --rps requestsPerSecond
 
-Controls the number of requests per second for each client. Can be fractional, e.g. --rps 0.5 sends one request every two seconds per client.
+Controls the number of requests per second for each client.
+Can be fractional, e.g. --rps 0.5 sends one request every two seconds per client.
 
 #### --agent
 
 Open connections using keep-alive: send header 'Connection: Keep-alive' instead of 'Connection: Close'.
 
 (Warning: uses the default node.js agent, which means there is a limit in outgoing connections.)
+
+#### --keepalive
+
+Use agentkeepalive, which includes 'Connection: Keep-alive'
+and is better performing than the default node.js agent.
+  https://npmjs.org/package/agentkeepalive
 
 #### --quiet
 
