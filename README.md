@@ -86,6 +86,10 @@ and is better performing than the default node.js agent.
 
 Do not show any messages.
 
+#### --debug
+
+Show debug messages.
+
 ### Server
 
 loadtest bundles a test server. To run it:
