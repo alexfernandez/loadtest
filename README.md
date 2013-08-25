@@ -175,7 +175,11 @@ An example follows:
       rps: 2824,
       totalTimeSeconds: 0.354108,
       meanLatencyMs: 7.72,
-      errors: 3
+      totalErrors: 3,
+      errors: {
+        '0': 1,
+        '500': 2
+      }
     }
 
 ### Start Test Server
