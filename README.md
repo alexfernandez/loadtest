@@ -161,7 +161,7 @@ Do not show any messages.
 
 ### Results
 
-The results passed to your callback at the end of the load test contains a full set of data, including: mean latency, and percentiles.
+The results passed to your callback at the end of the load test contains a full set of data, including: mean latency, number of errors and percentiles.
 An example follows:
 
     {
@@ -174,7 +174,8 @@ An example follows:
       },
       rps: 2824,
       totalTimeSeconds: 0.354108,
-      meanLatencyMs: 7.72
+      meanLatencyMs: 7.72,
+      errors: 3
     }
 
 ### Start Test Server
