@@ -56,9 +56,15 @@ loadtest will create a simultaneous number of clients; this parameter controls h
 
 Number of seconds to wait until requests no longer go out. (Note: this is different than Apache's ab, which stops _receiving_ requests after the given seconds.)
 
+### -C cookie-name=value
+
+Send a cookie with the request. A pair name=value is expected and sent to the server.
+This parameter can be repeated as many times as needed.
+
 #### -r
 
 Recover from errors. Always active: loadtest does not stop on errors.
+After the tests are finished, if there were errors a report with all error codes will be shown.
 
 ### Advanced Usage
 
