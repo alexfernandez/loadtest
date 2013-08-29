@@ -6,12 +6,14 @@
 Runs a load test on the selected HTTP URL. The API allows for easy integration in your own tests.
 
 Why use loadtest instead of any other of the available tools, notably Apache ab?
-loadtest allows you to configure and tweak requests, and simulate real world loads.
-E.g. you can create 1000 clients and have them send 5 requests per second each.
+For simple usage loadtest has a set of basic options designed to be compatible with Apache ab.
+It also allows you to configure and tweak requests to simulate real world loads.
+Instead of setting a concurrency level and letting the server adjust to it,
+with the --rps option you can send exactly 2000 requests per second and see how your server copes.
 
-Also, you can integrate loadtest with your package and run programmatic load tests.
-You might want to run some load tests as part of your systems test, before deploying your software.
-loadtest gives you mean response times and percentiles, so that you can abort deployment if 99% of the requests don't finish in 10 ms or less.
+Using the provided API it is very easy to integrate loadtest with your package, and run programmatic load tests.
+loadtest makes it very easy to run load tests as part of systems tests, before deploying a new version of your software.
+The results include mean response times and percentiles, so that you can abort deployment e.g. if 99% of the requests don't finish in 10 ms or less.
 
 ## Installation
 
