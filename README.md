@@ -25,7 +25,7 @@ On Ubuntu or Mac OS X systems install using sudo:
 
 For programmatic access, install locally or add package loadtest to your package.json dependencies.
 
-## Usage
+## Basic Usage
 
 Run as a script to load test a URL:
 
@@ -33,21 +33,16 @@ Run as a script to load test a URL:
 
 The URL can be "http://" or "https://". Set the max number of requests with -n, and the desired level of concurrency with the -c parameter.
 
-Single-dash parameters (e.g. -n) are designed to be compatible with Apache's ab.
+Single-dash parameters (e.g. -n) are designed to be compatible with Apache ab.
   http://httpd.apache.org/docs/2.2/programs/ab.html
 
 To get online help, run loadtest without parameters:
 
     $ loadtest
 
-### Advanced Usage
+### Regular Usage
 
-Add your own values for requests and concurrency:
-
-    $ loadtest [-n requests] [-c concurrency] ...
-
-The following parameters are available.
-Parameters that start with a single dash '-' are compatible with Apache ab, those that start with a double dash '--' are not.
+The following parameters are compatible with Apache ab.
 
 #### -n requests
 
@@ -65,6 +60,10 @@ Number of seconds to wait until requests no longer go out. (Note: this is differ
 
 Recover from errors. Always active: loadtest does not stop on errors.
 
+### Advanced Usage
+
+The following parameters are _not_ compatible with Apache ab.
+
 #### --rps requestsPerSecond
 
 Controls the number of requests per second for each client.
@@ -74,7 +73,7 @@ Can be fractional, e.g. --rps 0.5 sends one request every two seconds per client
 
 Open connections using keep-alive: send header 'Connection: Keep-alive' instead of 'Connection: Close'.
 
-(Warning: uses the default node.js agent, which means there is a limit in outgoing connections.)
+(Warning: uses the default node.js agent, which means there is a limit of 10 outgoing connections.)
 
 #### --keepalive
 
