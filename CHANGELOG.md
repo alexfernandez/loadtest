@@ -13,5 +13,6 @@ Release date, version number and changes.
 
 ### 2013-08-30: version 0.2.0
 
-* Added parameter -C to send cookies.
+* Added option -C to send cookies.
+* Added options -T, -p and -u to send POST and PUT requests.
 

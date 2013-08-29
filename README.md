@@ -61,6 +61,20 @@ Number of seconds to wait until requests no longer go out. (Note: this is differ
 Send a cookie with the request. A pair name=value is expected and sent to the server.
 This parameter can be repeated as many times as needed.
 
+### -T content-type
+
+Set the MIME content type for POST data. Default: text/plain.
+
+### -p POST-file
+
+Send the data contained in the given file in the POST body.
+Remember to set -T to the correct content-type.
+
+### -u PUT-file
+
+Send the data contained in the given file as a PUT request.
+Remember to set -T to the correct content-type.
+
 #### -r
 
 Recover from errors. Always active: loadtest does not stop on errors.
@@ -143,10 +157,6 @@ The URL to invoke.
 
 How many clients to start in parallel.
 
-#### requestsPerSecond
-
-How many requests each client will send per second.
-
 #### maxRequests
 
 A max number of requests; after they are reached the test will end.
@@ -155,10 +165,31 @@ A max number of requests; after they are reached the test will end.
 
 Maxs number of seconds to run the tests.
 
+#### cookies
+
+An array of cookies to send. Each cookie should be a string of the form name=value.
+
+#### method
+
+The method to use: POST, PUT. Default: GET.
+
+#### body
+
+The contents to send in the body of the message, for POST or PUT requests.
+Can be a string or an object (which will be converted to JSON).
+
+#### contentType
+
+The MIME type to use for the body. Default content type is text/plain.
+
+#### requestsPerSecond
+
+How many requests each client will send per second.
+
 #### agent
 
 Use the default http agent.
-(Warning: may limit the number of outgoing connections.)
+(Warning: will limit the number of outgoing connections to 10.)
 
 #### quiet
 
