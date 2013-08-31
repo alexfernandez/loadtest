@@ -16,7 +16,8 @@
 		"testing": "*",
 		"agentkeepalive": "*",
 		"log": "*",
-		"optimist": "~0.6.0"
+		"optimist": "~0.6.0",
+		"cloneextend": "0.0.3"
 	},
 	"keywords" : ["testing", "test", "load test", "load testing", "http", "performance", "black box"],
 	"engines": {
