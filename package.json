@@ -15,15 +15,17 @@
 		"microtime": "*",
 		"testing": "*",
 		"agentkeepalive": "*",
-		"log": "*"
+		"log": "*",
+		"optimist": "~0.6.0",
+		"cloneextend": "0.0.3"
 	},
 	"keywords" : ["testing", "test", "load test", "load testing", "http", "performance", "black box"],
 	"engines": {
 		"node": "*"
 	},
 	"bin": {
-		"loadtest": "lib/cli-wrapper.js",
-		"testserver": "lib/cli-wrapper.js"
+		"loadtest": "lib/bin/loadtest.js",
+		"testserver": "lib/bin/testserver.js"
 	},
 	"preferGlobal": true,
 	"scripts": {
