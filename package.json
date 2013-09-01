@@ -24,7 +24,7 @@
 	},
 	"bin": {
 		"loadtest": "lib/bin/loadtest.js",
-		"testserver": "lib/bin/testserver.js"
+		"testserver-loadtest": "lib/bin/testserver.js"
 	},
 	"preferGlobal": true,
 	"scripts": {
