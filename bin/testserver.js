@@ -40,4 +40,4 @@ function help()
 	process.exit(0);
 }
 
-testServer.startServer(args);
+testServer.startServer(options);
