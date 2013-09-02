@@ -26,3 +26,8 @@ Release date, version number and changes.
 * Changed binary testserver to testserver-loadtest, to avoid conflicts.
   Issue #4. Thanks to https://github.com/zaphod1984
 
+### 2013-09-02: version 0.2.2
+
+* Emergency fix for binary paths.
+  Pull request #10 by to https://github.com/zaphod1984
+
