@@ -30,4 +30,6 @@ Release date, version number and changes.
 
 * Emergency fix for binary paths.
   Pull request #10 by to https://github.com/zaphod1984
+* Fix library paths.
+* Added #env lines to binary paths to run on Unix-like systems.
 

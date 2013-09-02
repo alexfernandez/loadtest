@@ -1,15 +1,25 @@
+#!/usr/bin/env node
+
+/**
+ * Binary to run loadtest.
+ * (C) 2013 Manuel Ernst, Alex Fernández.
+ */
+
+// requires
 var args = require('optimist').argv;
 var fs = require('fs');
-
 var loadTest = require('../lib/loadtest.js');
 
+// globals
 var options = {};
 
-//is there an url? if not, break and display help
-if(args._.length == 0) help();
-
+// init
+// is there an url? if not, break and display help
+if(args._.length == 0)
+{
+	help();
+}
 options.url = args._[0];
-
 assignArgument('n', args, 'maxRequests', options);
 assignArgument('c', args, 'concurrency', options);
 assignArgument('t', args, 'maxSeconds', options);
@@ -20,26 +30,21 @@ assignArgument('agent', args, 'noAgent', options, false);
 assignArgument('keepalive', args, 'agentKeepAlive', options, true);
 assignArgument('quite', args, 'quiet', options, true);
 assignArgument('debug', args, 'debug', options, true);
-
 //TODO: add index Param
-
 if(args.p)
 {
 	options.method = 'POST';
 	options.body = fs.readFileSync(args.p);
 }
-
 if(args.u)
 {
 	options.method = 'PUT';
 	options.body = fs.readFileSync(args.u);
 }
-
 if(args.rps)
 {
 	options.requestsPerSecond = parseFloat(args.rps);
 }
-
 loadTest.loadTest(options);
 
 function assignArgument(shortName, source, name, options, overwrite)
@@ -50,6 +55,9 @@ function assignArgument(shortName, source, name, options, overwrite)
 	}
 }
 
+/**
+ * Show online help.
+ */
 function help()
 {
 	console.log('Usage: loadtest [options] URL');
@@ -72,6 +80,5 @@ function help()
 	console.log('    --index param   Replace the value of param with an index in the URL');
 	console.log('    --quiet         Do not log any messages');
 	console.log('    --debug         Show debug messages');
-
 	process.exit(0);
 }

@@ -1,11 +1,22 @@
+#!/usr/bin/env node
+
+/**
+ * Binary to run test server.
+ * (C) 2013 Manuel Ernst, Alex Fernández.
+ */
+
+// requires
+var args = require('optimist').argv;
 var testServer = require('../lib/testserver');
 
-var args = require('optimist').argv;
-
-if(args.help || args.h) help();
-
+// globals
 var options = {};
 
+// init
+if(args.help || args.h)
+{
+	help();
+}
 if(args._.length > 0)
 {
     if(!isNaN(args._[0]))
@@ -17,7 +28,6 @@ if(args._.length > 0)
         help();
     }
 }
-
 if(args.delay)
 {
     if(!isNaN(args.delay))
@@ -30,14 +40,17 @@ if(args.delay)
     }
 }
 
+/**
+ * Show online help.
+ */
 function help()
 {
 	console.log('Usage: testserver [options] [port]');
 	console.log('  starts a test server on the given port, default 80.');
 	console.log('Options are:');
 	console.log('    --delay           Delay the response for the given milliseconds');
-
 	process.exit(0);
 }
 
 testServer.startServer(options);
+
