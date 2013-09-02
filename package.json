@@ -23,8 +23,8 @@
 		"node": "*"
 	},
 	"bin": {
-		"loadtest": "lib/bin/loadtest.js",
-		"testserver-loadtest": "lib/bin/testserver.js"
+		"loadtest": "bin/loadtest.js",
+		"testserver-loadtest": "bin/testserver.js"
 	},
 	"preferGlobal": true,
 	"scripts": {
