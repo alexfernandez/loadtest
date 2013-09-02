@@ -1,7 +1,7 @@
 var args = require('optimist').argv;
 var fs = require('fs');
 
-var loadTest = require('../lib/loadTest');
+var loadTest = require('../lib/loadtest.js');
 
 var options = {};
 
