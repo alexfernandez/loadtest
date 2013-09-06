@@ -37,4 +37,8 @@ Release date, version number and changes.
 
 * Update sample.js: fix option key for POST body.
   Pull request #11 by https://github.com/danieltdt
+* Fix maxSeconds option, added test.
+  Pull request #12 by https://github.com/danieltdt
+* Show more complete information: concurrency, agent...
+* Clean up for loadtest.run(), should not be used.
 
