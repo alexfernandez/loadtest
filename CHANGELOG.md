@@ -33,3 +33,8 @@ Release date, version number and changes.
 * Fix library paths.
 * Added #env lines to binary paths to run on Unix-like systems.
 
+### 2013-09-06: version 0.2.3
+
+* Update sample.js: fix option key for POST body.
+  Pull request #11 by https://github.com/danieltdt
+
