@@ -26,7 +26,7 @@ assignArgument('t', args, 'maxSeconds', options);
 assignArgument('C', args, 'cookie', options);
 assignArgument('T', args, 'contentType', options);
 assignArgument('r', args, 'recover', options, true);
-assignArgument('agent', args, 'noAgent', options, false);
+assignArgument('agent', args, 'agent', options, false);
 assignArgument('keepalive', args, 'agentKeepAlive', options, true);
 assignArgument('quite', args, 'quiet', options, true);
 assignArgument('debug', args, 'debug', options, true);
