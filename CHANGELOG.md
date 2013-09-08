@@ -42,3 +42,8 @@ Release date, version number and changes.
 * Show more complete information: concurrency, agent...
 * Clean up for loadtest.run(), should not be used.
 
+### 2013-09-??: version 0.2.4
+
+* Remove cloneextend since it is not used.
+  Pull request #13 by https://github.com/zaphod1984
+
