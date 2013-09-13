@@ -1,4 +1,3 @@
-
 [![Build Status](https://secure.travis-ci.org/alexfernandez/loadtest.png)](http://travis-ci.org/alexfernandez/loadtest)
 
 # loadtest
@@ -23,7 +22,7 @@ Install globally as root:
 
 On Ubuntu or Mac OS X systems install using sudo:
 
-    $ sudo install -g loadtest
+    $ sudo npm install -g loadtest
 
 For programmatic access, install locally or add package loadtest to your package.json dependencies.
 
