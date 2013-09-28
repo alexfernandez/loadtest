@@ -49,3 +49,8 @@ Release date, version number and changes.
 * Start default test server when invoking lib/testserver.js.
 * Change default port for test server to 7357.
 
+### 2013-09-28: version 0.2.5
+
+* JSHint clean up.
+* Option --index should be working again.
+
