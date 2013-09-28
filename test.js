@@ -6,7 +6,6 @@
  */
 
 // requires
-var util = require('util');
 var testing = require('testing');
 var Log = require('log');
 
@@ -19,6 +18,7 @@ var log = new Log('info');
  */
 exports.test = function(callback)
 {
+	log.debug('Running tests');
 	var tests = {};
 	var libs = [ 'prototypes', 'timing', 'sample', 'websocket', 'loadtest' ];
 	libs.forEach(function(lib)
@@ -26,7 +26,7 @@ exports.test = function(callback)
 		tests[lib] = require('./lib/' + lib + '.js').test;
 	});
 	testing.run(tests, 4200, callback);
-}
+};
 
 // run tests if invoked directly
 if (__filename == process.argv[1])
