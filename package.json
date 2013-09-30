@@ -11,6 +11,7 @@
 		"url": "https://github.com/alexfernandez/loadtest"
 	},
 	"dependencies": {
+		"prototypes": "*",
 		"websocket": "*",
 		"testing": "*",
 		"agentkeepalive": "*",
