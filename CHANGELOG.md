@@ -54,3 +54,7 @@ Release date, version number and changes.
 * JSHint clean up.
 * Option --index should be working again.
 
+### 2013-09-30: version 0.2.6
+
+* Use the deployment module.
+
