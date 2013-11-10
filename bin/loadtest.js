@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+'use strict';
 
 /**
  * Binary to run loadtest.
@@ -15,7 +16,7 @@ var options = {};
 
 // init
 // is there an url? if not, break and display help
-if(args._.length == 0)
+if(args._.length === 0)
 {
 	help();
 }

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+'use strict';
 
 /**
  * Binary to run test server.
@@ -32,7 +33,7 @@ if(args.delay)
 {
     if(!isNaN(args.delay))
 	{
-        options.delay = parseInt(args.delay);
+        options.delay = parseInt(args.delay, 10);
     }
 	else
 	{
