@@ -57,4 +57,6 @@ Release date, version number and changes.
 ### 2013-09-30: version 0.2.6
 
 * Use the deployment module.
+* Correct support for https.
+
 
