@@ -24,7 +24,7 @@ options.url = args._[0];
 assignArgument('n', args, 'maxRequests', options);
 assignArgument('c', args, 'concurrency', options);
 assignArgument('t', args, 'maxSeconds', options);
-assignArgument('C', args, 'cookie', options);
+assignArgument('C', args, 'cookies', options);
 assignArgument('T', args, 'contentType', options);
 assignArgument('r', args, 'recover', options, true);
 assignArgument('agent', args, 'agent', options, false);
