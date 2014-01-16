@@ -62,5 +62,5 @@ Release date, version number and changes.
 ### 2013-01-16: version 0.2.7
 
 * Corrected bug in -C option for sending cookies.
-
+* Set the correct Cookie header for test cookies.
 
