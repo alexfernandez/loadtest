@@ -10,6 +10,7 @@
 var args = require('optimist').argv;
 var fs = require('fs');
 var loadTest = require('../lib/loadtest.js');
+var headers = require('../lib/headers.js');
 
 // globals
 var options = {};
@@ -49,8 +50,7 @@ if(args.rps)
 }
 if (options.rawHeaders)
 {
-	options.headers = {};
-	readHeaders(options.rawHeaders, options.headers);
+	options.headers = headers.readHeaders(options.rawHeaders);
 	console.log('headers: %s, %j', typeof options.headers, options.headers);
 }
 loadTest.loadTest(options);
@@ -61,45 +61,6 @@ function assignArgument(shortName, source, name, options, overwrite)
 	{
 		options[name] = overwrite !== undefined ? overwrite : source[shortName];
 	}
-}
-
-function readHeaders(rawHeaders, headers)
-{
-	if (typeof rawHeaders == 'string')
-	{
-		if (!rawHeaders.contains(':'))
-		{
-			console.error('Invalid header %s, it should be in the form -H key:value');
-			help();
-		}
-		var pieces = rawHeaders.split(':');
-		var key = pieces[0];
-		var value = pieces[1];
-		if (key in headers)
-		{
-			var previous = headers[key];
-			if (!Array.isArray(previous))
-			{
-				previous = [previous];
-				headers[key] = previous;
-			}
-			previous.push(value);
-		}
-		else
-		{
-			headers[key] = pieces[1];
-		}
-		return;
-	}
-	if (!Array.isArray(rawHeaders))
-	{
-		console.error('Invalid header structure %j, it should be an array');
-		return;
-	}
-	rawHeaders.forEach(function(header)
-	{
-		readHeaders(header, headers);
-	});
 }
 
 /**
