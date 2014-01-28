@@ -64,3 +64,7 @@ Release date, version number and changes.
 * Corrected bug in -C option for sending cookies.
 * Set the correct Cookie header for test cookies.
 
+### 2013-01-28: version 0.2.8.
+
+* Issue 15: Added option -H to send a custom header.
+

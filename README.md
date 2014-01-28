@@ -62,6 +62,11 @@ Number of seconds to wait until requests no longer go out. (Note: this is differ
 Send a cookie with the request. A pair name=value is expected and sent to the server.
 This parameter can be repeated as many times as needed.
 
+### -H header:value
+
+Send a custom header with the request. A pair header:value is expected and sent to the server.
+This parameter can be repeated as many times as needed.
+
 ### -T content-type
 
 Set the MIME content type for POST data. Default: text/plain.
@@ -169,6 +174,11 @@ Maxs number of seconds to run the tests.
 #### cookies
 
 An array of cookies to send. Each cookie should be a string of the form name=value.
+
+#### headers
+
+A map of headers. Each header should be an entry in the map with the given value as a string.
+If the value is an array, several headers with the same key will be sent.
 
 #### method
 

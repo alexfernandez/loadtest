@@ -25,6 +25,7 @@ assignArgument('n', args, 'maxRequests', options);
 assignArgument('c', args, 'concurrency', options);
 assignArgument('t', args, 'maxSeconds', options);
 assignArgument('C', args, 'cookies', options);
+assignArgument('H', args, 'rawHeaders', options);
 assignArgument('T', args, 'contentType', options);
 assignArgument('r', args, 'recover', options, true);
 assignArgument('agent', args, 'agent', options, false);
@@ -46,6 +47,12 @@ if(args.rps)
 {
 	options.requestsPerSecond = parseFloat(args.rps);
 }
+if (options.rawHeaders)
+{
+	options.headers = {};
+	readHeaders(options.rawHeaders, options.headers);
+	console.log('headers: %s, %j', typeof options.headers, options.headers);
+}
 loadTest.loadTest(options);
 
 function assignArgument(shortName, source, name, options, overwrite)
@@ -54,6 +61,45 @@ function assignArgument(shortName, source, name, options, overwrite)
 	{
 		options[name] = overwrite !== undefined ? overwrite : source[shortName];
 	}
+}
+
+function readHeaders(rawHeaders, headers)
+{
+	if (typeof rawHeaders == 'string')
+	{
+		if (!rawHeaders.contains(':'))
+		{
+			console.error('Invalid header %s, it should be in the form -H key:value');
+			help();
+		}
+		var pieces = rawHeaders.split(':');
+		var key = pieces[0];
+		var value = pieces[1];
+		if (key in headers)
+		{
+			var previous = headers[key];
+			if (!Array.isArray(previous))
+			{
+				previous = [previous];
+				headers[key] = previous;
+			}
+			previous.push(value);
+		}
+		else
+		{
+			headers[key] = pieces[1];
+		}
+		return;
+	}
+	if (!Array.isArray(rawHeaders))
+	{
+		console.error('Invalid header structure %j, it should be an array');
+		return;
+	}
+	rawHeaders.forEach(function(header)
+	{
+		readHeaders(header, headers);
+	});
 }
 
 /**
@@ -68,8 +114,9 @@ function help()
 	console.log('    -n requests     Number of requests to perform');
 	console.log('    -c concurrency  Number of multiple requests to make');
 	console.log('    -t timelimit    Seconds to max. wait for responses');
-	console.log('    -C name=value   Send a cookie with the given name');
 	console.log('    -T content-type The MIME type for the body');
+	console.log('    -C name=value   Send a cookie with the given name');
+	console.log('    -H header:value Send a header with the given value');
 	console.log('    -p POST-file    Send the contents of the file as POST body');
 	console.log('    -u PUT-file     Send the contents of the file as PUT body');
 	console.log('    -r              Do not exit on socket receive errors');
@@ -81,5 +128,5 @@ function help()
 	console.log('    --index param   Replace the value of param with an index in the URL');
 	console.log('    --quiet         Do not log any messages');
 	console.log('    --debug         Show debug messages');
-	process.exit(0);
+	process.exit(1);
 }
