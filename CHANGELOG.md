@@ -67,4 +67,5 @@ Release date, version number and changes.
 ### 2013-01-28: version 0.2.8.
 
 * Issue 15: Added option -H to send a custom header.
+* Separate multiple cookies with a semicolon instead of a comma: `cookie1=1; cookie2=2`.
 
