@@ -86,6 +86,10 @@ Remember to set -T to the correct content-type.
 Recover from errors. Always active: loadtest does not stop on errors.
 After the tests are finished, if there were errors a report with all error codes will be shown.
 
+#### -V
+
+Show version number and exit.
+
 ### Advanced Usage
 
 The following parameters are _not_ compatible with Apache ab.
