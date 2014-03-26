@@ -9,13 +9,20 @@
 // requires
 var args = require('optimist').argv;
 var fs = require('fs');
+var urlLib = require('url');
 var loadTest = require('../lib/loadtest.js');
 var headers = require('../lib/headers.js');
+var packageJson = require(__dirname + '/../package.json');
 
 // globals
 var options = {};
 
 // init
+if (args.V)
+{
+	console.log('Loadtest version: %s', packageJson.version);
+	process.exit(0);
+}
 // is there an url? if not, break and display help
 if(args._.length === 0)
 {
@@ -48,9 +55,14 @@ if(args.rps)
 {
 	options.requestsPerSecond = parseFloat(args.rps);
 }
+options.headers = [
+	['host', urlLib.parse(options.url).host],
+	['user-agent', 'loadtest/' + packageJson.version],
+	['accept', '*/*'],
+];
 if (options.rawHeaders)
 {
-	options.headers = headers.readHeaders(options.rawHeaders);
+	headers.addHeaders(options.rawHeaders, options.headers);
 	console.log('headers: %s, %j', typeof options.headers, options.headers);
 }
 loadTest.loadTest(options);
@@ -81,6 +93,7 @@ function help()
 	console.log('    -p POST-file    Send the contents of the file as POST body');
 	console.log('    -u PUT-file     Send the contents of the file as PUT body');
 	console.log('    -r              Do not exit on socket receive errors');
+	console.log('    -V              Show version number and exit');
 	console.log('Other options are:');
 	console.log('    --rps           Requests per second for each client');
 	console.log('    --noagent       Do not use http agent (default)');
