@@ -67,6 +67,8 @@ This parameter can be repeated as many times as needed.
 Send a custom header with the request. A pair header:value is expected and sent to the server.
 This parameter can be repeated as many times as needed.
 
+Note: loadtest will not add the "host:" header on its own; you need to add it explicitly if your server requires it.
+
 ### -T content-type
 
 Set the MIME content type for POST data. Default: text/plain.
