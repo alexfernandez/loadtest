@@ -44,12 +44,12 @@ assignArgument('debug', args, 'debug', options, true);
 if(args.p)
 {
 	options.method = 'POST';
-	options.body = fs.readFileSync(args.p);
+	options.body = readBody(args.p);
 }
 if(args.u)
 {
 	options.method = 'PUT';
-	options.body = fs.readFileSync(args.u);
+	options.body = readBody(args.u);
 }
 if(args.rps)
 {
@@ -66,6 +66,11 @@ if (options.rawHeaders)
 	console.log('headers: %s, %j', typeof options.headers, options.headers);
 }
 loadTest.loadTest(options);
+
+function readBody(filename)
+{
+	return fs.readFileSync(filename, {encoding: 'utf8'});
+}
 
 function assignArgument(shortName, source, name, options, overwrite)
 {
