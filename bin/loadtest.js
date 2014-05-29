@@ -44,12 +44,12 @@ assignArgument('debug', args, 'debug', options, true);
 if(args.p)
 {
 	options.method = 'POST';
-	options.body = readBody(args.p);
+	options.body = readBody(args.p, args.T);
 }
 if(args.u)
 {
 	options.method = 'PUT';
-	options.body = readBody(args.u);
+	options.body = readBody(args.u, args.T);
 }
 if(args.rps)
 {
@@ -67,16 +67,19 @@ if (options.rawHeaders)
 }
 loadTest.loadTest(options);
 
-function readBody(filename)
-{
-	return fs.readFileSync(filename, {encoding: 'utf8'});
-}
-
 function assignArgument(shortName, source, name, options, overwrite)
 {
 	if(source[shortName])
 	{
 		options[name] = overwrite !== undefined ? overwrite : source[shortName];
+	}
+}
+
+function readBody(filename, contentType){
+	if(contentType == 'application/json'){
+		return JSON.parse(fs.readFileSync(filename));
+	} else {
+		return fs.readFileSync(filename);
 	}
 }
 
