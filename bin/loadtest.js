@@ -44,12 +44,12 @@ assignArgument('debug', args, 'debug', options, true);
 if(args.p)
 {
 	options.method = 'POST';
-	options.body = readBody(args.p);
+	options.body = readBody(args.p, '-p');
 }
 if(args.u)
 {
 	options.method = 'PUT';
-	options.body = readBody(args.u);
+	options.body = readBody(args.u, '-u');
 }
 if(args.rps)
 {
@@ -67,8 +67,13 @@ if (options.rawHeaders)
 }
 loadTest.loadTest(options);
 
-function readBody(filename)
+function readBody(filename, option)
 {
+	if (typeof filename != 'string')
+	{
+		console.error('Invalid file to open with %s: %s', option, filename);
+		return '';
+	}
 	return fs.readFileSync(filename, {encoding: 'utf8'});
 }
 
