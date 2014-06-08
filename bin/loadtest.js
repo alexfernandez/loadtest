@@ -72,7 +72,7 @@ function readBody(filename, option)
 	if (typeof filename != 'string')
 	{
 		console.error('Invalid file to open with %s: %s', option, filename);
-		return '';
+		help();
 	}
 	return fs.readFileSync(filename, {encoding: 'utf8'});
 }
