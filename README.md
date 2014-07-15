@@ -73,6 +73,10 @@ Note: loadtest will not add the "host:" header on its own; you need to add it ex
 
 Set the MIME content type for POST data. Default: text/plain.
 
+### -P POST-body string
+
+Send the string as the POST body. Ex `-P '{"key": "a9acf03f"}'`
+
 ### -p POST-file
 
 Send the data contained in the given file in the POST body.
