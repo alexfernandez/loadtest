@@ -121,6 +121,10 @@ Do not show any messages.
 
 Show debug messages.
 
+#### --insecure
+
+Allow invalid/self-signed certificates over https. `--insecure true`
+
 ### Server
 
 loadtest bundles a test server. To run it:
@@ -211,6 +215,10 @@ Use the default http agent.
 #### quiet
 
 Do not show any messages.
+
+#### insecure
+
+Allow invalid/self-signed certificates over https. `--insecure true`
 
 ### Results
 
