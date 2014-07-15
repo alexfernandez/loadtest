@@ -109,7 +109,7 @@ function help()
 	console.log('    -T content-type The MIME type for the body');
 	console.log('    -C name=value   Send a cookie with the given name');
 	console.log('    -H header:value Send a header with the given value');
-	console.log('    -P POST-Body    Send as POST body');
+	console.log('    -P POST-Body    Send string as POST body');
 	console.log('    -p POST-file    Send the contents of the file as POST body');
 	console.log('    -u PUT-file     Send the contents of the file as PUT body');
 	console.log('    -r              Do not exit on socket receive errors');
