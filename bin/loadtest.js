@@ -40,6 +40,8 @@ assignArgument('agent', args, 'agent', options, false);
 assignArgument('keepalive', args, 'agentKeepAlive', options, true);
 assignArgument('quite', args, 'quiet', options, true);
 assignArgument('debug', args, 'debug', options, true);
+assignArgument('insecure', args, 'insecure', options, true);
+
 //TODO: add index Param
 if(args.p)
 {
@@ -112,5 +114,6 @@ function help()
 	console.log('    --index param   Replace the value of param with an index in the URL');
 	console.log('    --quiet         Do not log any messages');
 	console.log('    --debug         Show debug messages');
+	console.log('    --insecure      Allow self-signed certificates over https');
 	process.exit(1);
 }
