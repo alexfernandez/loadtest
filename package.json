@@ -30,4 +30,4 @@
 		"test": "node test.js"
 	},
 	"private": false
-  }
+}
