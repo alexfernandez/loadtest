@@ -73,6 +73,10 @@ Note: loadtest will not add the "host:" header on its own; you need to add it ex
 
 Set the MIME content type for POST data. Default: text/plain.
 
+### -P POST-body string
+
+Send the string as the POST body. Ex `-P '{"key": "a9acf03f"}'`
+
 ### -p POST-file
 
 Send the data contained in the given file in the POST body.
@@ -120,6 +124,10 @@ Do not show any messages.
 #### --debug
 
 Show debug messages.
+
+#### --insecure
+
+Allow invalid/self-signed certificates over https. `--insecure true`
 
 ### Server
 
@@ -211,6 +219,10 @@ Use the default http agent.
 #### quiet
 
 Do not show any messages.
+
+#### insecure
+
+Allow invalid/self-signed certificates over https. `--insecure true`
 
 ### Results
 
