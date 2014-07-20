@@ -49,6 +49,9 @@ The following parameters are compatible with Apache ab.
 
 Number of requests to send out.
 
+Note: the total number of requests sent can be bigger than the parameter, if there is a concurrency parameter
+and number of requests is not a multiple of concurrency.
+
 #### -c concurrency
 
 loadtest will create a simultaneous number of clients; this parameter controls how many.
