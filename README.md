@@ -70,7 +70,7 @@ This parameter can be repeated as many times as needed.
 Send a custom header with the request. A pair header:value is expected and sent to the server.
 This parameter can be repeated as many times as needed.
 
-Note: loadtest will add a few headers on its own: the "host:" header parsed from the URL,
+Note: loadtest will add a few headers on its own: the "host" header parsed from the URL,
 a custom user agent "loadtest/" plus version, and an accept header with "*/*".
 
 ### -T content-type
@@ -198,7 +198,7 @@ An array of cookies to send. Each cookie should be a string of the form name=val
 A map of headers. Each header should be an entry in the map with the given value as a string.
 If the value is an array, several headers with the same key will be sent.
 
-Note: when using the API, the "host:" header is not inferred from the URL but needs to be sent
+Note: when using the API, the "host" header is not inferred from the URL but needs to be sent
 explicitly.
 
 #### method
