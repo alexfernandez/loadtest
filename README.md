@@ -108,18 +108,18 @@ The following parameters are _not_ compatible with Apache ab.
 
 Controls the number of requests per second for each client.
 Can be fractional, e.g. --rps 0.5 sends one request every two seconds per client.
+Note: The final number of requests per second will be the value specified here
+multiplied by the concurrency. E.g.:
 
-#### --agent
+    loadtest <url> -c 10 --rps 10
 
-Open connections using keep-alive: send header 'Connection: Keep-alive' instead of 'Connection: Close'.
-
-(Warning: uses the default node.js agent, which means there is a limit of 10 outgoing connections.)
+will send a total of 100 rps to the given URL.
 
 #### --keepalive
 
-Use agentkeepalive, which includes 'Connection: Keep-alive'
-and is better performing than the default node.js agent.
-  https://npmjs.org/package/agentkeepalive
+Open connections using keep-alive: send header 'Connection: Keep-alive' instead of 'Connection: Close'.
+Note: Uses [agentkeepalive](https://npmjs.org/package/agentkeepalive),
+which performs better than the default node.js agent.
 
 #### --quiet
 
@@ -131,7 +131,7 @@ Show debug messages.
 
 #### --insecure
 
-Allow invalid/self-signed certificates over https. `--insecure true`
+Allow invalid/self-signed certificates over https.
 
 ### Server
 
@@ -227,9 +227,18 @@ Use the default http agent.
 
 Do not show any messages.
 
+#### indexParam
+
+The given string will be replaced in the final URL with a unique index.
+If URL is `http://test.com/index` and `indexParam='index'`, then the URL
+will be:
+* http://test.com/1
+* http://test.com/2
+* ...
+
 #### insecure
 
-Allow invalid/self-signed certificates over https. `--insecure true`
+Allow invalid/self-signed certificates over https.
 
 ### Results
 

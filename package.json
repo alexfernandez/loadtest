@@ -15,7 +15,7 @@
 		"testing": "*",
 		"agentkeepalive": "*",
 		"log": "*",
-		"optimist": "~0.6.0"
+		"stdio": "*"
 	},
 	"keywords" : ["testing", "test", "load test", "load testing", "http", "performance", "black box"],
 	"engines": {
