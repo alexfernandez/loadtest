@@ -6,9 +6,9 @@ Runs a load test on the selected HTTP URL. The API allows for easy integration i
 
 Why use `loadtest` instead of any other of the available tools, notably Apache `ab`?
 `loadtest` allows you to configure and tweak requests to simulate real world loads.
-The set of basic options are designed to be compatible with Apache `ab`.
 
-While `ab` can only set a concurrency level and lets the server adjust to it,
+The set of basic options are designed to be compatible with Apache `ab`.
+But while `ab` can only set a concurrency level and lets the server adjust to it,
 `loadtest` allows you to set a rate or requests per second with the `--rps` option.
 Example:
 
