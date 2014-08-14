@@ -21,7 +21,7 @@
 	},
 	"keywords" : ["testing", "test", "load test", "load testing", "http", "performance", "black box"],
 	"engines": {
-		"node": "*"
+		"node": ">=0.10.3"
 	},
 	"bin": {
 		"loadtest": "bin/loadtest.js",

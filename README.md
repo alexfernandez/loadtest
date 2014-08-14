@@ -31,6 +31,7 @@ The results include mean response times and percentiles, so that you can abort d
 * Option parsing has been improved; no longer is a `true` needed after certain options.
 * Requests per second specified with `--rps` are now total rps, instead of multiplied by concurrency.
 * Option `--agent` has been deprecated in favor of `--keepalive`.
+* Support for Node.js < 0.10 removed.
 
 ## Installation
 
