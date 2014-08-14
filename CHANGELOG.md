@@ -1,11 +1,6 @@
-
 # loadtest Changelog
 
-## Ancient History
-
-Versions prior to 0.2.0 were not tracked using this file. Please check:
-  https://github.com/alexfernandez/loadtest/commits/master
-to find individual commits.
+This file tracks only versions from 0.2.0 to 0.2.8, and is kept here only for historic purposes.
 
 ## Version History
 
@@ -59,12 +54,12 @@ Release date, version number and changes.
 * Use the deployment module.
 * Correct support for https.
 
-### 2013-01-16: version 0.2.7
+### 2014-01-16: version 0.2.7
 
 * Corrected bug in -C option for sending cookies.
 * Set the correct Cookie header for test cookies.
 
-### 2013-01-28: version 0.2.8.
+### 2014-01-28: version 0.2.8.
 
 * Issue 15: Added option -H to send a custom header.
 * Separate multiple cookies with a semicolon instead of a comma: `cookie1=1; cookie2=2`.
