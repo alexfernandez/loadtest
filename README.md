@@ -310,11 +310,11 @@ and will not call the callback.
 
 ### Options
 
-This is the set of available options. Except where noted, all options are (as their name implies) optional.
+All options but `url` are, as their name implies, optional.
 
 #### `url`
 
-The URL to invoke.
+The URL to invoke. Mandatory.
 
 #### `concurrency`
 
