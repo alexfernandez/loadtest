@@ -7,73 +7,83 @@
  */
 
 // requires
-var args = require('optimist').argv;
+var stdio = require('stdio');
 var fs = require('fs');
 var urlLib = require('url');
 var loadTest = require('../lib/loadtest.js');
 var headers = require('../lib/headers.js');
 var packageJson = require(__dirname + '/../package.json');
 
-// globals
-var options = {};
-
 // init
-if (args.V)
+var options = stdio.getopt({
+	maxRequests: {key: 'n', args: 1, description: 'Number of requests to perform'},
+	concurrency: {key: 'c', args: 1, description: 'Number of multiple requests to make'},
+	maxSeconds: {key: 't', args: 1, description: 'Max time in seconds to wait for responses'},
+	contentType: {key: 'T', args: 1, description: 'MIME type for the body'},
+	cookies: {key: 'C', args: 1, multiple: true, description: 'Send a cookie as name=value'},
+	headers: {key: 'H', args: 1, multiple: true, description: 'Send a header as header:value'},
+	postBody: {key: 'P', args: 1, description: 'Send string as POST body'},
+	postFile: {key: 'p', args: 1, description: 'Send the contents of the file as POST body'},
+	putFile: {key: 'u', args: 1, description: 'Send the contents of the file as PUT body'},
+	recover: {key: 'r', description: 'Do not exit on socket receive errors (default)'},
+	version: {key: 'V', description: 'Show version number and exit'},
+	rps: {args: 1, description: 'Specify the requests per second for each client'},
+	agent: {description: 'Use a keep-alive http agent (deprecated)'},
+	keepalive: {description: 'Use a keep-alive http agent'},
+	index: {args: 1, description: 'Replace the value of given arg with an index in the URL'},
+	quiet: {description: 'Do not log any messages'},
+	debug: {description: 'Show debug messages'},
+	insecure: {description: 'Allow self-signed certificates over https'},
+});
+if (options.version)
 {
 	console.log('Loadtest version: %s', packageJson.version);
 	process.exit(0);
 }
 // is there an url? if not, break and display help
-if(args._.length === 0)
+if (!options.args || options.args.length != 1)
 {
-	help();
+	console.error('Missing URL to load-test');
+	options.printHelp();
+	process.exit(1);
 }
-options.url = args._[0];
-assignArgument('n', args, 'maxRequests', options);
-assignArgument('c', args, 'concurrency', options);
-assignArgument('t', args, 'maxSeconds', options);
-assignArgument('C', args, 'cookies', options);
-assignArgument('H', args, 'rawHeaders', options);
-assignArgument('T', args, 'contentType', options);
-assignArgument('r', args, 'recover', options, true);
-assignArgument('agent', args, 'agent', options, false);
-assignArgument('keepalive', args, 'agentKeepAlive', options, true);
-assignArgument('quite', args, 'quiet', options, true);
-assignArgument('debug', args, 'debug', options, true);
-assignArgument('insecure', args, 'insecure', options, true);
+options.url = options.args[0];
+options.agentKeepAlive = options.keepalive || options.agent;
+options.indexParam = options.index;
 
 //TODO: add index Param
 // Allow a post body string in options
 // Ex -P '{"foo": "bar"}'
-if (args.P)
+if (options.postBody)
 {
 	options.method = 'POST';
-	options.body = args.P;
+	options.body = options.postBody;
 }
-if(args.p)
+if(options.postFile)
 {
 	options.method = 'POST';
-	options.body = readBody(args.p, '-p');
+	options.body = readBody(options.postFile, '-p');
 }
-if(args.u)
+if(options.putFile)
 {
 	options.method = 'PUT';
-	options.body = readBody(args.u, '-u');
+	options.body = readBody(options.putFile, '-u');
 }
-if(args.rps)
+if(options.rps)
 {
-	options.requestsPerSecond = parseFloat(args.rps);
+	options.requestsPerSecond = parseFloat(options.rps);
 }
-options.headers = [
+var headers = [
 	['host', urlLib.parse(options.url).host],
 	['user-agent', 'loadtest/' + packageJson.version],
 	['accept', '*/*'],
 ];
-if (options.rawHeaders)
+if (options.headers)
 {
-	headers.addHeaders(options.rawHeaders, options.headers);
-	console.log('headers: %s, %j', typeof options.headers, options.headers);
+	headers.addHeaders(options.headers, headers);
+	console.log('headers: %s, %j', typeof headers, headers);
 }
+options.headers = headers;
 loadTest.loadTest(options);
 
 function readBody(filename, option)
@@ -86,42 +96,11 @@ function readBody(filename, option)
 	return fs.readFileSync(filename, {encoding: 'utf8'});
 }
 
-function assignArgument(shortName, source, name, options, overwrite)
-{
-	if(source[shortName])
-	{
-		options[name] = overwrite !== undefined ? overwrite : source[shortName];
-	}
-}
-
 /**
  * Show online help.
  */
-function help()
+function help(options)
 {
-	console.log('Usage: loadtest [options] URL');
-	console.log('  where URL can be a regular HTTP or websocket URL:');
-	console.log('  runs a load test for the given URL');
-	console.log('Apache ab-compatible options are:');
-	console.log('    -n requests     Number of requests to perform');
-	console.log('    -c concurrency  Number of multiple requests to make');
-	console.log('    -t timelimit    Seconds to max. wait for responses');
-	console.log('    -T content-type The MIME type for the body');
-	console.log('    -C name=value   Send a cookie with the given name');
-	console.log('    -H header:value Send a header with the given value');
-	console.log('    -P POST-Body    Send string as POST body');
-	console.log('    -p POST-file    Send the contents of the file as POST body');
-	console.log('    -u PUT-file     Send the contents of the file as PUT body');
-	console.log('    -r              Do not exit on socket receive errors');
-	console.log('    -V              Show version number and exit');
-	console.log('Other options are:');
-	console.log('    --rps           Requests per second for each client');
-	console.log('    --noagent       Do not use http agent (default)');
-	console.log('    --agent         Use http agent (Connection: keep-alive)');
-	console.log('    --keepalive     Use a specialized keep-alive http agent (agentkeepalive)');
-	console.log('    --index param   Replace the value of param with an index in the URL');
-	console.log('    --quiet         Do not log any messages');
-	console.log('    --debug         Show debug messages');
-	console.log('    --insecure      Allow self-signed certificates over https');
+	options.printHelp();
 	process.exit(1);
 }

@@ -7,50 +7,32 @@
  */
 
 // requires
-var args = require('optimist').argv;
+var stdio = require('stdio');
 var testServer = require('../lib/testserver');
 
-// globals
-var options = {};
-
 // init
-if(args.help || args.h)
+var options = stdio.getopt({
+	delay: {key: 'd', args: 1, description: 'Delay the response for the given milliseconds'},
+});
+if (options.args && options.args.length == 1)
 {
-	help();
+	options.port = parseInt(options.args[0], 10);
+	if (!options.port)
+	{
+		console.error('Invalid port');
+		options.printHelp();
+		process.exit(1);
+	}
 }
-if(args._.length > 0)
+if(options.delay)
 {
-    if(!isNaN(args._[0]))
+    if(isNaN(options.delay))
 	{
-        options.port = parseInt(args._[0], 10);
+		console.error('Invalid delay');
+		options.printHelp();
+		process.exit(1);
     }
-	else
-	{
-        help();
-    }
-}
-if(args.delay)
-{
-    if(!isNaN(args.delay))
-	{
-        options.delay = parseInt(args.delay, 10);
-    }
-	else
-	{
-        help();
-    }
-}
-
-/**
- * Show online help.
- */
-function help()
-{
-	console.log('Usage: testserver [options] [port]');
-	console.log('  starts a test server on the given port, default 80.');
-	console.log('Options are:');
-	console.log('    --delay           Delay the response for the given milliseconds');
-	process.exit(0);
+	options.delay = parseInt(options.delay, 10);
 }
 
 testServer.startServer(options);
