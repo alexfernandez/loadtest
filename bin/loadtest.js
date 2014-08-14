@@ -28,6 +28,7 @@ var options = stdio.getopt({
 	recover: {key: 'r', description: 'Do not exit on socket receive errors (default)'},
 	version: {key: 'V', description: 'Show version number and exit'},
 	rps: {args: 1, description: 'Specify the requests per second for each client'},
+	agent: {description: 'Use a keep-alive http agent (deprecated)'},
 	keepalive: {description: 'Use a keep-alive http agent'},
 	index: {args: 1, description: 'Replace the value of given arg with an index in the URL'},
 	quiet: {description: 'Do not log any messages'},
@@ -47,7 +48,7 @@ if (!options.args || options.args.length != 1)
 	process.exit(1);
 }
 options.url = options.args[0];
-options.agentKeepAlive = options.keepalive;
+options.agentKeepAlive = options.keepalive || options.agent;
 options.indexParam = options.index;
 
 //TODO: add index Param

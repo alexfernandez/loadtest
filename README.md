@@ -28,8 +28,9 @@ The results include mean response times and percentiles, so that you can abort d
 
 ## Changes in Version 1.0
 
-Option parsing has been improved; no longer is a `true` needed after certain options.
-Also, requests per second specified with `--rps`
+* Option parsing has been improved; no longer is a `true` needed after certain options.
+* Requests per second specified with `--rps` are now total rps, instead of multiplied by concurrency.
+* Option `--agent` has been deprecated in favor of `--keepalive`.
 
 ## Installation
 
@@ -139,6 +140,11 @@ will send a total of 10 rps to the given URL, from 10 different clients
 Open connections using keep-alive: send header 'Connection: Keep-alive' instead of 'Connection: Close'.
 Note: Uses [agentkeepalive](https://npmjs.org/package/agentkeepalive),
 which performs better than the default node.js agent.
+
+#### --agent (deprecated)
+
+Open connections using keep-alive.
+Note: instead of the default agent, this option is now an alias for `--keepalive`.
 
 #### --quiet
 
