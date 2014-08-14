@@ -190,6 +190,94 @@ If no port is given then default port 7357 will be used.
 The optional delay instructs the server to wait for the given number of milliseconds
 before answering each request, to simulate a busy server.
 
+### Complete Example
+
+Let us now see how to measure the performance of the test server.
+
+First we install `loadtest`:
+
+    $ sudo npm install loadtest
+
+Now we start the test server:
+
+    $ testserver
+    Listening on port 7357
+
+On a different console window we run a load test against it for 20 seconds
+with concurrency 10 (only relevant results are shown):
+
+    $ loadtest http://localhost:7357/ -t 20 -c 10
+    ...
+    Requests: 9589, requests per second: 1915, mean latency: 10 ms
+    Requests: 16375, requests per second: 1359, mean latency: 10 ms
+    Requests: 16375, requests per second: 0, mean latency: 0 ms
+    ...
+    Completed requests:  16376
+    Requests per second: 368
+    Total time:          44.503181166000005 s
+    
+    Percentage of the requests served within a certain time
+      50%      4 ms
+      90%      5 ms
+      95%      6 ms
+      99%      14 ms
+     100%      35997 ms (longest request)
+
+Results were quite erratic, with some requests taking up to 36 seconds;
+this suggests that Node.js is queueing some requests for a long time, and answering them irregularly.
+Now we will try a fixed rate of 1000 rps:
+
+    $ loadtest http://localhost:7357/ -t 20 -c 10 --rps 1000
+    ...
+    Requests: 4551, requests per second: 910, mean latency: 0 ms
+    Requests: 9546, requests per second: 1000, mean latency: 0 ms
+    Requests: 14549, requests per second: 1000, mean latency: 20 ms
+    ...
+    Percentage of the requests served within a certain time
+      50%      1 ms
+      90%      2 ms
+      95%      8 ms
+      99%      133 ms
+     100%      1246 ms (longest request)
+
+Again erratic results. In fact if we leave the test running for 50 seconds we start seeing errors:
+
+    $ loadtest http://localhost:7357/ -t 50 -c 10 --rps 1000
+    ...
+    Requests: 29212, requests per second: 496, mean latency: 14500 ms
+    Errors: 426, accumulated errors: 428, 1.5% of total requests
+
+Let us lower the rate to 500 rps:
+
+    $ loadtest http://localhost:7357/ -t 20 -c 10 --rps 5000
+    ...
+    Requests: 0, requests per second: 0, mean latency: 0 ms
+    Requests: 2258, requests per second: 452, mean latency: 0 ms
+    Requests: 4757, requests per second: 500, mean latency: 0 ms
+    Requests: 7258, requests per second: 500, mean latency: 0 ms
+    Requests: 9757, requests per second: 500, mean latency: 0 ms
+    ...
+    Requests per second: 500
+    Completed requests:  9758
+    Total errors:        0
+    Total time:          20.002735398000002 s
+    Requests per second: 488
+    Total time:          20.002735398000002 s
+    
+    Percentage of the requests served within a certain time
+      50%      1 ms
+      90%      1 ms
+      95%      1 ms
+      99%      14 ms
+     100%      148 ms (longest request)
+
+Much better: a sustained rate of 500 rps is seen most of the time,
+488 rps average, and 99% of requests answered within 14 ms.
+
+We now know that our server stands 500 rps without problems.
+Not bad for a single-process naïve Node.js server...
+We may refine our results further to find at which point from 500 to 1000 rps our server breaks down.
+
 ## API
 
 `loadtest` is not limited to running from the command line; it can be controlled using an API,
@@ -340,9 +428,9 @@ Note: the default port is 7357, since port 80 requires special privileges.
 
 Wait the given number of milliseconds to answer each request.
 
-### Complete Sample
+### Complete Example
 
-The file `lib/sample.js` shows a complete sample, which is also a full integration test:
+The file `lib/sample.js` shows a complete example, which is also a full integration test:
 it starts the server, send 1000 requests, waits for the callback and closes down the server.
 
 ## License
