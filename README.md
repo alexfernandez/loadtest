@@ -106,14 +106,14 @@ The following parameters are _not_ compatible with Apache ab.
 
 #### --rps requestsPerSecond
 
-Controls the number of requests per second for each client.
+Controls the number of requests per second that are sent.
 Can be fractional, e.g. --rps 0.5 sends one request every two seconds per client.
-Note: The final number of requests per second will be the value specified here
-multiplied by the concurrency. E.g.:
+Note: The concurrency doesn't affect the final number of requests per second,
+which will be the value specified here. E.g.:
 
     loadtest <url> -c 10 --rps 10
 
-will send a total of 100 rps to the given URL.
+will send a total of 10 rps to the given URL.
 
 #### --keepalive
 
