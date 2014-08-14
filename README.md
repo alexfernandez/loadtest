@@ -42,7 +42,18 @@ On Ubuntu or Mac OS X systems install using sudo:
 
     $ sudo npm install -g loadtest
 
-For programmatic access, install locally or add package loadtest to your package.json dependencies.
+For access to the API just add package `loadtest` to your `package.json` devDependencies:
+
+```
+{
+    ...
+    "devDependencies": {
+        "loadtest": "*"
+    },
+    ...
+}
+
+```
 
 ## Basic Usage
 
