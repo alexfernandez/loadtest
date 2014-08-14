@@ -139,11 +139,15 @@ loadtest bundles a test server. To run it:
 
     $ testserver [--delay ms] [port]
 
-It will show the number of requests received per second, the latency in answering requests and the headers for selected requests.
 
-This server returns a short text 'OK' for every request, removing request processing from latency measurements.
+This command will show the number of requests received per second,
+the latency in answering requests and the headers for selected requests.
 
-The optional delay instructs the server to wait for the given number of milliseconds before answering each request, to simulate a busy server.
+The server returns a short text 'OK' for every request, removing request processing from latency measurements.
+
+If no port is given then default port 7357 will be used.
+The optional delay instructs the server to wait for the given number of milliseconds
+before answering each request, to simulate a busy server.
 
 ## API
 
@@ -276,7 +280,8 @@ The following options are available.
 
 #### port
 
-The port to use for the server. Note: the default port 80 requires special privileges.
+Optional port to use for the server.
+Note: the default port is 7357, since port 80 requires special privileges.
 
 #### delay
 
