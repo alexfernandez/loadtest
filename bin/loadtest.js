@@ -14,9 +14,6 @@ var loadTest = require('../lib/loadtest.js');
 var headers = require('../lib/headers.js');
 var packageJson = require(__dirname + '/../package.json');
 
-// globals
-var options = {};
-
 // init
 var options = stdio.getopt({
 	maxRequests: {key: 'n', args: 1, description: 'Number of requests to perform'},
