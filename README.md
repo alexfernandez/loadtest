@@ -8,7 +8,7 @@ Why use `loadtest` instead of any other of the available tools, notably Apache `
 `loadtest` allows you to configure and tweak requests to simulate real world loads.
 The set of basic options are designed to be compatible with Apache `ab`.
 
-While `ab` sets a concurrency level and lets the server adjust to it,
+While `ab` can only set a concurrency level and lets the server adjust to it,
 `loadtest` allows you to set a rate or requests per second with the `--rps` option.
 Example:
 
@@ -44,26 +44,23 @@ On Ubuntu or Mac OS X systems install using sudo:
 
 For access to the API just add package `loadtest` to your `package.json` devDependencies:
 
-```
-{
-    ...
-    "devDependencies": {
-        "loadtest": "*"
-    },
-    ...
-}
-
-```
+    {
+        ...
+        "devDependencies": {
+            "loadtest": "*"
+        },
+        ...
+    }
 
 ## Basic Usage
 
 Run as a script to load test a URL:
 
-    $ loadtest [-n requests] [-c concurrency] [URL]
+    $ loadtest [-n requests] [-c concurrency] URL
 
-The URL can be "http://" or "https://". Set the max number of requests with -n, and the desired level of concurrency with the -c parameter.
+The URL can be "http://" or "https://". Set the max number of requests with `-n`, and the desired level of concurrency with the `-c` parameter.
 
-Single-dash parameters (e.g. -n) are designed to be compatible with Apache ab.
+Single-dash parameters (e.g. `-n`) are designed to be compatible with Apache `ab`.
   http://httpd.apache.org/docs/2.2/programs/ab.html
 
 To get online help, run loadtest without parameters:
@@ -74,58 +71,61 @@ To get online help, run loadtest without parameters:
 
 The following parameters are compatible with Apache ab.
 
-#### -n requests
+#### `-n requests`
 
 Number of requests to send out.
 
 Note: the total number of requests sent can be bigger than the parameter, if there is a concurrency parameter
 and number of requests is not a multiple of concurrency.
 
-#### -c concurrency
+#### `-c concurrency`
 
 loadtest will create a simultaneous number of clients; this parameter controls how many.
 
-#### -t timelimit
+#### `-t timelimit`
 
-Number of seconds to wait until requests no longer go out. (Note: this is different than Apache's ab, which stops _receiving_ requests after the given seconds.)
+Max number of seconds to wait until requests no longer go out.
 
-### -C cookie-name=value
+Note: this is different than Apache `ab`, which stops _receiving_ requests after the given seconds.
 
-Send a cookie with the request. A pair name=value is expected and sent to the server.
+### `-C cookie-name=value`
+
+Send a cookie with the request. The cookie `name=value` is then sent to the server.
 This parameter can be repeated as many times as needed.
 
-### -H header:value
+### `-H header:value`
 
-Send a custom header with the request. A pair header:value is expected and sent to the server.
+Send a custom header with the request. The line `header:value` is then sent to the server.
 This parameter can be repeated as many times as needed.
 
 Note: loadtest will add a few headers on its own: the "host" header parsed from the URL,
-a custom user agent "loadtest/" plus version, and an accept header with "*/*".
+a custom user agent "loadtest/" plus version, and an accept header for "\*/\*".
+Example user agent: `loadtest/1.0.0`.
 
-### -T content-type
+### `-T content-type`
 
-Set the MIME content type for POST data. Default: text/plain.
+Set the MIME content type for POST data. Default: `text/plain`.
 
-### -P POST-body string
+### `-P POST-body`
 
-Send the string as the POST body. Ex `-P '{"key": "a9acf03f"}'`
+Send the string as the POST body. E.g.: `-P '{"key": "a9acf03f"}'`
 
-### -p POST-file
+### `-p POST-file`
 
 Send the data contained in the given file in the POST body.
-Remember to set -T to the correct content-type.
+Remember to set `-T` to the correct content-type.
 
-### -u PUT-file
+### `-u PUT-file`
 
 Send the data contained in the given file as a PUT request.
-Remember to set -T to the correct content-type.
+Remember to set `-T` to the correct content-type.
 
-#### -r
+#### `-r`
 
 Recover from errors. Always active: loadtest does not stop on errors.
 After the tests are finished, if there were errors a report with all error codes will be shown.
 
-#### -V
+#### `-V`
 
 Show version number and exit.
 
@@ -133,12 +133,12 @@ Show version number and exit.
 
 The following parameters are _not_ compatible with Apache ab.
 
-#### --rps requestsPerSecond
+#### `--rps requestsPerSecond`
 
 Controls the number of requests per second that are sent.
-Can be fractional, e.g. --rps 0.5 sends one request every two seconds.
-Note: If concurrency is too low then it is possible that there will not be enough clients
-to send all of the rps. Concurrency doesn't affect the final number of requests per second,
+Can be fractional, e.g. `--rps 0.5` sends one request every two seconds.
+
+Note: Concurrency doesn't affect the final number of requests per second,
 since rps will be shared by all the clients. E.g.:
 
     loadtest <url> -c 10 --rps 10
@@ -146,28 +146,33 @@ since rps will be shared by all the clients. E.g.:
 will send a total of 10 rps to the given URL, from 10 different clients
 (each client will send 1 request per second).
 
-#### --keepalive
+Beware: if concurrency is too low then it is possible that there will not be enough clients
+to send all of the rps, adjust it with `-c` if needed.
 
-Open connections using keep-alive: send header 'Connection: Keep-alive' instead of 'Connection: Close'.
+#### `--keepalive`
+
+Open connections using keep-alive: use header 'Connection: Keep-alive' instead of 'Connection: Close'.
+
 Note: Uses [agentkeepalive](https://npmjs.org/package/agentkeepalive),
 which performs better than the default node.js agent.
 
-#### --agent (deprecated)
+#### `--agent` (deprecated)
 
 Open connections using keep-alive.
-Note: instead of the default agent, this option is now an alias for `--keepalive`.
 
-#### --quiet
+Note: instead of using the default agent, this option is now an alias for `--keepalive`.
+
+#### `--quiet`
 
 Do not show any messages.
 
-#### --debug
+#### `--debug`
 
 Show debug messages.
 
-#### --insecure
+#### `--insecure`
 
-Allow invalid/self-signed certificates over https.
+Allow invalid and self-signed certificates over https.
 
 ### Server
 
@@ -175,11 +180,11 @@ loadtest bundles a test server. To run it:
 
     $ testserver [--delay ms] [port]
 
-
 This command will show the number of requests received per second,
 the latency in answering requests and the headers for selected requests.
 
-The server returns a short text 'OK' for every request, removing request processing from latency measurements.
+The server returns a short text 'OK' for every request,
+so that latency measurements don't have to take into account request processing.
 
 If no port is given then default port 7357 will be used.
 The optional delay instructs the server to wait for the given number of milliseconds
@@ -187,11 +192,12 @@ before answering each request, to simulate a busy server.
 
 ## API
 
-loadtest is not limited to running from the command line; it can be controlled using an API, thus allowing you to load test your application in your own tests.
+`loadtest` is not limited to running from the command line; it can be controlled using an API,
+thus allowing you to load test your application in your own tests.
 
 ### Invoke Load Test
 
-To run a load test use the exported function loadTest() passing it a set of options and an optional callback:
+To run a load test, just call the exported function `loadTest()` with a set of options and an optional callback:
 
     var loadtest = require('loadtest');
     var options = {
@@ -207,33 +213,40 @@ To run a load test use the exported function loadTest() passing it a set of opti
         console.log('Tests run successfully');
     });
 
-The callback(error, result) will be invoked when the max number of requests is reached, or when the number of seconds has elapsed.
+The callback `function(error, result)` will be invoked when the max number of requests is reached,
+or when the max number of seconds has elapsed.
+
+Beware: if there are no `maxRequests` and no `maxSeconds`, then tests will run forever
+and will not call the callback.
 
 ### Options
 
 This is the set of available options. Except where noted, all options are (as their name implies) optional.
 
-#### url
+#### `url`
 
 The URL to invoke.
 
-#### concurrency
+#### `concurrency`
 
 How many clients to start in parallel.
 
-#### maxRequests
+#### `maxRequests`
 
 A max number of requests; after they are reached the test will end.
 
-#### maxSeconds
+#### `maxSeconds`
 
-Maxs number of seconds to run the tests.
+Max number of seconds to run the tests.
 
-#### cookies
+Note: after the given number of seconds `loadtest` will stop sending requests,
+but may continue receiving tests afterwards.
+
+#### `cookies`
 
 An array of cookies to send. Each cookie should be a string of the form name=value.
 
-#### headers
+#### `headers`
 
 A map of headers. Each header should be an entry in the map with the given value as a string.
 If the value is an array, several headers with the same key will be sent.
@@ -241,49 +254,51 @@ If the value is an array, several headers with the same key will be sent.
 Note: when using the API, the "host" header is not inferred from the URL but needs to be sent
 explicitly.
 
-#### method
+#### `method`
 
 The method to use: POST, PUT. Default: GET.
 
-#### body
+#### `body`
 
 The contents to send in the body of the message, for POST or PUT requests.
 Can be a string or an object (which will be converted to JSON).
 
-#### contentType
+#### `contentType`
 
-The MIME type to use for the body. Default content type is text/plain.
+The MIME type to use for the body. Default content type is `text/plain`.
 
-#### requestsPerSecond
+#### `requestsPerSecond`
 
 How many requests each client will send per second.
 
-#### agentKeepAlive
+#### `agentKeepAlive`
 
 Use an agent with 'Connection: Keep-alive'.
+
 Note: Uses [agentkeepalive](https://npmjs.org/package/agentkeepalive),
 which performs better than the default node.js agent.
 
-#### quiet
+#### `quiet`
 
 Do not show any messages.
 
-#### indexParam
+#### `indexParam`
 
 The given string will be replaced in the final URL with a unique index.
-If URL is `http://test.com/index` and `indexParam='index'`, then the URL
+E.g.: if URL is `http://test.com/value` and `indexParam=value`, then the URL
 will be:
 * http://test.com/1
 * http://test.com/2
 * ...
 
-#### insecure
+#### `insecure`
 
-Allow invalid/self-signed certificates over https.
+Allow invalid and self-signed certificates over https.
 
 ### Results
 
-The results passed to your callback at the end of the load test contains a full set of data, including: mean latency, number of errors and percentiles.
+The results passed to your callback at the end of the load test contains a full set of data, including:
+mean latency, number of errors and percentiles.
 An example follows:
 
     {
@@ -306,27 +321,29 @@ An example follows:
 
 ### Start Test Server
 
-To start the test server use the exported function startServer() with a set of options and an optional callback:
+To start the test server use the exported function `startServer()` with a set of options and an optional callback:
 
     var testserver = require('testserver');
     var server = testserver.startServer({ port: 8000 });
 
-This function returns an HTTP server which can be close()d when it is no longer useful.
+This function returns an HTTP server which can be `close()`d when it is no longer useful.
 
 The following options are available.
 
-#### port
+#### `port`
 
 Optional port to use for the server.
+
 Note: the default port is 7357, since port 80 requires special privileges.
 
-#### delay
+#### `delay`
 
 Wait the given number of milliseconds to answer each request.
 
 ### Complete Sample
 
-The file lib/sample.js shows a complete sample, which is also an integration test: it starts the server, send 1000 requests, waits for the callback and closes down the server.
+The file `lib/sample.js` shows a complete sample, which is also a full integration test:
+it starts the server, send 1000 requests, waits for the callback and closes down the server.
 
 ## License
 
