@@ -275,7 +275,7 @@ Let us lower the rate to 500 rps:
 Much better: a sustained rate of 500 rps is seen most of the time,
 488 rps average, and 99% of requests answered within 14 ms.
 
-We now know that our server stands 500 rps without problems.
+We now know that our server can accept 500 rps without problems.
 Not bad for a single-process naïve Node.js server...
 We may refine our results further to find at which point from 500 to 1000 rps our server breaks down.
 
