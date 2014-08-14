@@ -222,10 +222,11 @@ The MIME type to use for the body. Default content type is text/plain.
 
 How many requests each client will send per second.
 
-#### agent
+#### agentKeepAlive
 
-Use the default http agent.
-(Warning: will limit the number of outgoing connections to 10.)
+Use an agent with 'Connection: Keep-alive'.
+Note: Uses [agentkeepalive](https://npmjs.org/package/agentkeepalive),
+which performs better than the default node.js agent.
 
 #### quiet
 
