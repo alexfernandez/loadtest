@@ -4,15 +4,32 @@
 
 Runs a load test on the selected HTTP URL. The API allows for easy integration in your own tests.
 
-Why use loadtest instead of any other of the available tools, notably Apache ab?
-For simple usage loadtest has a set of basic options designed to be compatible with Apache ab.
-It also allows you to configure and tweak requests to simulate real world loads.
-Instead of setting a concurrency level and letting the server adjust to it,
-with the --rps option you can send exactly 2000 requests per second and see how your server copes.
+Why use `loadtest` instead of any other of the available tools, notably Apache `ab`?
+`loadtest` allows you to configure and tweak requests to simulate real world loads.
+The set of basic options are designed to be compatible with Apache `ab`.
+
+While `ab` sets a concurrency level and lets the server adjust to it,
+`loadtest` allows you to set a rate or requests per second with the `--rps` option.
+Example:
+
+    loadtest -c 10 --rps 200 http://mysite.com/
+
+This command sends exactly 200 requests per second with concurrency 10,
+so you can see how your server copes with sustained rps.
+Even if `ab` reported a rate of 200 rps,
+you will be surprised to see how a constant rate of requests per second affects performance:
+no longer are the requests adjusted to the server, but the server must adjust to the requests!
+Rps rates are usually lowered dramatically about 20~25% (in our example from 200 to 150 rps),
+but the resulting figure is much more robust.
 
 Using the provided API it is very easy to integrate loadtest with your package, and run programmatic load tests.
 loadtest makes it very easy to run load tests as part of systems tests, before deploying a new version of your software.
 The results include mean response times and percentiles, so that you can abort deployment e.g. if 99% of the requests don't finish in 10 ms or less.
+
+## Changes in Version 1.0
+
+Option parsing has been improved; no longer is a `true` needed after certain options.
+Also, requests per second specified with `--rps`
 
 ## Installation
 
@@ -107,13 +124,15 @@ The following parameters are _not_ compatible with Apache ab.
 #### --rps requestsPerSecond
 
 Controls the number of requests per second that are sent.
-Can be fractional, e.g. --rps 0.5 sends one request every two seconds per client.
-Note: The concurrency doesn't affect the final number of requests per second,
-which will be the value specified here. E.g.:
+Can be fractional, e.g. --rps 0.5 sends one request every two seconds.
+Note: If concurrency is too low then it is possible that there will not be enough clients
+to send all of the rps. Concurrency doesn't affect the final number of requests per second,
+since rps will be shared by all the clients. E.g.:
 
     loadtest <url> -c 10 --rps 10
 
-will send a total of 10 rps to the given URL.
+will send a total of 10 rps to the given URL, from 10 different clients
+(each client will send 1 request per second).
 
 #### --keepalive
 
