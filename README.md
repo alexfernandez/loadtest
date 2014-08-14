@@ -195,9 +195,9 @@ before answering each request, to simulate a busy server.
 
 Let us now see how to measure the performance of the test server.
 
-First we install `loadtest`:
+First we install `loadtest` globally:
 
-    $ sudo npm install loadtest
+    $ sudo npm install -g loadtest
 
 Now we start the test server:
 
