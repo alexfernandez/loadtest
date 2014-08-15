@@ -24,7 +24,8 @@ but the resulting figure is much more robust.
 
 Using the provided API it is very easy to integrate loadtest with your package, and run programmatic load tests.
 loadtest makes it very easy to run load tests as part of systems tests, before deploying a new version of your software.
-The results include mean response times and percentiles, so that you can abort deployment e.g. if 99% of the requests don't finish in 10 ms or less.
+The results include mean response times and percentiles,
+so that you can abort deployment e.g. if 99% of the requests don't finish in 10 ms or less.
 
 ## Changes in Version 1.0
 
@@ -98,10 +99,17 @@ This parameter can be repeated as many times as needed.
 
 Send a custom header with the request. The line `header:value` is then sent to the server.
 This parameter can be repeated as many times as needed.
+Example:
 
-Note: loadtest will add a few headers on its own: the "host" header parsed from the URL,
-a custom user agent "loadtest/" plus version, and an accept header for "\*/\*".
-Example user agent: `loadtest/1.0.0`.
+    $ loadtest -H user-agent:tester/0.4 ...
+
+Note: if not present, loadtest will add a few headers on its own: the "host" header parsed from the URL,
+a custom user agent "loadtest/" plus version (`loadtest/1.1.0`), and an accept header for "\*/\*".
+
+Note: when the same header is sent several times, only the last value will be considered.
+If you want to send multiple values with a header, separate them with semicolons:
+
+    $ loadtest -H accept:text/plain;text-html ...
 
 ### `-T content-type`
 
