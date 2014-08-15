@@ -27,6 +27,15 @@ loadtest makes it very easy to run load tests as part of systems tests, before d
 The results include mean response times and percentiles,
 so that you can abort deployment e.g. if 99% of the requests don't finish in 10 ms or less.
 
+## Change Log
+
+Latest significant changes.
+
+### Changes in Version 1.1
+
+* Mechanism to generate different POST and PUT bodies using a function.
+* Duplicate headers are now ignored; set them using `-H header:value1;value2`.
+
 ## Changes in Version 1.0
 
 * Option parsing has been improved; no longer is a `true` needed after certain options.
@@ -366,8 +375,13 @@ An array of cookies to send. Each cookie should be a string of the form name=val
 
 #### `headers`
 
-A map of headers. Each header should be an entry in the map with the given value as a string.
-If the value is an array, several headers with the same key will be sent.
+A map of headers. Each header should be an entry in the map with the value given as a string.
+If you want to have several values for a header, write a single value separated by semicolons,
+like this:
+
+    {
+        accept: "text/plain;text/html"
+    }
 
 Note: when using the API, the "host" header is not inferred from the URL but needs to be sent
 explicitly.
