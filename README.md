@@ -140,16 +140,7 @@ If `PUT-file` has `.js` extension it will be `require`d. It should be a valid no
 should `export` a single function, which is invoked with an automatically generated request identifier
 to provide the body of each request.
 This is useful if you want to generate request bodies dynamically and vary them for each request.
-
-Example:
-
-    module.exports = function(requestId) {
-      // this object will be serialized to JSON and sent in the body of the request
-      return {
-        key: 'value',
-        requestId: requestId
-      };
-    };
+For an example function see above for `-p`.
 
 #### `-r`
 
