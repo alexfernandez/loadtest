@@ -9,6 +9,7 @@
 // requires
 var stdio = require('stdio');
 var fs = require('fs');
+var path = require('path');
 var urlLib = require('url');
 var loadTest = require('../lib/loadtest.js');
 var headers = require('../lib/headers.js');
@@ -73,26 +74,35 @@ if(options.rps)
 {
 	options.requestsPerSecond = parseFloat(options.rps);
 }
-var headers = [
-	['host', urlLib.parse(options.url).host],
-	['user-agent', 'loadtest/' + packageJson.version],
-	['accept', '*/*'],
-];
+var defaultHeaders =
+{
+	host: urlLib.parse(options.url).host,
+	'user-agent': 'loadtest/' + packageJson.version,
+	accept: '*/*'
+};
+
 if (options.headers)
 {
-	headers.addHeaders(options.headers, headers);
-	console.log('headers: %s, %j', typeof headers, headers);
+	headers.addHeaders(options.headers, defaultHeaders);
+	console.log('headers: %s, %j', typeof defaultHeaders, defaultHeaders);
 }
-options.headers = headers;
+
+options.headers = defaultHeaders;
 loadTest.loadTest(options);
 
 function readBody(filename, option)
 {
-	if (typeof filename != 'string')
+	if (typeof filename !== 'string')
 	{
 		console.error('Invalid file to open with %s: %s', option, filename);
 		help();
 	}
+
+	if(path.extname(filename) === '.js')
+	{
+		return require(path.resolve(filename));
+	}
+
 	return fs.readFileSync(filename, {encoding: 'utf8'});
 }
 

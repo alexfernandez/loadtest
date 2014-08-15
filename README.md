@@ -114,12 +114,42 @@ Send the string as the POST body. E.g.: `-P '{"key": "a9acf03f"}'`
 ### `-p POST-file`
 
 Send the data contained in the given file in the POST body.
-Remember to set `-T` to the correct content-type.
+Remember to set `-T` to the correct content-type.  
+
+If `POST-file` has `.js` extension it will be `require`d. It should be a valid node module and it
+should `export` a single function, which is invoked with an automatically generated request identifier
+to provide the body of each request.
+This is useful if you want to generate request bodies dynamically and vary them for each request.
+
+Example:
+
+    module.exports = function(requestId) {
+      // this object will be serialized to JSON and sent in the body of the request
+      return {
+        key: 'value',
+        requestId: requestId
+      };
+    };
 
 ### `-u PUT-file`
 
 Send the data contained in the given file as a PUT request.
-Remember to set `-T` to the correct content-type.
+Remember to set `-T` to the correct content-type.  
+
+If `PUT-file` has `.js` extension it will be `require`d. It should be a valid node module and it
+should `export` a single function, which is invoked with an automatically generated request identifier
+to provide the body of each request.
+This is useful if you want to generate request bodies dynamically and vary them for each request.
+
+Example:
+
+    module.exports = function(requestId) {
+      // this object will be serialized to JSON and sent in the body of the request
+      return {
+        key: 'value',
+        requestId: requestId
+      };
+    };
 
 #### `-r`
 
