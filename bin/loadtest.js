@@ -42,9 +42,15 @@ if (options.version)
 	process.exit(0);
 }
 // is there an url? if not, break and display help
-if (!options.args || options.args.length != 1)
+if (!options.args || options.args.length < 1)
 {
 	console.error('Missing URL to load-test');
+	options.printHelp();
+	process.exit(1);
+}
+else if (options.args.length > 1)
+{
+	console.error('Too many arguments: %s', options.args);
 	options.printHelp();
 	process.exit(1);
 }
