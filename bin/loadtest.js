@@ -18,11 +18,11 @@ var packageJson = require(__dirname + '/../package.json');
 // init
 var options = stdio.getopt({
 	maxRequests: {key: 'n', args: 1, description: 'Number of requests to perform'},
-	concurrency: {key: 'c', args: 1, description: 'Number of multiple requests to make'},
+	concurrency: {key: 'c', args: 1, description: 'Number of requests to make'},
 	maxSeconds: {key: 't', args: 1, description: 'Max time in seconds to wait for responses'},
 	contentType: {key: 'T', args: 1, description: 'MIME type for the body'},
-	cookies: {key: 'C', args: 1, multiple: true, description: 'Send a cookie as name=value'},
-	headers: {key: 'H', args: 1, multiple: true, description: 'Send a header as header:value'},
+	cookies: {key: 'C', multiple: true, description: 'Send a cookie as name=value'},
+	headers: {key: 'H', multiple: true, description: 'Send a header as header:value'},
 	postBody: {key: 'P', args: 1, description: 'Send string as POST body'},
 	postFile: {key: 'p', args: 1, description: 'Send the contents of the file as POST body'},
 	putFile: {key: 'u', args: 1, description: 'Send the contents of the file as PUT body'},
