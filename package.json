@@ -14,7 +14,7 @@
 		"prototypes": "*",
 		"agentkeepalive": "0.1.*",
 		"log": "1.4.*",
-		"stdio": "*",
+		"stdio": "^0.2.1",
 		"testing": "*"
 	},
 	"keywords" : ["testing", "test", "load test", "load testing", "http", "performance", "black box"],
