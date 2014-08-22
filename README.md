@@ -67,12 +67,14 @@ For access to the API just add package `loadtest` to your `package.json` devDepe
 
 Run as a script to load test a URL:
 
-    $ loadtest [-n requests] [-c concurrency] URL
+    $ loadtest [-n requests] [-c concurrency] [--keepalive] URL
 
-The URL can be "http://" or "https://". Set the max number of requests with `-n`, and the desired level of concurrency with the `-c` parameter.
+The URL can be "http://" or "https://". Set the max number of requests with `-n`, and the desired level of concurrency with the `-c` parameter. Use keep-alive connections whenever it makes sense (which should be always, except when you are testing opening and closing connections).
 
 Single-dash parameters (e.g. `-n`) are designed to be compatible with Apache `ab`.
   http://httpd.apache.org/docs/2.2/programs/ab.html
+
+Long parameters (e.g. `--keepalive`) are particular to `loadtest`.
 
 To get online help, run loadtest without parameters:
 
@@ -317,6 +319,38 @@ Much better: a sustained rate of 500 rps is seen most of the time,
 We now know that our server can accept 500 rps without problems.
 Not bad for a single-process naïve Node.js server...
 We may refine our results further to find at which point from 500 to 1000 rps our server breaks down.
+
+But instead let us research how to improve the results.
+One obvious candidate is to add keep-alive to the requests so we don't have to create
+a new connection for every request.
+The results (with the same test server) are impressive:
+
+    $ loadtest http://localhost:7357/ -t 20 -c 10 --keepalive
+    ...
+    Requests per second: 4099
+
+    Percentage of the requests served within a certain time
+    50%      2 ms
+    90%      3 ms
+    95%      3 ms
+    99%      10 ms
+    100%      25 ms (longest request)
+
+Now you're talking! The steady rate also goes up to 2 krps:
+
+    $ loadtest http://localhost:7357/ -t 20 -c 10 --keepali --rps 2000
+    ...
+    Requests per second: 1950
+
+    Percentage of the requests served within a certain time
+      50%      1 ms
+      90%      2 ms
+      95%      2 ms
+      99%      7 ms
+     100%      20 ms (longest request)
+
+Not bad at all: 2 krps with a single core, sustained.
+However, it you try to push it beyond that, at 3 krps it will fail miserably.
 
 ## API
 
