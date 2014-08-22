@@ -217,7 +217,7 @@ Allow invalid and self-signed certificates over https.
 
 loadtest bundles a test server. To run it:
 
-    $ testserver [--delay ms] [port]
+    $ testserver [--delay ms] [error 5xx] [percent yy] [port]
 
 This command will show the number of requests received per second,
 the latency in answering requests and the headers for selected requests.
@@ -228,6 +228,7 @@ so that latency measurements don't have to take into account request processing.
 If no port is given then default port 7357 will be used.
 The optional delay instructs the server to wait for the given number of milliseconds
 before answering each request, to simulate a busy server.
+You can also simulate errors on a given percent of requests.
 
 ### Complete Example
 
@@ -471,6 +472,15 @@ Note: the default port is 7357, since port 80 requires special privileges.
 #### `delay`
 
 Wait the given number of milliseconds to answer each request.
+
+#### `error`
+
+Return an HTTP error code.
+
+#### `percent`
+
+Return an HTTP error code only for the given % of requests.
+If no error code was specified, default is 500.
 
 ### Complete Example
 
