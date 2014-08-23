@@ -31,6 +31,10 @@ so that you can abort deployment e.g. if 99% of the requests don't finish in 10 
 
 Latest significant changes.
 
+### Changes in version 1.2
+
+* Option `--keepalive` can now be used as `-k`.
+
 ### Changes in Version 1.1
 
 * Mechanism to generate different POST and PUT bodies using a function.
@@ -67,14 +71,15 @@ For access to the API just add package `loadtest` to your `package.json` devDepe
 
 Run as a script to load test a URL:
 
-    $ loadtest [-n requests] [-c concurrency] [--keepalive] URL
+    $ loadtest [-n requests] [-c concurrency] [-k] URL
 
-The URL can be "http://" or "https://". Set the max number of requests with `-n`, and the desired level of concurrency with the `-c` parameter. Use keep-alive connections whenever it makes sense (which should be always, except when you are testing opening and closing connections).
+The URL can be "http://" or "https://".
+Set the max number of requests with `-n`, and the desired level of concurrency with the `-c` parameter.
+Use keep-alive connections with `-k` whenever it makes sense,
+which should be always except when you are testing opening and closing connections.
 
 Single-dash parameters (e.g. `-n`) are designed to be compatible with Apache `ab`.
   http://httpd.apache.org/docs/2.2/programs/ab.html
-
-Long parameters (e.g. `--keepalive`) are particular to `loadtest`.
 
 To get online help, run loadtest without parameters:
 
@@ -100,6 +105,13 @@ loadtest will create a simultaneous number of clients; this parameter controls h
 Max number of seconds to wait until requests no longer go out.
 
 Note: this is different than Apache `ab`, which stops _receiving_ requests after the given seconds.
+
+#### `-k` or `--keepalive`
+
+Open connections using keep-alive: use header 'Connection: Keep-alive' instead of 'Connection: Close'.
+
+Note: Uses [agentkeepalive](https://npmjs.org/package/agentkeepalive),
+which performs better than the default node.js agent.
 
 ### `-C cookie-name=value`
 
@@ -190,18 +202,11 @@ will send a total of 10 rps to the given URL, from 10 different clients
 Beware: if concurrency is too low then it is possible that there will not be enough clients
 to send all of the rps, adjust it with `-c` if needed.
 
-#### `--keepalive`
-
-Open connections using keep-alive: use header 'Connection: Keep-alive' instead of 'Connection: Close'.
-
-Note: Uses [agentkeepalive](https://npmjs.org/package/agentkeepalive),
-which performs better than the default node.js agent.
-
 #### `--agent` (deprecated)
 
 Open connections using keep-alive.
 
-Note: instead of using the default agent, this option is now an alias for `--keepalive`.
+Note: instead of using the default agent, this option is now an alias for `-k`.
 
 #### `--quiet`
 
@@ -325,7 +330,7 @@ One obvious candidate is to add keep-alive to the requests so we don't have to c
 a new connection for every request.
 The results (with the same test server) are impressive:
 
-    $ loadtest http://localhost:7357/ -t 20 -c 10 --keepalive
+    $ loadtest http://localhost:7357/ -t 20 -c 10 -k
     ...
     Requests per second: 4099
 
