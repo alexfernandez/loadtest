@@ -78,8 +78,9 @@ Set the max number of requests with `-n`, and the desired level of concurrency w
 Use keep-alive connections with `-k` whenever it makes sense,
 which should be always except when you are testing opening and closing connections.
 
-Single-dash parameters (e.g. `-n`) are designed to be compatible with Apache `ab`.
+Single-dash parameters (e.g. `-n`) are designed to be compatible with Apache `ab`:
   http://httpd.apache.org/docs/2.2/programs/ab.html
+except that here, you can add the parameters _after_ the URL.
 
 To get online help, run loadtest without parameters:
 
