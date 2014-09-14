@@ -1,6 +1,6 @@
 {
 	"name": "loadtest",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"description": "Run load tests for your web application. Mostly ab-compatible interface, with an option to force requests per second. Includes an API for automated load testing.",
 	"homepage": "https://github.com/alexfernandez/loadtest",
 	"contributors": ["Alex Fernández <alexfernandeznpm@gmail.com>"],
