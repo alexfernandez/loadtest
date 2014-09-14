@@ -40,7 +40,7 @@ Latest significant changes.
 * Mechanism to generate different POST and PUT bodies using a function.
 * Duplicate headers are now ignored; set them using `-H header:value1;value2`.
 
-## Changes in Version 1.0
+### Changes in Version 1.0
 
 * Option parsing has been improved; no longer is a `true` needed after certain options.
 * Requests per second specified with `--rps` are now total rps, instead of multiplied by concurrency.
@@ -78,9 +78,9 @@ Set the max number of requests with `-n`, and the desired level of concurrency w
 Use keep-alive connections with `-k` whenever it makes sense,
 which should be always except when you are testing opening and closing connections.
 
-Single-dash parameters (e.g. `-n`) are designed to be compatible with Apache `ab`:
-  http://httpd.apache.org/docs/2.2/programs/ab.html
-except that here, you can add the parameters _after_ the URL.
+Single-dash parameters (e.g. `-n`) are designed to be compatible with
+[Apache `ab`](http://httpd.apache.org/docs/2.2/programs/ab.html),
+except that here you can add the parameters _after_ the URL.
 
 To get online help, run loadtest without parameters:
 
