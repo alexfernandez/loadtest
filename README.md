@@ -129,6 +129,10 @@ Max number of seconds to wait until requests no longer go out.
 
 Note: this is different than Apache `ab`, which stops _receiving_ requests after the given seconds.
 
+#### `-d milliseconds`
+
+Timeout for each generated request in milliseconds. Default value provided by Node.js client is 3000. Setting this to 0 disables timeout.
+
 #### `-k` or `--keepalive`
 
 Open connections using keep-alive: use header 'Connection: Keep-alive' instead of 'Connection: Close'.
@@ -168,7 +172,7 @@ Send the string as the POST body. E.g.: `-P '{"key": "a9acf03f"}'`
 #### `-p POST-file`
 
 Send the data contained in the given file in the POST body.
-Remember to set `-T` to the correct content-type.  
+Remember to set `-T` to the correct content-type.
 
 If `POST-file` has `.js` extension it will be `require`d. It should be a valid node module and it
 should `export` a single function, which is invoked with an automatically generated request identifier
@@ -188,7 +192,7 @@ Example:
 #### `-u PUT-file`
 
 Send the data contained in the given file as a PUT request.
-Remember to set `-T` to the correct content-type.  
+Remember to set `-T` to the correct content-type.
 
 If `PUT-file` has `.js` extension it will be `require`d. It should be a valid node module and it
 should `export` a single function, which is invoked with an automatically generated request identifier
@@ -224,6 +228,29 @@ will send a total of 10 rps to the given URL, from 10 different clients
 
 Beware: if concurrency is too low then it is possible that there will not be enough clients
 to send all of the rps, adjust it with `-c` if needed.
+
+#### `-R requestGeneratorModule.js`
+
+Use custom request generator function from an external file.
+
+Example request generator module could look like this:
+
+```javascript
+module.exports = function(params, options, client, callback) {
+  generateMessageAsync(function(message)) {
+    request = client(options, callback);
+
+    if (message)
+    {
+      options.headers['Content-Length'] = message.length;
+      options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+      request.write(message);
+    }
+
+    request.end();
+  }
+}
+```
 
 #### `--agent` (deprecated)
 
@@ -285,7 +312,7 @@ with concurrency 10 (only relevant results are shown):
     Completed requests:  16376
     Requests per second: 368
     Total time:          44.503181166000005 s
-    
+
     Percentage of the requests served within a certain time
       50%      4 ms
       90%      5 ms
@@ -333,7 +360,7 @@ Let us lower the rate to 500 rps:
     Total time:          20.002735398000002 s
     Requests per second: 488
     Total time:          20.002735398000002 s
-    
+
     Percentage of the requests served within a certain time
       50%      1 ms
       90%      1 ms
@@ -432,6 +459,10 @@ Max number of seconds to run the tests.
 Note: after the given number of seconds `loadtest` will stop sending requests,
 but may continue receiving tests afterwards.
 
+#### `timeout`
+
+Timeout for each generated request in milliseconds. Default value provided by Node.js client is 3000. Setting this to 0 disables timeout.
+
 #### `cookies`
 
 An array of cookies to send. Each cookie should be a string of the form name=value.
@@ -465,6 +496,29 @@ The MIME type to use for the body. Default content type is `text/plain`.
 #### `requestsPerSecond`
 
 How many requests each client will send per second.
+
+#### `requestGenerator`
+
+Custom request generator function.
+
+Example request generator function could look like this:
+
+```javascript
+function(params, options, client, callback) {
+  generateMessageAsync(function(message)) {
+    request = client(options, callback);
+
+    if (message)
+    {
+      options.headers['Content-Length'] = message.length;
+      options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+      request.write(message);
+    }
+
+    request.end();
+  }
+}
+```
 
 #### `agentKeepAlive`
 
