@@ -4,10 +4,69 @@
 
 Runs a load test on the selected HTTP URL. The API allows for easy integration in your own tests.
 
-## Usage Notes
+## Installation
+
+Install globally as root:
+
+    # npm install -g loadtest
+
+On Ubuntu or Mac OS X systems install using sudo:
+
+    $ sudo npm install -g loadtest
+
+For access to the API just add package `loadtest` to your `package.json` devDependencies:
+
+    {
+        ...
+        "devDependencies": {
+            "loadtest": "*"
+        },
+        ...
+    }
+
+## Change Log
+
+Latest significant changes.
+
+### Changes in version 1.2
+
+* Option `--keepalive` can now be used as `-k`.
+
+### Changes in Version 1.1
+
+* Mechanism to generate different POST and PUT bodies using a function.
+* Duplicate headers are now ignored; set them using `-H header:value1;value2`.
+
+### Changes in Version 1.0
+
+* Option parsing has been improved; no longer is a `true` needed after certain options.
+* Requests per second specified with `--rps` are now total rps, instead of multiplied by concurrency.
+* Option `--agent` has been deprecated in favor of `--keepalive`.
+* Support for Node.js < 0.10 removed.
+
+## Usage
 
 Why use `loadtest` instead of any other of the available tools, notably Apache `ab`?
 `loadtest` allows you to configure and tweak requests to simulate real world loads.
+
+### Basic Usage
+
+Run as a script to load test a URL:
+
+    $ loadtest [-n requests] [-c concurrency] [-k] URL
+
+The URL can be "http://" or "https://".
+Set the max number of requests with `-n`, and the desired level of concurrency with the `-c` parameter.
+Use keep-alive connections with `-k` whenever it makes sense,
+which should be always except when you are testing opening and closing connections.
+
+Single-dash parameters (e.g. `-n`) are designed to be compatible with
+[Apache `ab`](http://httpd.apache.org/docs/2.2/programs/ab.html),
+except that here you can add the parameters _after_ the URL.
+
+To get online help, run loadtest without parameters:
+
+    $ loadtest
 
 ### Usage Dos
 
@@ -23,7 +82,7 @@ so you can see how your server copes with sustained rps.
 Even if `ab` reported a rate of 200 rps,
 you will be surprised to see how a constant rate of requests per second affects performance:
 no longer are the requests adjusted to the server, but the server must adjust to the requests!
-Rps rates are usually lowered dramatically about 20~25% (in our example from 200 to 150 rps),
+Rps rates are usually lowered dramatically, at least 20~25% (in our example from 200 to 150 rps),
 but the resulting figure is much more robust.
 
 `loadtest` is also quite extensible.
@@ -48,65 +107,6 @@ Its practical limit is somewhere around ~40 krps.
 and is supposed to be very fast (the author has not personally used it).
 * [wrk](https://github.com/wg/wrk) is multithreaded and fit for use when multiple CPUs are required or available.
 It may need installing from source though, and its interface is not `ab`-compatible.
-
-## Change Log
-
-Latest significant changes.
-
-### Changes in version 1.2
-
-* Option `--keepalive` can now be used as `-k`.
-
-### Changes in Version 1.1
-
-* Mechanism to generate different POST and PUT bodies using a function.
-* Duplicate headers are now ignored; set them using `-H header:value1;value2`.
-
-### Changes in Version 1.0
-
-* Option parsing has been improved; no longer is a `true` needed after certain options.
-* Requests per second specified with `--rps` are now total rps, instead of multiplied by concurrency.
-* Option `--agent` has been deprecated in favor of `--keepalive`.
-* Support for Node.js < 0.10 removed.
-
-## Installation
-
-Install globally as root:
-
-    # npm install -g loadtest
-
-On Ubuntu or Mac OS X systems install using sudo:
-
-    $ sudo npm install -g loadtest
-
-For access to the API just add package `loadtest` to your `package.json` devDependencies:
-
-    {
-        ...
-        "devDependencies": {
-            "loadtest": "*"
-        },
-        ...
-    }
-
-## Basic Usage
-
-Run as a script to load test a URL:
-
-    $ loadtest [-n requests] [-c concurrency] [-k] URL
-
-The URL can be "http://" or "https://".
-Set the max number of requests with `-n`, and the desired level of concurrency with the `-c` parameter.
-Use keep-alive connections with `-k` whenever it makes sense,
-which should be always except when you are testing opening and closing connections.
-
-Single-dash parameters (e.g. `-n`) are designed to be compatible with
-[Apache `ab`](http://httpd.apache.org/docs/2.2/programs/ab.html),
-except that here you can add the parameters _after_ the URL.
-
-To get online help, run loadtest without parameters:
-
-    $ loadtest
 
 ### Regular Usage
 
@@ -136,12 +136,12 @@ Open connections using keep-alive: use header 'Connection: Keep-alive' instead o
 Note: Uses [agentkeepalive](https://npmjs.org/package/agentkeepalive),
 which performs better than the default node.js agent.
 
-### `-C cookie-name=value`
+#### `-C cookie-name=value`
 
 Send a cookie with the request. The cookie `name=value` is then sent to the server.
 This parameter can be repeated as many times as needed.
 
-### `-H header:value`
+#### `-H header:value`
 
 Send a custom header with the request. The line `header:value` is then sent to the server.
 This parameter can be repeated as many times as needed.
@@ -157,15 +157,15 @@ If you want to send multiple values with a header, separate them with semicolons
 
     $ loadtest -H accept:text/plain;text-html ...
 
-### `-T content-type`
+#### `-T content-type`
 
 Set the MIME content type for POST data. Default: `text/plain`.
 
-### `-P POST-body`
+#### `-P POST-body`
 
 Send the string as the POST body. E.g.: `-P '{"key": "a9acf03f"}'`
 
-### `-p POST-file`
+#### `-p POST-file`
 
 Send the data contained in the given file in the POST body.
 Remember to set `-T` to the correct content-type.  
@@ -185,7 +185,7 @@ Example:
       };
     };
 
-### `-u PUT-file`
+#### `-u PUT-file`
 
 Send the data contained in the given file as a PUT request.
 Remember to set `-T` to the correct content-type.  
@@ -196,7 +196,7 @@ to provide the body of each request.
 This is useful if you want to generate request bodies dynamically and vary them for each request.
 For an example function see above for `-p`.
 
-#### `-r`
+##### `-r`
 
 Recover from errors. Always active: loadtest does not stop on errors.
 After the tests are finished, if there were errors a report with all error codes will be shown.
