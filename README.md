@@ -129,10 +129,6 @@ Max number of seconds to wait until requests no longer go out.
 
 Note: this is different than Apache `ab`, which stops _receiving_ requests after the given seconds.
 
-#### `-d milliseconds`
-
-Timeout for each generated request in milliseconds. Default value provided by Node.js client is 3000. Setting this to 0 disables timeout.
-
 #### `-k` or `--keepalive`
 
 Open connections using keep-alive: use header 'Connection: Keep-alive' instead of 'Connection: Close'.
@@ -228,6 +224,12 @@ will send a total of 10 rps to the given URL, from 10 different clients
 
 Beware: if concurrency is too low then it is possible that there will not be enough clients
 to send all of the rps, adjust it with `-c` if needed.
+
+#### `--timeout milliseconds`
+
+Timeout for each generated request in milliseconds.
+Default value provided by Node.js client is 3000.
+Setting this to 0 disables timeout.
 
 #### `-R requestGeneratorModule.js`
 
