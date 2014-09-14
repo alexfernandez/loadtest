@@ -4,8 +4,12 @@
 
 Runs a load test on the selected HTTP URL. The API allows for easy integration in your own tests.
 
+## Usage Notes
+
 Why use `loadtest` instead of any other of the available tools, notably Apache `ab`?
 `loadtest` allows you to configure and tweak requests to simulate real world loads.
+
+### Usage Dos
 
 The set of basic options are designed to be compatible with Apache `ab`.
 But while `ab` can only set a concurrency level and lets the server adjust to it,
@@ -22,10 +26,28 @@ no longer are the requests adjusted to the server, but the server must adjust to
 Rps rates are usually lowered dramatically about 20~25% (in our example from 200 to 150 rps),
 but the resulting figure is much more robust.
 
+`loadtest` is also quite extensible.
 Using the provided API it is very easy to integrate loadtest with your package, and run programmatic load tests.
 loadtest makes it very easy to run load tests as part of systems tests, before deploying a new version of your software.
 The results include mean response times and percentiles,
 so that you can abort deployment e.g. if 99% of the requests don't finish in 10 ms or less.
+
+### Usage Don'ts
+
+`loadtest` saturates a single CPU pretty quickly.
+Do not use `loadtest` if the Node.js process is above 100% usage in `top`, which happens approx. when your load is above ~4000 rps.
+(You can measure the practical limits of `loadtest` on your specific test machines by running it against a simple
+Apache or nginx process and seeing when it reaches 100% CPU.)
+
+There are better tools for that use case:
+
+* [Apache `ab`](http://httpd.apache.org/docs/2.2/programs/ab.html)
+has great performance, but it is also limited by a single CPU performance.
+Its practical limit is somewhere around ~40 krps.
+* [weighttp](http://redmine.lighttpd.net/projects/weighttp/wiki) is also `ab`-compatible
+and is supposed to be very fast (the author has not personally used it).
+* [wrk](https://github.com/wg/wrk) is multithreaded and fit for use when multiple CPUs are required or available.
+It may need installing from source though, and its interface is not `ab`-compatible.
 
 ## Change Log
 
