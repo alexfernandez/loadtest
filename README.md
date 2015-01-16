@@ -276,7 +276,7 @@ Allow invalid and self-signed certificates over https.
 
 loadtest bundles a test server. To run it:
 
-    $ testserver [--delay ms] [error 5xx] [percent yy] [port]
+    $ testserver-loadtest [--delay ms] [error 5xx] [percent yy] [port]
 
 This command will show the number of requests received per second,
 the latency in answering requests and the headers for selected requests.
@@ -299,7 +299,7 @@ First we install `loadtest` globally:
 
 Now we start the test server:
 
-    $ testserver
+    $ testserver-loadtest
     Listening on port 7357
 
 On a different console window we run a load test against it for 20 seconds
