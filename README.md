@@ -1,5 +1,7 @@
 [![Build Status](https://secure.travis-ci.org/alexfernandez/loadtest.png)](http://travis-ci.org/alexfernandez/loadtest)
 
+[![NPM](https://nodei.co/npm/loadtest.png)](https://nodei.co/npm/loadtest/)
+
 # loadtest
 
 Runs a load test on the selected HTTP URL. The API allows for easy integration in your own tests.
