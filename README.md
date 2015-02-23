@@ -565,6 +565,7 @@ An example follows:
       rps: 2824,
       totalTimeSeconds: 0.354108,
       meanLatencyMs: 7.72,
+      maxLatencyMs: 20,
       totalErrors: 3,
       errors: {
         '0': 1,
