@@ -37,6 +37,8 @@ var options = stdio.getopt({
 	quiet: {description: 'Do not log any messages'},
 	debug: {description: 'Show debug messages'},
 	insecure: {description: 'Allow self-signed certificates over https'},
+	key: {args: 1, description: 'The client key to use'},
+	cert: {args: 1, description: 'The client certificate to use'}
 });
 if (options.version)
 {
@@ -81,6 +83,14 @@ if(options.putFile)
 if(options.rps)
 {
 	options.requestsPerSecond = parseFloat(options.rps);
+}
+if(options.key)
+{
+	options.key = fs.readFileSync(options.key);
+}
+if(options.cert)
+{
+	options.cert = fs.readFileSync(options.cert);
 }
 var defaultHeaders =
 {

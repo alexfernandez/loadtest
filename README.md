@@ -274,6 +274,14 @@ Show debug messages.
 
 Allow invalid and self-signed certificates over https.
 
+#### `--cert path/to/cert.pem`
+
+Sets the certificate for the http client to use. Must be used with `--key`.
+
+#### `--key path/to/key.pem`
+
+Sets the key for the http client to use. Must be used with `--cert`.
+
 ### Server
 
 loadtest bundles a test server. To run it:
