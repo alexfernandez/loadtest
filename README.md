@@ -96,7 +96,7 @@ so that you can abort deployment e.g. if 99% of the requests don't finish in 10 
 ### Usage Don'ts
 
 `loadtest` saturates a single CPU pretty quickly.
-Do not use `loadtest` if the Node.js process is above 100% usage in `top`, which happens approx. when your load is above ~4000 rps.
+Do not use `loadtest` if the Node.js process is above 100% usage in `top`, which happens approx. when your load is above 1000~4000 rps.
 (You can measure the practical limits of `loadtest` on your specific test machines by running it against a simple
 Apache or nginx process and seeing when it reaches 100% CPU.)
 
