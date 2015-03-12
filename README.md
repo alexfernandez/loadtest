@@ -580,6 +580,36 @@ An example follows:
         '500': 2
       }
     }
+    
+### Optional status callback
+
+Optionally you can pass an extra `statusCallback` to the `loadTest()` function so that it can be called on every request
+operation completed, this will allow you to know current test results while the test is still running. The results 
+passed to the callback are in the same format as the results passed to the final callback.
+
+Example:
+
+```javascript
+var loadtest = require('loadtest');
+var options = {
+    url: 'http://localhost:8000',
+    maxRequests: 1000,
+};
+
+function finalCallback(error, result) {
+    if (error)
+    {
+        return console.error('Got an error: %s', error);
+    }
+    console.log('Tests run successfully');
+}
+
+function statusCallback(result) {
+    console.log('Current Status: ' + require('util').inspect(result));
+}
+
+loadtest.loadTest(options, finalCallback, statusCallback);
+```
 
 ### Start Test Server
 
