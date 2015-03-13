@@ -556,6 +556,38 @@ will be:
 
 Allow invalid and self-signed certificates over https.
 
+#### `statusCallback`
+
+Allows the execution of an extra `statusCallback` function on every request operation completed, this will allow you 
+to know current test results while the test is still running. The results passed to the callback are in the same format 
+as the results passed to the final callback.
+
+Example:
+
+```javascript
+var loadtest = require('loadtest');
+
+function statusCallback(result) {
+    console.log('Current Status: ' + require('util').inspect(result));
+}
+
+var options = {
+    url: 'http://localhost:8000',
+    maxRequests: 1000,
+    statusCallback: statusCallback
+};
+
+function callback(error, result) {
+    if (error)
+    {
+        return console.error('Got an error: %s', error);
+    }
+    console.log('Tests run successfully');
+}
+
+loadtest.loadTest(options, callback);
+```
+
 ### Results
 
 The results passed to your callback at the end of the load test contains a full set of data, including:
@@ -581,36 +613,6 @@ An example follows:
       }
     }
     
-### Optional status callback
-
-Optionally you can pass an extra `statusCallback` to the `loadTest()` function so that it can be called on every request
-operation completed, this will allow you to know current test results while the test is still running. The results 
-passed to the callback are in the same format as the results passed to the final callback.
-
-Example:
-
-```javascript
-var loadtest = require('loadtest');
-var options = {
-    url: 'http://localhost:8000',
-    maxRequests: 1000,
-};
-
-function finalCallback(error, result) {
-    if (error)
-    {
-        return console.error('Got an error: %s', error);
-    }
-    console.log('Tests run successfully');
-}
-
-function statusCallback(result) {
-    console.log('Current Status: ' + require('util').inspect(result));
-}
-
-loadtest.loadTest(options, finalCallback, statusCallback);
-```
-
 ### Start Test Server
 
 To start the test server use the exported function `startServer()` with a set of options and an optional callback:
