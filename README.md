@@ -577,15 +577,12 @@ var options = {
     statusCallback: statusCallback
 };
 
-function callback(error, result) {
-    if (error)
-    {
+loadtest.loadTest(options, function(error) {
+    if (error) {
         return console.error('Got an error: %s', error);
     }
     console.log('Tests run successfully');
-}
-
-loadtest.loadTest(options, callback);
+});
 ```
 
 ### Results
