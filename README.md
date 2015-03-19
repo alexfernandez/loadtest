@@ -2,6 +2,8 @@
 
 [![NPM](https://nodei.co/npm/loadtest.png)](https://nodei.co/npm/loadtest/)
 
+[![Package quality](http://packagequality.com/badge/loadtest.png)](http://packagequality.com/#?package=loadtest)
+
 # loadtest
 
 Runs a load test on the selected HTTP URL. The API allows for easy integration in your own tests.
