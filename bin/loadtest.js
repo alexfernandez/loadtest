@@ -105,6 +105,10 @@ if (options.headers)
 	console.log('headers: %s, %j', typeof defaultHeaders, defaultHeaders);
 }
 
+if (options.requestGenerator) {
+    options.requestGenerator = require(options.requestGenerator);
+}
+
 options.headers = defaultHeaders;
 loadTest.loadTest(options);
 
