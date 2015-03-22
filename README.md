@@ -258,6 +258,9 @@ module.exports = function(params, options, client, callback) {
 }
 ```
 
+See [request-generator.js](https://github.com/alexfernandez/loadtest/blob/master/lib/request-generator.js)
+for a complete example of how to use this option.
+
 #### `--agent` (deprecated)
 
 Open connections using keep-alive.
