@@ -125,7 +125,11 @@ and number of requests is not a multiple of concurrency.
 
 #### `-c concurrency`
 
-loadtest will create a simultaneous number of clients; this parameter controls how many.
+loadtest will create a certain number of clients; this parameter controls how many.
+Requests from them will arrive concurrently to the server.
+
+Note: requests are not sent in parallel (from different processes),
+but concurrently (a second request may be sent before the first has been answered).
 
 #### `-t timelimit`
 
