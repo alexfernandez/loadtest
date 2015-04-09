@@ -1,6 +1,6 @@
 [![Build Status](https://secure.travis-ci.org/alexfernandez/loadtest.png)](http://travis-ci.org/alexfernandez/loadtest)
 
-[![NPM](https://nodei.co/npm/loadtest.png)](https://nodei.co/npm/loadtest/)
+[![NPM](https://nodei.co/npm/loadtest.png?downloads=true)](https://nodei.co/npm/loadtest/)
 
 [![Package quality](http://packagequality.com/badge/loadtest.png)](http://packagequality.com/#?package=loadtest)
 
