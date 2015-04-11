@@ -654,9 +654,7 @@ If no error code was specified, default is 500.
 The file `lib/sample.js` shows a complete example, which is also a full integration test:
 it starts the server, send 1000 requests, waits for the callback and closes down the server.
 
-## License
-
-(The MIT License)
+## Licensed under The MIT License
 
 Copyright (c) 2013-4 Alex Fernández <alexfernandeznpm@gmail.com>
 and [contributors](https://github.com/alexfernandez/loadtest/graphs/contributors).
