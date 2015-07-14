@@ -259,7 +259,7 @@ module.exports = function(params, options, client, callback) {
       request.write(message);
     }
 
-    request.end();
+    return request;
   }
 }
 ```
