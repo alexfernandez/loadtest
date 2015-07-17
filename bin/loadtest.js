@@ -125,7 +125,7 @@ function readBody(filename, option)
 		return require(path.resolve(filename));
 	}
 
-    var ret = fs.readFileSync(filename, {encoding: 'utf8'}).replace("\n", "");
+    	var ret = fs.readFileSync(filename, {encoding: 'utf8'}).replace("\n", "");
 
 	return ret;
 }
