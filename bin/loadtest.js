@@ -79,7 +79,6 @@ if(options.postFile)
 }
 if(options.data)
 {
-	//options.method = 'POST';
 	options.body = JSON.parse(options.data);
 }
 if(options.method){
