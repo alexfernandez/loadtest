@@ -26,6 +26,8 @@ var options = stdio.getopt({
 	headers: {key: 'H', multiple: true, description: 'Send a header as header:value'},
 	postBody: {key: 'P', args: 1, description: 'Send string as POST body'},
 	postFile: {key: 'p', args: 1, description: 'Send the contents of the file as POST body'},
+	data: {args: 1, description: 'Send data POST body'},
+	method: {key: 'm', args: 1, description: 'method to url'},
 	putFile: {key: 'u', args: 1, description: 'Send the contents of the file as PUT body'},
 	requestGenerator: {key: 'R', args: 1, description: 'JS module with a custom request generator function'},
 	recover: {key: 'r', description: 'Do not exit on socket receive errors (default)'},
@@ -74,6 +76,19 @@ if(options.postFile)
 {
 	options.method = 'POST';
 	options.body = readBody(options.postFile, '-p');
+}
+if(options.data)
+{
+	//options.method = 'POST';
+	options.body = JSON.parse(options.data);
+}
+if(options.method){
+	var method_accept = ['GET', 'POST', 'PUT', 'DELETE', 'get', 'post', 'put', 'delete'];
+	if (!method_accept.indexOf(options.method)){
+		options.method = 'GET'
+	}else{
+		options.method = options.method
+	}
 }
 if(options.putFile)
 {

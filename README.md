@@ -173,6 +173,17 @@ Set the MIME content type for POST data. Default: `text/plain`.
 
 Send the string as the POST body. E.g.: `-P '{"key": "a9acf03f"}'`
 
+#### `-m method`
+
+Send method to link. Accept: [GET, POST, PUT, DELETE, get, post, put, delete], Default is GET
+E.g.: -m POST
+
+#### `--data POST some variables`
+
+Send some data. It does not support method GET. E.g: `--data '{"username": "test", "password": "test"}' -T 'application/x-www-form-urlencoded' -m POST`
+
+It required `-m` and `-T 'application/x-www-form-urlencoded'`
+
 #### `-p POST-file`
 
 Send the data contained in the given file in the POST body.
