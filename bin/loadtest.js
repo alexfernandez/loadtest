@@ -83,7 +83,7 @@ if(options.data)
 }
 if(options.method){
 	var method_accept = ['GET', 'POST', 'PUT', 'DELETE', 'get', 'post', 'put', 'delete'];
-	if (!method_accept.indexOf(options.method)){
+	if (if (method_accept.indexOf(options.method) === -1)){
 		options.method = 'GET'
 	}else{
 		options.method = options.method
