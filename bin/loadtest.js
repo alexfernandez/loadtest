@@ -106,7 +106,7 @@ if (options.headers)
 }
 
 if (options.requestGenerator) {
-    options.requestGenerator = require(options.requestGenerator);
+    options.requestGenerator = require(path.resolve(options.requestGenerator));
 }
 
 options.headers = defaultHeaders;
