@@ -416,7 +416,7 @@ The results (with the same test server) are impressive:
 
 Now you're talking! The steady rate also goes up to 2 krps:
 
-    $ loadtest http://localhost:7357/ -t 20 -c 10 --keepali --rps 2000
+    $ loadtest http://localhost:7357/ -t 20 -c 10 --keepalive --rps 2000
     ...
     Requests per second: 1950
 
