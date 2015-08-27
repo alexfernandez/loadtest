@@ -1,33 +1,43 @@
 {
-	"name": "loadtest",
-	"version": "1.2.11",
-	"description": "Run load tests for your web application. Mostly ab-compatible interface, with an option to force requests per second. Includes an API for automated load testing.",
-	"homepage": "https://github.com/alexfernandez/loadtest",
-	"contributors": ["Alex Fernández <alexfernandeznpm@gmail.com>"],
-	"license": "MIT",
-	"main": "index.js",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/alexfernandez/loadtest"
-	},
-	"dependencies": {
-		"prototypes": ">= 0.4.0",
-		"agentkeepalive": "0.1.*",
-		"log": "1.4.*",
-		"stdio": "^0.2.3",
-		"testing": "*"
-	},
-	"keywords" : ["testing", "test", "load test", "load testing", "http", "performance", "black box"],
-	"engines": {
-		"node": ">=0.10.3"
-	},
-	"bin": {
-		"loadtest": "bin/loadtest.js",
-		"testserver-loadtest": "bin/testserver.js"
-	},
-	"preferGlobal": true,
-	"scripts": {
-		"test": "node test.js"
-	},
-	"private": false
+  "name": "loadtest",
+  "version": "1.2.11",
+  "description": "Run load tests for your web application. Mostly ab-compatible interface, with an option to force requests per second. Includes an API for automated load testing.",
+  "homepage": "https://github.com/alexfernandez/loadtest",
+  "contributors": [
+    "Alex Fernández <alexfernandeznpm@gmail.com>"
+  ],
+  "license": "MIT",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alexfernandez/loadtest"
+  },
+  "dependencies": {
+    "agentkeepalive": "^2.0.3",
+    "log": "1.4.*",
+    "prototypes": ">= 0.4.0",
+    "stdio": "^0.2.3",
+    "testing": "*"
+  },
+  "keywords": [
+    "testing",
+    "test",
+    "load test",
+    "load testing",
+    "http",
+    "performance",
+    "black box"
+  ],
+  "engines": {
+    "node": ">=0.10.3"
+  },
+  "bin": {
+    "loadtest": "bin/loadtest.js",
+    "testserver-loadtest": "bin/testserver.js"
+  },
+  "preferGlobal": true,
+  "scripts": {
+    "test": "node test.js"
+  },
+  "private": false
 }
