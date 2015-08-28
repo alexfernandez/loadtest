@@ -12,7 +12,7 @@
 	},
 	"dependencies": {
 		"prototypes": ">= 0.4.0",
-		"agentkeepalive": "0.1.*",
+		"agentkeepalive": "^2.0.3",
 		"log": "1.4.*",
 		"stdio": "^0.2.3",
 		"testing": "*"
