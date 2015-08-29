@@ -72,21 +72,21 @@ if (options.postBody)
 	options.method = 'POST';
 	options.body = options.postBody;
 }
-if(options.postFile)
+if (options.postFile)
 {
 	options.method = 'POST';
 	options.body = readBody(options.postFile, '-p');
 }
-if(options.data)
+if (options.data)
 {
 	options.body = JSON.parse(options.data);
 }
-if(options.method){
-	var method_accept = ['GET', 'POST', 'PUT', 'DELETE', 'get', 'post', 'put', 'delete'];
-	if (if (method_accept.indexOf(options.method) === -1)){
-		options.method = 'GET'
-	}else{
-		options.method = options.method
+if (options.method)
+{
+	var acceptedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'get', 'post', 'put', 'delete'];
+	if (acceptedMethods.indexOf(options.method) === -1)
+	{
+		options.method = 'GET';
 	}
 }
 if(options.putFile)
