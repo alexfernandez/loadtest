@@ -31,7 +31,7 @@ var options = stdio.getopt({
 	putFile: {key: 'u', args: 1, description: 'Send the contents of the file as PUT body'},
 	requestGenerator: {key: 'R', args: 1, description: 'JS module with a custom request generator function'},
 	recover: {key: 'r', description: 'Do not exit on socket receive errors (default)'},
-    secureProtocol: {key: 's', args: 1, description: 'TLS/SSL secure protocol method to use'},
+	secureProtocol: {key: 's', args: 1, description: 'TLS/SSL secure protocol method to use'},
 	keepalive: {key: 'k', description: 'Use a keep-alive http agent'},
 	version: {key: 'V', description: 'Show version number and exit'},
 	rps: {args: 1, description: 'Specify the requests per second for each client'},

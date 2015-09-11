@@ -224,6 +224,10 @@ After the tests are finished, if there were errors a report with all error codes
 
 The TLS/SSL method to use. (e.g. TLSv1_method)
 
+Example:
+
+    $ loadtest -n 1000 -s TLSv1_method https://www.example.com
+
 #### `-V`
 
 Show version number and exit.
@@ -585,6 +589,25 @@ Allow invalid and self-signed certificates over https.
 #### `secureProtocol`
 
 The TLS/SSL method to use. (e.g. TLSv1_method)
+
+Example:
+
+    ```javascript
+    var loadtest = require('loadtest');
+
+    var options = {
+        url: 'https://www.example.com',
+        maxRequests: 100,
+        secureProtocol: 'TLSv1_method'
+    };
+
+    loadtest.loadTest(options, function(error) {
+        if (error) {
+            return console.error('Got an error: %s', error);
+        }
+        console.log('Tests run successfully');
+    });
+    ```
 
 #### `statusCallback`
 
