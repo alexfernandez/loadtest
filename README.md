@@ -388,7 +388,7 @@ Again erratic results. In fact if we leave the test running for 50 seconds we st
 
 Let us lower the rate to 500 rps:
 
-    $ loadtest http://localhost:7357/ -t 20 -c 10 --rps 5000
+    $ loadtest http://localhost:7357/ -t 20 -c 10 --rps 500
     ...
     Requests: 0, requests per second: 0, mean latency: 0 ms
     Requests: 2258, requests per second: 452, mean latency: 0 ms
