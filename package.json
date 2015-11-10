@@ -11,7 +11,7 @@
 		"url": "https://github.com/alexfernandez/loadtest"
 	},
 	"dependencies": {
-		"prototypes": ">= 0.4.0",
+		"prototypes": ">= 0.4.3",
 		"agentkeepalive": "^2.0.3",
 		"log": "1.4.*",
 		"stdio": "^0.2.3",
