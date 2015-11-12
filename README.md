@@ -613,15 +613,15 @@ Example:
 
 Allows the execution of an extra `statusCallback` function on every request operation completed, this will allow you 
 to know current test results while the test is still running. The results passed to the callback are in the same format 
-as the results passed to the final callback.
+as the results passed to the final callback. Also, a result object is passed as 
 
 Example:
 
 ```javascript
 var loadtest = require('loadtest');
 
-function statusCallback(result) {
-    console.log('Current Status: ' + require('util').inspect(result));
+function statusCallback(latency, result) {
+    console.log('Current latency %j, result %j', latency, result);
 }
 
 var options = {
@@ -640,7 +640,7 @@ loadtest.loadTest(options, function(error) {
 
 ### Results
 
-The results passed to your callback at the end of the load test contains a full set of data, including:
+The latency results passed to your callback at the end of the load test contains a full set of data, including:
 mean latency, number of errors and percentiles.
 An example follows:
 
@@ -661,6 +661,13 @@ An example follows:
         '0': 1,
         '500': 2
       }
+    }
+
+The second parameter contains info about the current request:
+
+    {
+        statusCode: 200,
+        body: '<html><body>hi</body></html>'
     }
     
 ### Start Test Server
