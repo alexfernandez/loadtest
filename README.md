@@ -165,6 +165,10 @@ If you want to send multiple values with a header, separate them with semicolons
 
     $ loadtest -H accept:text/plain;text-html ...
 
+Note: if you need to add a header with spaces, be sure to surround both header and value with quotes:
+
+    $ loadtest -H "Authorization: Basic xxx=="
+
 #### `-T content-type`
 
 Set the MIME content type for POST data. Default: `text/plain`.
