@@ -270,7 +270,7 @@ Example request generator module could look like this:
 
 ```javascript
 module.exports = function(params, options, client, callback) {
-  generateMessageAsync(function(message)) {
+  generateMessageAsync(function(message) {
 
     if (message)
     {
