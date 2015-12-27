@@ -15,7 +15,8 @@
 		"agentkeepalive": "^2.0.3",
 		"log": "1.4.*",
 		"stdio": "^0.2.3",
-		"testing": "*"
+		"testing": "*",
+		"websocket": "*"
 	},
 	"keywords" : ["testing", "test", "load test", "load testing", "http", "performance", "black box"],
 	"engines": {
