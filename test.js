@@ -10,7 +10,7 @@ var testing = require('testing');
 var Log = require('log');
 
 // globals
-var log = new Log('info');
+var log = new Log('debug');
 
 
 /**
@@ -20,7 +20,7 @@ exports.test = function(callback)
 {
 	log.debug('Running tests');
 	var tests = {};
-	var libs = ['timing', 'sample', 'loadtest', 'headers', 'testserver'];
+	var libs = ['timing', 'sample', 'loadtest', 'headers', 'testserver', 'websocket', 'base-client'];
 	libs.forEach(function(lib)
 	{
 		tests[lib] = require('./lib/' + lib + '.js').test;
