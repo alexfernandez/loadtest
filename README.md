@@ -6,7 +6,7 @@
 
 # loadtest
 
-Runs a load test on the selected HTTP URL. The API allows for easy integration in your own tests.
+Runs a load test on the selected HTTP or WebSockets URL. The API allows for easy integration in your own tests.
 
 ## Installation
 
@@ -59,7 +59,7 @@ Run as a script to load test a URL:
 
     $ loadtest [-n requests] [-c concurrency] [-k] URL
 
-The URL can be "http://" or "https://".
+The URL can be "http://", "https://" or "ws://".
 Set the max number of requests with `-n`, and the desired level of concurrency with the `-c` parameter.
 Use keep-alive connections with `-k` whenever it makes sense,
 which should be always except when you are testing opening and closing connections.
@@ -255,6 +255,8 @@ will send a total of 10 rps to the given URL, from 10 different clients
 
 Beware: if concurrency is too low then it is possible that there will not be enough clients
 to send all of the rps, adjust it with `-c` if needed.
+
+Note: --rps is not supported for websockets.
 
 #### `--timeout milliseconds`
 
