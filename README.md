@@ -618,16 +618,16 @@ Example:
 #### `statusCallback`
 
 Allows the execution of an extra `statusCallback` function on every request operation completed, this will allow you 
-to know current test results while the test is still running. The results passed to the callback are in the same format 
-as the results passed to the final callback. Also, a result object is passed as 
+to know current test results while the test is still running. The results and error passed to the callback are in the
+same format as the results passed to the final callback. 
 
 Example:
 
 ```javascript
 var loadtest = require('loadtest');
 
-function statusCallback(latency, result) {
-    console.log('Current latency %j, result %j', latency, result);
+function statusCallback(latency, result, error) {
+    console.log('Current latency %j, result %j', latency, error ? JSON.stringify(error) + result.toString() : result);
 }
 
 var options = {
