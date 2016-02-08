@@ -617,9 +617,19 @@ Example:
 
 #### `statusCallback`
 
-Allows the execution of an extra `statusCallback` function on every request operation completed, this will allow you 
-to know current test results while the test is still running. The results and error passed to the callback are in the
-same format as the results passed to the final callback. 
+Execution this function after every request operation completes. Provides immediate access to test results while the
+test batch is still running. This can be used for more detailed custom logging or developing your own spreadsheet or
+statistical analysis of results.
+
+The results and error passed to the callback are in the same format as the results passed to the final callback.
+ 
+In addition, the following three properties are added to the `result` OR `error` object:
+
+- `requestElapsed`: time in milliseconds it took to complete this individual request.
+- `requestIndex`: 0-based index of this particular request in the sequence of all requests to be made.
+- `instanceIndex`: the `loadtest(...)` instance index. This is useful if you call `loadtest()` more than once.
+
+You will need to check if `error` is populated in order to determine which object to check for these properties.
 
 Example:
 
@@ -628,6 +638,10 @@ var loadtest = require('loadtest');
 
 function statusCallback(latency, result, error) {
     console.log('Current latency %j, result %j', latency, error ? JSON.stringify(error) + result.toString() : result);
+    console.log('----');
+    console.log('Request elapsed milliseconds: ', error ? error.requestElapsed : result.requestElapsed);
+    console.log('Request index: ', error ? error.requestIndex : result.requestIndex);
+    console.log('Request loadtest() instance index: ', error ? error.instanceIndex : result.instanceIndex);
 }
 
 var options = {
