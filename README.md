@@ -177,9 +177,13 @@ Set the MIME content type for POST data. Default: `text/plain`.
 
 Send the string as the POST body. E.g.: `-P '{"key": "a9acf03f"}'`
 
+#### `-A PATCH-body`
+
+Send the string as the PATCH body. E.g.: `-A '{"key": "a9acf03f"}'`
+
 #### `-m method`
 
-Send method to link. Accept: [GET, POST, PUT, DELETE, get, post, put, delete], Default is GET
+Send method to link. Accept: [GET, POST, PUT, DELETE, PATCH, get, post, put, delete, patch], Default is GET
 E.g.: -m POST
 
 #### `--data POST some variables`
@@ -214,6 +218,17 @@ Send the data contained in the given file as a PUT request.
 Remember to set `-T` to the correct content-type.
 
 If `PUT-file` has `.js` extension it will be `require`d. It should be a valid node module and it
+should `export` a single function, which is invoked with an automatically generated request identifier
+to provide the body of each request.
+This is useful if you want to generate request bodies dynamically and vary them for each request.
+For an example function see above for `-p`.
+
+#### `-a PATCH-file`
+
+Send the data contained in the given file as a PATCH request.
+Remember to set `-T` to the correct content-type.
+
+If `PATCH-file` has `.js` extension it will be `require`d. It should be a valid node module and it
 should `export` a single function, which is invoked with an automatically generated request identifier
 to provide the body of each request.
 This is useful if you want to generate request bodies dynamically and vary them for each request.
