@@ -120,8 +120,8 @@ The following parameters are compatible with Apache ab.
 
 Number of requests to send out.
 
-Note: the total number of requests sent can be bigger than the parameter, if there is a concurrency parameter
-and number of requests is not a multiple of concurrency.
+Note: the total number of requests sent can be bigger than the parameter if there is a concurrency parameter;
+loadtest will report just the first `n`.
 
 #### `-c concurrency`
 
@@ -499,6 +499,9 @@ How many clients to start in parallel.
 #### `maxRequests`
 
 A max number of requests; after they are reached the test will end.
+
+Note: the actual number of requests sent can be bigger if there is a concurrency level;
+loadtest will report just on the max number of requests.
 
 #### `maxSeconds`
 
