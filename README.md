@@ -261,8 +261,7 @@ Note: --rps is not supported for websockets.
 #### `--timeout milliseconds`
 
 Timeout for each generated request in milliseconds.
-Default value provided by Node.js client is 3000.
-Setting this to 0 disables timeout.
+Setting this to 0 disables timeout (default).
 
 #### `-R requestGeneratorModule.js`
 
@@ -512,7 +511,7 @@ but may continue receiving tests afterwards.
 
 #### `timeout`
 
-Timeout for each generated request in milliseconds. Default value provided by Node.js client is 3000. Setting this to 0 disables timeout.
+Timeout for each generated request in milliseconds. Setting this to 0 disables timeout (default).
 
 #### `cookies`
 
