@@ -26,6 +26,8 @@ var options = stdio.getopt({
 	headers: {key: 'H', multiple: true, description: 'Send a header as header:value'},
 	postBody: {key: 'P', args: 1, description: 'Send string as POST body'},
 	postFile: {key: 'p', args: 1, description: 'Send the contents of the file as POST body'},
+	patchBody: {key: 'A', args: 1, description: 'Send string as PATCH body'},
+	patchFile: {key: 'a', args: 1, description: 'Send the contents of the file as PATCH body'},
 	data: {args: 1, description: 'Send data POST body'},
 	method: {key: 'm', args: 1, description: 'method to url'},
 	putFile: {key: 'u', args: 1, description: 'Send the contents of the file as PUT body'},
@@ -84,7 +86,7 @@ if (options.data)
 }
 if (options.method)
 {
-	var acceptedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'get', 'post', 'put', 'delete'];
+	var acceptedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'get', 'post', 'put', 'delete', 'patch'];
 	if (acceptedMethods.indexOf(options.method) === -1)
 	{
 		options.method = 'GET';
@@ -94,6 +96,16 @@ if(options.putFile)
 {
 	options.method = 'PUT';
 	options.body = readBody(options.putFile, '-u');
+}
+if (options.patchBody)
+{
+	options.method = 'PATCH';
+	options.body = options.patchBody;
+}
+if(options.patchFile)
+{
+	options.method = 'PATCH';
+	options.body = readBody(options.patchFile, '-a');
 }
 if(options.rps)
 {
