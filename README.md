@@ -739,7 +739,7 @@ If no error code was specified, default is 500.
 
 ### Complete Example
 
-The file `lib/sample.js` shows a complete example, which is also a full integration test:
+The file `lib/integration.js` shows a complete example, which is also a full integration test:
 it starts the server, send 1000 requests, waits for the callback and closes down the server.
 
 ## Licensed under The MIT License
