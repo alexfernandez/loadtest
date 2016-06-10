@@ -9,7 +9,7 @@
 	"strict": true,     // Require "use strict" statement
 	"white": false,     // Check whitespaces between operators
 	"camelcase": true,  // Force camelcase for vars
-	"curly": true,      // Require curly braces in every scope
+	"curly": false,     // Require curly braces in every scope
 	"unused": true,     // Do not allow unused vars
 	"funcscope": false, // Do not allow using a var out of its virtual scope
 	"loopfunc": true,   // Allow functions in loops
