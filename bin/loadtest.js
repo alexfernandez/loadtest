@@ -54,14 +54,12 @@ if (options.version)
 if (!options.args || options.args.length < 1)
 {
 	console.error('Missing URL to load-test');
-	options.printHelp();
-	process.exit(1);
+	help();
 }
 else if (options.args.length > 1)
 {
 	console.error('Too many arguments: %s', options.args);
-	options.printHelp();
-	process.exit(1);
+	help();
 }
 options.url = options.args[0];
 options.agentKeepAlive = options.keepalive || options.agent;
@@ -160,7 +158,7 @@ function readBody(filename, option)
 /**
  * Show online help.
  */
-function help(options)
+function help()
 {
 	options.printHelp();
 	process.exit(1);
