@@ -642,7 +642,7 @@ statistical analysis of results.
 
 The results and error passed to the callback are in the same format as the results passed to the final callback.
  
-In addition, the following three properties are added to the `result` OR `error` object:
+In addition, the following three properties are added to the `result` object:
 
 - `requestElapsed`: time in milliseconds it took to complete this individual request.
 - `requestIndex`: 0-based index of this particular request in the sequence of all requests to be made.
@@ -705,8 +705,12 @@ An example follows:
 The second parameter contains info about the current request:
 
     {
+        host: 'localhost',
+        path: '/',
+        method: 'GET',
         statusCode: 200,
-        body: '<html><body>hi</body></html>'
+        body: '<html><body>hi</body></html>',
+        headers: [...]
     }
     
 ### Start Test Server
