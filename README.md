@@ -653,12 +653,12 @@ Example:
 ```javascript
 var loadtest = require('loadtest');
 
-function statusCallback(latency, result, error) {
-    console.log('Current latency %j, result %j', latency, error ? JSON.stringify(error) + result.toString() : result);
+function statusCallback(error, result, latency) {
+    console.log('Current latency %j, result %j, error %j', latency, result, error);
     console.log('----');
-    console.log('Request elapsed milliseconds: ', error ? error.requestElapsed : result.requestElapsed);
-    console.log('Request index: ', error ? error.requestIndex : result.requestIndex);
-    console.log('Request loadtest() instance index: ', error ? error.instanceIndex : result.instanceIndex);
+    console.log('Request elapsed milliseconds: ', result.requestElapsed);
+    console.log('Request index: ', result.requestIndex);
+    console.log('Request loadtest() instance index: ', result.instanceIndex);
 }
 
 var options = {
