@@ -303,9 +303,7 @@ module.exports = function(params, options, client, callback) {
 }
 ```
 
-See [`lib/request-generator.js`](https://github.com/alexfernandez/loadtest/blob/master/lib/request-generator.js)
-for a test with this option,
-and [`sample/request-generator.js`](https://github.com/alexfernandez/loadtest/blob/master/sample/request-generator.js)
+See [`sample/request-generator.js`](https://github.com/alexfernandez/loadtest/blob/master/sample/request-generator.js)
 for some sample code including a body.
 
 #### `--agent` (deprecated)
