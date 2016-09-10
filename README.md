@@ -601,6 +601,7 @@ Do not show any messages.
 The given string will be replaced in the final URL with a unique index.
 E.g.: if URL is `http://test.com/value` and `indexParam=value`, then the URL
 will be:
+
 * http://test.com/1
 * http://test.com/2
 * ...
@@ -674,6 +675,10 @@ loadtest.loadTest(options, function(error) {
     console.log('Tests run successfully');
 });
 ```
+
+**Warning**: The format for `statusCallback` has changed in version 2.0.0 onwards.
+It used to be `statusCallback(latency, result, error)`,
+it has been changed to conform to the usual Node.js standard.
 
 ### Results
 
