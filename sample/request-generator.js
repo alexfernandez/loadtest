@@ -13,7 +13,7 @@ var options = {
 	concurrent: 5,
 	method: 'POST',
 	body:'',
-	requestPerSecond:5,
+	requestsPerSecond:5,
 	maxSeconds:30,
 	requestGenerator: function(params, options, client, callback)
 	{
