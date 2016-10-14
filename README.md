@@ -605,7 +605,8 @@ will be:
 * http://test.com/1
 * http://test.com/2
 * ...
-
+body will also be replaced
+`body:{ userid: id_value }` will be `body:{ userid: id_1 }`
 #### `insecure`
 
 Allow invalid and self-signed certificates over https.
