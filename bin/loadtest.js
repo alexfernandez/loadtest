@@ -43,7 +43,9 @@ var options = stdio.getopt({
 	debug: {description: 'Show debug messages'},
 	insecure: {description: 'Allow self-signed certificates over https'},
 	key: {args: 1, description: 'The client key to use'},
-	cert: {args: 1, description: 'The client certificate to use'}
+	cert: {args: 1, description: 'The client certificate to use'},
+	minRps: {args: 1, description: 'Minimum request per second to start with. Ignored if !rps argument'},
+	rampUp: {args: 1, description: 'Number of seconds to reach rps. Ignored if !rps argument'}
 });
 if (options.version)
 {
@@ -56,7 +58,7 @@ if (!options.args || options.args.length < 1)
 	console.error('Missing URL to load-test');
 	help();
 }
-else if (options.args.length > 1)
+if (options.args.length > 1)
 {
 	console.error('Too many arguments: %s', options.args);
 	help();
@@ -108,6 +110,14 @@ if(options.patchFile)
 if(options.rps)
 {
 	options.requestsPerSecond = parseFloat(options.rps);
+}
+if(options.minRps)
+{
+	options.minRps = parseFloat(options.minRps);
+}
+if(options.rampUp)
+{
+	options.rampUp = parseFloat(options.rampUp);
 }
 if(options.key)
 {
