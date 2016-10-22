@@ -273,6 +273,18 @@ to send all of the rps, adjust it with `-c` if needed.
 
 Note: --rps is not supported for websockets.
 
+#### `--rampUp <seconds>`
+
+Number of seconds to reach the given RPS.  This can be used to observe auto-scaling behavior of an app as load increases over time.
+
+Note: This argument will be ignored if there is no `--rps` argument and requires a minRps.
+
+### `--minRps <number>`
+
+The number of RPS to start a "rampUp" at. 
+
+Note: This argument will be ignored if there is no `--rps` argument and is required when using the "rampUp" feature. 
+
 #### `--timeout milliseconds`
 
 Timeout for each generated request in milliseconds.
