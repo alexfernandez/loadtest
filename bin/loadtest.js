@@ -45,7 +45,7 @@ var options = stdio.getopt({
 	key: {args: 1, description: 'The client key to use'},
 	cert: {args: 1, description: 'The client certificate to use'},
 	minRps: {args: 1, description: 'Minimum request per second to start with. Ignored if !rps argument'},
-	rampUp: {args: 1, description: 'Number of seconds to reach rps. Ignored if !rps argument'}
+	rampUp: {args: 1, description: 'Number of seconds to reach rps. Ignored if !rps argument, requires minRps'}
 });
 if (options.version)
 {
@@ -58,6 +58,13 @@ if (!options.args || options.args.length < 1)
 	console.error('Missing URL to load-test');
 	help();
 }
+
+if (options.rampUp && !options.minRps)
+{
+	console.error('minRps required when using rampUp feature.  Cannot be zero, can be a decimal.');
+	help();
+}
+
 if (options.args.length > 1)
 {
 	console.error('Too many arguments: %s', options.args);
