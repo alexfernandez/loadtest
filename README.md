@@ -28,26 +28,6 @@ For access to the API just add package `loadtest` to your `package.json` devDepe
         ...
     }
 
-## Change Log
-
-Latest significant changes.
-
-### Changes in version 1.2
-
-* Option `--keepalive` can now be used as `-k`.
-
-### Changes in Version 1.1
-
-* Mechanism to generate different POST and PUT bodies using a function.
-* Duplicate headers are now ignored; set them using `-H header:value1;value2`.
-
-### Changes in Version 1.0
-
-* Option parsing has been improved; no longer is a `true` needed after certain options.
-* Requests per second specified with `--rps` are now total rps, instead of multiplied by concurrency.
-* Option `--agent` has been deprecated in favor of `--keepalive`.
-* Support for Node.js < 0.10 removed.
-
 ## Usage
 
 Why use `loadtest` instead of any other of the available tools, notably Apache `ab`?
