@@ -7,16 +7,16 @@
  */
 
 // requires
-var stdio = require('stdio');
-var fs = require('fs');
-var path = require('path');
-var urlLib = require('url');
-var loadTest = require('../lib/loadtest.js');
-var headers = require('../lib/headers.js');
-var packageJson = require(__dirname + '/../package.json');
+const stdio = require('stdio');
+const fs = require('fs');
+const path = require('path');
+const urlLib = require('url');
+const loadTest = require('../lib/loadtest.js');
+const headers = require('../lib/headers.js');
+const packageJson = require(__dirname + '/../package.json');
 
 // init
-var options = stdio.getopt({
+const options = stdio.getopt({
 	maxRequests: {key: 'n', args: 1, description: 'Number of requests to perform'},
 	concurrency: {key: 'c', args: 1, description: 'Number of requests to make'},
 	maxSeconds: {key: 't', args: 1, description: 'Max time in seconds to wait for responses'},
@@ -76,7 +76,7 @@ if (options.data) {
 	options.body = JSON.parse(options.data);
 }
 if (options.method) {
-	var acceptedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'get', 'post', 'put', 'delete', 'patch'];
+	const acceptedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'get', 'post', 'put', 'delete', 'patch'];
 	if (acceptedMethods.indexOf(options.method) === -1) {
 		options.method = 'GET';
 	}
@@ -102,7 +102,7 @@ if(options.key) {
 if(options.cert) {
 	options.cert = fs.readFileSync(options.cert);
 }
-var defaultHeaders = {
+const defaultHeaders = {
 	host: urlLib.parse(options.url).host,
 	'user-agent': 'loadtest/' + packageJson.version,
 	accept: '*/*'
@@ -130,7 +130,7 @@ function readBody(filename, option) {
 		return require(path.resolve(filename));
 	}
 
-	var ret = fs.readFileSync(filename, {encoding: 'utf8'}).replace("\n", "");
+	const ret = fs.readFileSync(filename, {encoding: 'utf8'}).replace("\n", "");
 
 	return ret;
 }

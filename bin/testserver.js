@@ -7,11 +7,11 @@
  */
 
 // requires
-var stdio = require('stdio');
-var testServer = require('../lib/testserver');
+const stdio = require('stdio');
+const testServer = require('../lib/testserver');
 
 // init
-var options = stdio.getopt({
+const options = stdio.getopt({
 	delay: {key: 'd', args: 1, description: 'Delay the response for the given milliseconds'},
 	error: {key: 'e', args: 1, description: 'Return an HTTP error code'},
 	percent: {key: 'p', args: 1, description: 'Return an error (default 500) only for some % of requests'},
