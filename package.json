@@ -39,7 +39,8 @@
 	},
 	"preferGlobal": true,
 	"scripts": {
-		"test": "node test.js"
+		"test": "node test.js",
+		"posttest": "eslint ."
 	},
 	"private": false
 }

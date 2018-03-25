@@ -28,12 +28,12 @@ if (options.args && options.args.length == 1)
 }
 if(options.delay)
 {
-    if(isNaN(options.delay))
+	if(isNaN(options.delay))
 	{
 		console.error('Invalid delay');
 		options.printHelp();
 		process.exit(1);
-    }
+	}
 	options.delay = parseInt(options.delay, 10);
 }
 

@@ -131,7 +131,7 @@ if (options.headers)
 }
 
 if (options.requestGenerator) {
-    options.requestGenerator = require(path.resolve(options.requestGenerator));
+	options.requestGenerator = require(path.resolve(options.requestGenerator));
 }
 
 options.headers = defaultHeaders;
@@ -150,7 +150,7 @@ function readBody(filename, option)
 		return require(path.resolve(filename));
 	}
 
-    	var ret = fs.readFileSync(filename, {encoding: 'utf8'}).replace("\n", "");
+	var ret = fs.readFileSync(filename, {encoding: 'utf8'}).replace("\n", "");
 
 	return ret;
 }
