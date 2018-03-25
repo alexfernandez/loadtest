@@ -14,12 +14,15 @@
 		"url": "https://github.com/alexfernandez/loadtest"
 	},
 	"dependencies": {
-		"prototypes": ">= 0.4.3",
 		"agentkeepalive": "^2.0.3",
 		"log": "1.4.*",
+		"prototypes": ">= 0.4.3",
 		"stdio": "^0.2.3",
-		"websocket": "^1.0.22",
-		"testing": "^0.2.3"
+		"testing": "^0.2.3",
+		"websocket": "^1.0.22"
+	},
+	"devDependencies": {
+		"eslint": "^4.19.1"
 	},
 	"keywords": [
 		"testing",
