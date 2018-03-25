@@ -1,9 +1,11 @@
 {
 	"name": "loadtest",
-	"version": "2.3.0",
+	"version": "3.0.0",
 	"description": "Run load tests for your web application. Mostly ab-compatible interface, with an option to force requests per second. Includes an API for automated load testing.",
 	"homepage": "https://github.com/alexfernandez/loadtest",
-	"contributors": ["Alex Fernández <alexfernandeznpm@gmail.com>"],
+	"contributors": [
+		"Alex Fernández <alexfernandeznpm@gmail.com>"
+	],
 	"license": "MIT",
 	"main": "index.js",
 	"types": "index.d.ts",
@@ -12,14 +14,25 @@
 		"url": "https://github.com/alexfernandez/loadtest"
 	},
 	"dependencies": {
-		"prototypes": ">= 0.4.3",
 		"agentkeepalive": "^2.0.3",
 		"log": "1.4.*",
+		"prototypes": ">= 0.4.3",
 		"stdio": "^0.2.3",
-		"websocket": "^1.0.22",
-		"testing": "^0.2.3"
+		"testing": "^0.2.3",
+		"websocket": "^1.0.22"
 	},
-	"keywords" : ["testing", "test", "load test", "load testing", "http", "performance", "black box"],
+	"devDependencies": {
+		"eslint": "^4.19.1"
+	},
+	"keywords": [
+		"testing",
+		"test",
+		"load test",
+		"load testing",
+		"http",
+		"performance",
+		"black box"
+	],
 	"engines": {
 		"node": ">=0.10.3"
 	},
@@ -29,7 +42,8 @@
 	},
 	"preferGlobal": true,
 	"scripts": {
-		"test": "node test.js"
+		"test": "node test.js",
+		"posttest": "eslint ."
 	},
 	"private": false
 }
