@@ -15,7 +15,7 @@ const options = {
 	body:'',
 	requestsPerSecond:5,
 	maxSeconds:30,
-	requestGenerator: function(params, options, client, callback) {
+	requestGenerator: (params, options, client, callback) => {
 		const message = '{"hi": "ho"}';
 		options.headers['Content-Length'] = message.length;
 		options.headers['Content-Type'] = 'application/json';
@@ -27,7 +27,7 @@ const options = {
 	}
 };
 
-loadtest.loadTest(options, function(error, results) {
+loadtest.loadTest(options, (error, results) => {
 	if (error) {
 		return console.error('Got an error: %s', error);
 	}
