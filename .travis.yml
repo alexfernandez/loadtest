@@ -1,9 +1,9 @@
 language: node_js
 
-# test on node.js version: 0.10 and 0.12
+# test on node.js versions
 node_js:
-  - 0.10
-  - 0.12
+  - 8
+  - 9
 
 # configure notifications (email, IRC, campfire etc)
 # please update this section to your needs!
