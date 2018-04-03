@@ -20,13 +20,15 @@ On Ubuntu or Mac OS X systems install using sudo:
 
 For access to the API just add package `loadtest` to your `package.json` devDependencies:
 
-    {
-        ...
-        "devDependencies": {
-            "loadtest": "*"
-        },
-        ...
-    }
+```json
+{
+	...
+	"devDependencies": {
+		"loadtest": "*"
+	},
+	...
+}
+```
 
 ## Usage
 
@@ -168,7 +170,8 @@ E.g.: -m POST
 
 #### `--data POST some variables`
 
-Send some data. It does not support method GET. E.g: `--data '{"username": "test", "password": "test"}' -T 'application/x-www-form-urlencoded' -m POST`
+Send some data. It does not support method GET.
+E.g: `--data '{"username": "test", "password": "test"}' -T 'application/x-www-form-urlencoded' -m POST`
 
 It required `-m` and `-T 'application/x-www-form-urlencoded'`
 
@@ -184,13 +187,15 @@ This is useful if you want to generate request bodies dynamically and vary them 
 
 Example:
 
-    module.exports = function(requestId) {
-      // this object will be serialized to JSON and sent in the body of the request
-      return {
-        key: 'value',
-        requestId: requestId
-      };
-    };
+```javascript
+module.exports = function(requestId) {
+  // this object will be serialized to JSON and sent in the body of the request
+  return {
+	key: 'value',
+	requestId: requestId
+  };
+};
+```
 
 #### `-u PUT-file`
 
@@ -458,19 +463,21 @@ thus allowing you to load test your application in your own tests.
 
 To run a load test, just call the exported function `loadTest()` with a set of options and an optional callback:
 
-    var loadtest = require('loadtest');
-    var options = {
-        url: 'http://localhost:8000',
-        maxRequests: 1000,
-    };
-    loadtest.loadTest(options, function(error, result)
-    {
-        if (error)
-        {
-            return console.error('Got an error: %s', error);
-        }
-        console.log('Tests run successfully');
-    });
+```javascript
+const loadtest = require('loadtest');
+const options = {
+	url: 'http://localhost:8000',
+	maxRequests: 1000,
+};
+loadtest.loadTest(options, function(error, result)
+{
+	if (error)
+	{
+		return console.error('Got an error: %s', error);
+	}
+	console.log('Tests run successfully');
+});
+```
 
 The callback `function(error, result)` will be invoked when the max number of requests is reached,
 or when the max number of seconds has elapsed.
@@ -597,22 +604,22 @@ The TLS/SSL method to use. (e.g. TLSv1_method)
 
 Example:
 
-    ```javascript
-    var loadtest = require('loadtest');
+```javascript
+const loadtest = require('loadtest');
 
-    var options = {
-        url: 'https://www.example.com',
-        maxRequests: 100,
-        secureProtocol: 'TLSv1_method'
-    };
+const options = {
+	url: 'https://www.example.com',
+    maxRequests: 100,
+    secureProtocol: 'TLSv1_method'
+};
 
-    loadtest.loadTest(options, function(error) {
-        if (error) {
-            return console.error('Got an error: %s', error);
-        }
-        console.log('Tests run successfully');
-    });
-    ```
+loadtest.loadTest(options, function(error) {
+	if (error) {
+		return console.error('Got an error: %s', error);
+	}
+	console.log('Tests run successfully');
+});
+```
 
 #### `statusCallback`
 
@@ -633,7 +640,7 @@ You will need to check if `error` is populated in order to determine which objec
 Example:
 
 ```javascript
-var loadtest = require('loadtest');
+const loadtest = require('loadtest');
 
 function statusCallback(error, result, latency) {
     console.log('Current latency %j, result %j, error %j', latency, result, error);
@@ -643,7 +650,7 @@ function statusCallback(error, result, latency) {
     console.log('Request loadtest() instance index: ', result.instanceIndex);
 }
 
-var options = {
+const options = {
     url: 'http://localhost:8000',
     maxRequests: 1000,
     statusCallback: statusCallback
@@ -667,42 +674,48 @@ The latency results passed to your callback at the end of the load test contains
 mean latency, number of errors and percentiles.
 An example follows:
 
-    {
-      totalRequests: 1000,
-      percentiles: {
-        '50': 7,
-        '90': 10,
-        '95': 11,
-        '99': 15
-      },
-      rps: 2824,
-      totalTimeSeconds: 0.354108,
-      meanLatencyMs: 7.72,
-      maxLatencyMs: 20,
-      totalErrors: 3,
-      errors: {
-        '0': 1,
-        '500': 2
-      }
-    }
+```javascript
+{
+  totalRequests: 1000,
+  percentiles: {
+	'50': 7,
+	'90': 10,
+	'95': 11,
+	'99': 15
+  },
+  rps: 2824,
+  totalTimeSeconds: 0.354108,
+  meanLatencyMs: 7.72,
+  maxLatencyMs: 20,
+  totalErrors: 3,
+  errors: {
+	'0': 1,
+	'500': 2
+  }
+}
+```
 
 The second parameter contains info about the current request:
 
-    {
-        host: 'localhost',
-        path: '/',
-        method: 'GET',
-        statusCode: 200,
-        body: '<html><body>hi</body></html>',
-        headers: [...]
-    }
+```javascript
+{
+	host: 'localhost',
+	path: '/',
+	method: 'GET',
+	statusCode: 200,
+	body: '<html><body>hi</body></html>',
+	headers: [...]
+}
+```
     
 ### Start Test Server
 
 To start the test server use the exported function `startServer()` with a set of options and an optional callback:
 
-    var testserver = require('testserver');
-    var server = testserver.startServer({ port: 8000 });
+```javascript
+const testserver = require('testserver');
+const server = testserver.startServer({ port: 8000 });
+```
 
 This function returns an HTTP server which can be `close()`d when it is no longer useful.
 
@@ -731,6 +744,12 @@ If no error code was specified, default is 500.
 
 The file `lib/integration.js` shows a complete example, which is also a full integration test:
 it starts the server, send 1000 requests, waits for the callback and closes down the server.
+
+## Versioning
+
+Version 3.x uses ES2015 (ES6) features,
+such as `const` or `let` and arrow functions.
+For ES5 support please use versions 2.x.
 
 ## Licensed under The MIT License
 

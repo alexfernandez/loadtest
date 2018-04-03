@@ -7,8 +7,8 @@
 
 
 // requires
-var loadtest = require('./lib/loadtest.js');
-var testserver = require('./lib/testserver.js');
+const loadtest = require('./lib/loadtest.js');
+const testserver = require('./lib/testserver.js');
 
 // exports
 exports.loadTest = loadtest.loadTest;
