@@ -31,6 +31,6 @@ exports.test = function(callback)
 // run tests if invoked directly
 if (__filename == process.argv[1])
 {
-	exports.test(testing.show);
+	exports.test();
 }
 
