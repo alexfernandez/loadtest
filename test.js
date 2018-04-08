@@ -10,7 +10,7 @@ const testing = require('testing');
 const Log = require('log');
 
 // globals
-const log = new Log('debug');
+const log = new Log('info');
 
 
 /**
