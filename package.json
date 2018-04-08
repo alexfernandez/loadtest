@@ -45,5 +45,8 @@
 		"test": "node test.js",
 		"posttest": "eslint ."
 	},
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org/"
+	},
 	"private": false
 }
