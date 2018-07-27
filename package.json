@@ -19,7 +19,8 @@
 		"prototypes": ">= 0.4.3",
 		"stdio": "^0.2.3",
 		"testing": "^1.1.1",
-		"websocket": "^1.0.22"
+		"websocket": "^1.0.22",
+		"https-proxy-agent": "^2.2.1"
 	},
 	"devDependencies": {
 		"eslint": "^4.19.1"
