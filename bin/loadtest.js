@@ -36,6 +36,7 @@ const options = stdio.getopt({
 	secureProtocol: {key: 's', args: 1, description: 'TLS/SSL secure protocol method to use'},
 	keepalive: {key: 'k', description: 'Use a keep-alive http agent'},
 	version: {key: 'V', description: 'Show version number and exit'},
+	proxy: {args: 1, description: 'Use a proxy for requests e.g. http://localhost:8080 '},	
 	rps: {args: 1, description: 'Specify the requests per second for each client'},
 	agent: {description: 'Use a keep-alive http agent (deprecated)'},
 	index: {args: 1, description: 'Replace the value of given arg with an index in the URL'},
