@@ -6,11 +6,11 @@
  */
 
 // requires
-var testing = require('testing');
-var Log = require('log');
+const testing = require('testing');
+const Log = require('log');
 
 // globals
-var log = new Log('debug');
+const log = new Log('info');
 
 
 /**
@@ -19,8 +19,8 @@ var log = new Log('debug');
 exports.test = function(callback)
 {
 	log.debug('Running tests');
-	var tests = {};
-	var libs = ['timing', 'integration', 'loadtest', 'headers', 'testserver', 'websocket', 'httpClient'];
+	const tests = {};
+	const libs = ['timing', 'integration', 'loadtest', 'headers', 'testserver', 'websocket', 'httpClient'];
 	libs.forEach(function(lib)
 	{
 		tests[lib] = require('./lib/' + lib + '.js').test;
@@ -31,6 +31,6 @@ exports.test = function(callback)
 // run tests if invoked directly
 if (__filename == process.argv[1])
 {
-	exports.test(testing.show);
+	exports.test();
 }
 

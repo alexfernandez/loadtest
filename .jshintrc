@@ -6,6 +6,7 @@
 
 {
 	"node": true,       // NodeJS JavaScript files
+	"esversion": 6,
 	"strict": true,     // Require "use strict" statement
 	"white": false,     // Check whitespaces between operators
 	"camelcase": true,  // Force camelcase for vars
@@ -13,5 +14,6 @@
 	"unused": true,     // Do not allow unused vars
 	"funcscope": false, // Do not allow using a var out of its virtual scope
 	"loopfunc": true,   // Allow functions in loops
-	"undef": true       // Force vars declaration before using them
+	"undef": true,       // Force vars declaration before using them
+	"asi": true
 }

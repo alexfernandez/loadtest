@@ -7,16 +7,16 @@
  */
 
 // requires
-var stdio = require('stdio');
-var fs = require('fs');
-var path = require('path');
-var urlLib = require('url');
-var loadTest = require('../lib/loadtest.js');
-var headers = require('../lib/headers.js');
-var packageJson = require(__dirname + '/../package.json');
+const stdio = require('stdio');
+const fs = require('fs');
+const path = require('path');
+const urlLib = require('url');
+const loadTest = require('../lib/loadtest.js');
+const headers = require('../lib/headers.js');
+const packageJson = require(__dirname + '/../package.json');
 
 // init
-var options = stdio.getopt({
+const options = stdio.getopt({
 	maxRequests: {key: 'n', args: 1, description: 'Number of requests to perform'},
 	concurrency: {key: 'c', args: 1, description: 'Number of requests to make'},
 	maxSeconds: {key: 't', args: 1, description: 'Max time in seconds to wait for responses'},
@@ -36,6 +36,7 @@ var options = stdio.getopt({
 	secureProtocol: {key: 's', args: 1, description: 'TLS/SSL secure protocol method to use'},
 	keepalive: {key: 'k', description: 'Use a keep-alive http agent'},
 	version: {key: 'V', description: 'Show version number and exit'},
+	proxy: {args: 1, description: 'Use a proxy for requests e.g. http://localhost:8080 '},	
 	rps: {args: 1, description: 'Specify the requests per second for each client'},
 	agent: {description: 'Use a keep-alive http agent (deprecated)'},
 	index: {args: 1, description: 'Replace the value of given arg with an index in the URL'},
@@ -47,14 +48,12 @@ var options = stdio.getopt({
 	minRps: {args: 1, description: 'Minimum request per second to start with. Ignored if !rps argument'},
 	rampUp: {args: 1, description: 'Number of seconds to reach rps. Ignored if !rps argument, requires minRps'}
 });
-if (options.version)
-{
+if (options.version) {
 	console.log('Loadtest version: %s', packageJson.version);
 	process.exit(0);
 }
 // is there an url? if not, break and display help
-if (!options.args || options.args.length < 1)
-{
+if (!options.args || options.args.length < 1) {
 	console.error('Missing URL to load-test');
 	help();
 }
@@ -65,8 +64,7 @@ if (options.rampUp && !options.minRps)
 	help();
 }
 
-if (options.args.length > 1)
-{
+if (options.args.length > 1) {
 	console.error('Too many arguments: %s', options.args);
 	help();
 }
@@ -77,47 +75,39 @@ options.indexParam = options.index;
 //TODO: add index Param
 // Allow a post body string in options
 // Ex -P '{"foo": "bar"}'
-if (options.postBody)
-{
+if (options.postBody) {
 	options.method = 'POST';
 	options.body = options.postBody;
 }
-if (options.postFile)
-{
+if (options.postFile) {
 	options.method = 'POST';
 	options.body = readBody(options.postFile, '-p');
 }
-if (options.data)
-{
+if (options.data) {
 	options.body = JSON.parse(options.data);
 }
-if (options.method)
-{
-	var acceptedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'get', 'post', 'put', 'delete', 'patch'];
-	if (acceptedMethods.indexOf(options.method) === -1)
-	{
+if (options.method) {
+	const acceptedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'get', 'post', 'put', 'delete', 'patch'];
+	if (acceptedMethods.indexOf(options.method) === -1) {
 		options.method = 'GET';
 	}
 }
-if(options.putFile)
-{
+if(options.putFile) {
 	options.method = 'PUT';
 	options.body = readBody(options.putFile, '-u');
 }
-if (options.patchBody)
-{
+if (options.patchBody) {
 	options.method = 'PATCH';
 	options.body = options.patchBody;
 }
-if(options.patchFile)
-{
+if(options.patchFile) {
 	options.method = 'PATCH';
 	options.body = readBody(options.patchFile, '-a');
 }
-if(options.rps)
-{
+if(options.rps) {
 	options.requestsPerSecond = parseFloat(options.rps);
 }
+
 if(options.minRps)
 {
 	options.minRps = parseFloat(options.minRps);
@@ -126,48 +116,41 @@ if(options.rampUp)
 {
 	options.rampUp = parseFloat(options.rampUp);
 }
-if(options.key)
-{
+if(options.key) {
 	options.key = fs.readFileSync(options.key);
 }
-if(options.cert)
-{
+if(options.cert) {
 	options.cert = fs.readFileSync(options.cert);
 }
-var defaultHeaders =
-{
+const defaultHeaders = {
 	host: urlLib.parse(options.url).host,
 	'user-agent': 'loadtest/' + packageJson.version,
 	accept: '*/*'
 };
 
-if (options.headers)
-{
+if (options.headers) {
 	headers.addHeaders(options.headers, defaultHeaders);
 	console.log('headers: %s, %j', typeof defaultHeaders, defaultHeaders);
 }
 
 if (options.requestGenerator) {
-    options.requestGenerator = require(path.resolve(options.requestGenerator));
+	options.requestGenerator = require(path.resolve(options.requestGenerator));
 }
 
 options.headers = defaultHeaders;
 loadTest.loadTest(options);
 
-function readBody(filename, option)
-{
-	if (typeof filename !== 'string')
-	{
+function readBody(filename, option) {
+	if (typeof filename !== 'string') {
 		console.error('Invalid file to open with %s: %s', option, filename);
 		help();
 	}
 
-	if(path.extname(filename) === '.js')
-	{
+	if(path.extname(filename) === '.js') {
 		return require(path.resolve(filename));
 	}
 
-    	var ret = fs.readFileSync(filename, {encoding: 'utf8'}).replace("\n", "");
+	const ret = fs.readFileSync(filename, {encoding: 'utf8'}).replace("\n", "");
 
 	return ret;
 }
@@ -175,8 +158,7 @@ function readBody(filename, option)
 /**
  * Show online help.
  */
-function help()
-{
+function help() {
 	options.printHelp();
 	process.exit(1);
 }
