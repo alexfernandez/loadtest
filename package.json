@@ -15,12 +15,12 @@
 	},
 	"dependencies": {
 		"agentkeepalive": "^2.0.3",
+		"https-proxy-agent": "^2.2.1",
 		"log": "1.4.*",
 		"prototypes": ">= 0.4.3",
 		"stdio": "^0.2.3",
 		"testing": "^1.1.1",
-		"websocket": "^1.0.22",
-		"https-proxy-agent": "^2.2.1"
+		"websocket": "^1.0.28"
 	},
 	"devDependencies": {
 		"eslint": "^4.19.1"
