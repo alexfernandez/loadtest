@@ -10,7 +10,7 @@ const loadtest = require('../lib/loadtest.js');
 
 const options = {
 	url: 'http://yourHost',
-	concurrent: 5,
+	concurrency: 5,
 	method: 'POST',
 	body:'',
 	requestsPerSecond:5,

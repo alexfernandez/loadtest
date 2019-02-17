@@ -288,8 +288,8 @@ module.exports = function(params, options, client, callback) {
 }
 ```
 
-See [`sample/request-generator.js`](https://github.com/alexfernandez/loadtest/blob/master/sample/request-generator.js)
-for some sample code including a body.
+See [`sample/request-generator.js`](sample/request-generator.js) for some sample code including a body
+(or [`sample/request-generator.ts`](sample/request-generator.ts) for ES6/TypeScript).
 
 #### `--agent` (deprecated)
 
