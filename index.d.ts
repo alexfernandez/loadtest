@@ -6,7 +6,7 @@ declare namespace loadtest {
 		concurrency?: number;
 		maxRequests?: number;
 		maxSeconds?: number;
-		timeOut?: number;
+		timeout?: number;
 		cookies?: string[];
 		headers?: { [headerName: string]: string };
 		method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
