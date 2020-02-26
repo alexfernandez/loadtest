@@ -748,6 +748,46 @@ Return an HTTP error code.
 Return an HTTP error code only for the given % of requests.
 If no error code was specified, default is 500.
 
+### Configuration file
+
+It is possible to put configuration options in a file named `.loadtestrc` in your working directory or in a file whose name is specified in the `loadtest` entry of your `package.json`. The options in the file will be used only if they are not specified in the command line.
+
+The expected structure of the file is the following:
+
+```json
+{
+	"delay": "Delay the response for the given milliseconds",
+	"error": "Return an HTTP error code",
+	"percent": "Return an error (default 500) only for some % of requests",
+	"maxRequests": "Number of requests to perform",
+	"concurrency": "Number of requests to make",
+	"maxSeconds": "Max time in seconds to wait for responses",
+	"timeout": "Timeout for each request in milliseconds",
+	"method": "method to url",
+	"contentType": "MIME type for the body",
+	"body": "Data to send",
+	"file": "Send the contents of the file",
+	"cookies": {
+		"key": "value"
+	},
+	"headers": {
+		"key": "value"
+	},
+	"secureProtocol": "TLS/SSL secure protocol method to use",
+	"insecure": "Allow self-signed certificates over https",
+	"cert": "The client certificate to use",
+	"key": "The client key to use",
+	"requestGenerator": "JS module with a custom request generator function",
+	"recover": "Do not exit on socket receive errors (default)",
+	"agentKeepAlive": "Use a keep-alive http agent",
+	"proxy": "Use a proxy for requests",
+	"requestsPerSecond": "Specify the requests per second for each client",
+	"indexParam": "Replace the value of given arg with an index in the URL"
+}
+```
+
+For more information about the actual configuration file name, read the [confinode user manual](https://github.com/slune-org/confinode/blob/master/doc/en/usermanual.md#configuration-search). In the list of the [supported file types](https://github.com/slune-org/confinode/blob/master/doc/extensions.md), please note that only synchronous loaders can be used with _loadtest_.
+
 ### Complete Example
 
 The file `lib/integration.js` shows a complete example, which is also a full integration test:

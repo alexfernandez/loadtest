@@ -14,6 +14,7 @@ const urlLib = require('url');
 const loadTest = require('../lib/loadtest.js');
 const headers = require('../lib/headers.js');
 const packageJson = require(__dirname + '/../package.json');
+const config = require('../lib/config');
 
 // init
 const options = stdio.getopt({
@@ -58,9 +59,12 @@ if (!options.args || options.args.length < 1) {
 	console.error('Too many arguments: %s', options.args);
 	help();
 }
+
+const configuration = config.loadConfig(options);
+
 options.url = options.args[0];
-options.agentKeepAlive = options.keepalive || options.agent;
-options.indexParam = options.index;
+options.agentKeepAlive = options.keepalive || options.agent || configuration.agentKeepAlive;
+options.indexParam = options.index || configuration.indexParam;
 
 //TODO: add index Param
 // Allow a post body string in options
@@ -94,31 +98,80 @@ if(options.patchFile) {
 	options.method = 'PATCH';
 	options.body = readBody(options.patchFile, '-a');
 }
-if(options.rps) {
-	options.requestsPerSecond = parseFloat(options.rps);
+if(!options.method) {
+	options.method = configuration.method;
+}
+if(!options.body) {
+	if(configuration.body) {
+		options.body = configuration.body;
+	} else if(configuration.file) {
+		options.body = readBody(configuration.file, 'configuration.request.file');
+	}
+}
+options.requestsPerSecond = options.rps ? parseFloat(options.rps) : configuration.requestsPerSecond;
+if(!options.key) {
+	options.key = configuration.key;
 }
 if(options.key) {
 	options.key = fs.readFileSync(options.key);
 }
+if(!options.cert) {
+	options.cert = configuration.cert;
+}
 if(options.cert) {
 	options.cert = fs.readFileSync(options.cert);
 }
-const defaultHeaders = {
-	host: urlLib.parse(options.url).host,
-	'user-agent': 'loadtest/' + packageJson.version,
-	accept: '*/*'
-};
+
+const defaultHeaders = options.headers ? {} : configuration.headers;
+defaultHeaders['host'] = urlLib.parse(options.url).host;
+defaultHeaders['user-agent'] = 'loadtest/' + packageJson.version;
+defaultHeaders['accept'] = '*/*';
 
 if (options.headers) {
 	headers.addHeaders(options.headers, defaultHeaders);
 	console.log('headers: %s, %j', typeof defaultHeaders, defaultHeaders);
 }
+options.headers = defaultHeaders;
 
+if (!options.requestGenerator) {
+	options.requestGenerator = configuration.requestGenerator;
+}
 if (options.requestGenerator) {
 	options.requestGenerator = require(path.resolve(options.requestGenerator));
 }
 
-options.headers = defaultHeaders;
+// Use configuration file for other values
+if(!options.maxRequests) {
+	options.maxRequests = configuration.maxRequests;
+}
+if(!options.concurrency) {
+	options.concurrency = configuration.concurrency;
+}
+if(!options.maxSeconds) {
+	options.maxSeconds = configuration.maxSeconds;
+}
+if(!options.timeout && configuration.timeout) {
+	options.timeout = configuration.timeout;
+}
+if(!options.contentType) {
+	options.contentType = configuration.contentType;
+}
+if(!options.cookies) {
+	options.cookies = configuration.cookies;
+}
+if(!options.secureProtocol) {
+	options.secureProtocol = configuration.secureProtocol;
+}
+if(!options.insecure) {
+	options.insecure = configuration.insecure;
+}
+if(!options.recover) {
+	options.recover = configuration.recover;
+}
+if(!options.proxy) {
+	options.proxy = configuration.proxy;
+}
+
 loadTest.loadTest(options);
 
 function readBody(filename, option) {
