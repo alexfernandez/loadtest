@@ -676,6 +676,31 @@ loadtest.loadTest(options, function(error) {
 It used to be `statusCallback(latency, result, error)`,
 it has been changed to conform to the usual Node.js standard.
 
+#### `contentInspector`
+
+A function that would be executed after every request before its status be added to the final statistics.
+
+The is can be used when you want to mark some result with 200 http status code to be failed or error.
+
+The `result` object passed to this callback function has the same fields as the `result` object passed to `statusCallback`.
+
+`customError` can be added to mark this result as failed or error. `customeErrorCode` will be provided in the final statistics, in addtion to the http status code.
+
+Example:
+
+```javascript
+fucntion contentInspector (result) => {
+    if (result.statusCode == 200) {
+        const body = JSON.parse(result.body)
+        // how to examine the body depends on the content that the service returns
+        if (body.status.err_code !== 0) {
+            result.customError = body.status.err_code + " " + body.status.msg
+            result.customErrorCode = body.status.err_code
+        }
+    }
+},
+```
+
 ### Results
 
 The latency results passed to your callback at the end of the load test contains a full set of data, including:
