@@ -684,7 +684,7 @@ The is can be used when you want to mark some result with 200 http status code t
 
 The `result` object passed to this callback function has the same fields as the `result` object passed to `statusCallback`.
 
-`customError` can be added to mark this result as failed or error. `customeErrorCode` will be provided in the final statistics, in addtion to the http status code.
+`customError` can be added to mark this result as failed or error. `customErrorCode` will be provided in the final statistics, in addtion to the http status code.
 
 Example:
 
