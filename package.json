@@ -1,6 +1,6 @@
 {
 	"name": "loadtest",
-	"version": "4.2.0",
+	"version": "5.0.0",
 	"description": "Run load tests for your web application. Mostly ab-compatible interface, with an option to force requests per second. Includes an API for automated load testing.",
 	"homepage": "https://github.com/alexfernandez/loadtest",
 	"contributors": [
@@ -35,7 +35,7 @@
 		"black box"
 	],
 	"engines": {
-		"node": ">=8"
+		"node": ">=10"
 	},
 	"bin": {
 		"loadtest": "bin/loadtest.js",
