@@ -1,0 +1,8 @@
+{
+  "maxRequests": 100,
+  "concurrency": 10,
+  "method": "POST",
+  "body": {
+    "hi": "there"
+  }
+}

@@ -15,6 +15,7 @@
 	},
 	"dependencies": {
 		"agentkeepalive": "^2.0.3",
+		"confinode": "^2.1.1",
 		"https-proxy-agent": "^2.2.1",
 		"log": "1.4.*",
 		"stdio": "^0.2.3",
