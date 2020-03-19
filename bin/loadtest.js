@@ -122,7 +122,7 @@ if(options.cert) {
 	options.cert = fs.readFileSync(options.cert);
 }
 
-const defaultHeaders = options.headers ? {} : configuration.headers;
+const defaultHeaders = options.headers || !configuration.headers ? {} : configuration.headers;
 defaultHeaders['host'] = urlLib.parse(options.url).host;
 defaultHeaders['user-agent'] = 'loadtest/' + packageJson.version;
 defaultHeaders['accept'] = '*/*';
