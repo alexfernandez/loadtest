@@ -32,7 +32,7 @@ declare namespace loadtest {
 		meanLatencyMs: number,
 		minLatencyMs: number,
 		maxLatencyMs: number,
-		errors: { [statusCode: string]: number }
+		errorCodes: { [statusCode: string]: number }
 	}
 }
 

@@ -722,7 +722,7 @@ An example follows:
   meanLatencyMs: 7.72,
   maxLatencyMs: 20,
   totalErrors: 3,
-  errors: {
+  errorCodes: {
 	'0': 1,
 	'500': 2
   }
