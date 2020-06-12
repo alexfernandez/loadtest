@@ -690,7 +690,7 @@ The `result` object passed to this callback function has the same fields as the 
 Example:
 
 ```javascript
-fucntion contentInspector (result) => {
+function contentInspector(result) {
     if (result.statusCode == 200) {
         const body = JSON.parse(result.body)
         // how to examine the body depends on the content that the service returns
