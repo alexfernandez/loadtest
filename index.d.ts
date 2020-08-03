@@ -21,6 +21,7 @@ declare namespace loadtest {
 		secureProtocol?: string;
 		statusCallback?(error: Error, result: any, latency: LoadTestResult): void;
 		contentInspector?(result: any): void;
+		indexParamCallBack?(): string;
 	}
 
 	export interface LoadTestResult {
