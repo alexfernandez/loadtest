@@ -603,6 +603,25 @@ will be:
 * ...
 * body will also be replaced `body:{ userid: id_value }` will be `body:{ userid: id_1 }`
 
+#### `indexParamCallback`
+
+A function that would be executed to replace the value identified through `indexParam` through a custom value generator.
+
+E.g.: if URL is `http://test.com/value` and `indexParam=value` and
+```javascript
+indexParamCallback: function customCallBack() {
+  return Math.floor(Math.random() * 10); //returns a random integer from 0 to 9
+}
+``` 
+then the URL could be:
+
+* http://test.com/1 (Randomly generated integer 1)
+* http://test.com/5 (Randomly generated integer 5)
+* http://test.com/6 (Randomly generated integer 6)
+* http://test.com/8 (Randomly generated integer 8)
+* ...
+* body will also be replaced `body:{ userid: id_value }` will be `body:{ userid: id_<value from callback> }`
+
 #### `insecure`
 
 Allow invalid and self-signed certificates over https.
