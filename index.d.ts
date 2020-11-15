@@ -1,6 +1,10 @@
 declare namespace loadtest {
-	export function loadTest(options: LoadTestOptions, err: Function): void;
-
+	export function loadTest(options: LoadTestOptions, err: Function): Operation;
+	
+    export interface Operation {
+        completedRequests: number
+    }
+	
 	export interface LoadTestOptions {
 		url: string;
 		concurrency?: number;
