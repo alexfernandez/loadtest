@@ -632,7 +632,7 @@ loadtest.loadTest(options, function(error) {
 
 #### `statusCallback`
 
-Execution this function after every request operation completes. Provides immediate access to test results while the
+If present, this function executes after every request operation completes. Provides immediate access to test results while the
 test batch is still running. This can be used for more detailed custom logging or developing your own spreadsheet or
 statistical analysis of results.
 
@@ -671,6 +671,31 @@ loadtest.loadTest(options, function(error) {
     }
     console.log('Tests run successfully');
 });
+```
+
+ 
+In some situations request data needs to be available in the statusCallBack.
+This data can be assigned to `request.labels` in the requestGenerator:
+```javascript
+const options = {
+	// ...
+	requestGenerator: (params, options, client, callback) => {
+		// ...
+        const randomInputData = Math.random().toString().substr(2, 8);
+        const message = JSON.stringify({ randomInputData })
+		const request = client(options, callback);
+        request.labels = randomInputData;
+		request.write(message);
+		return request;
+	}
+};
+```
+
+Then in statusCallBack the labels can be accessed through `result.labels`:
+```javascript
+function statusCallback(error, result, latency) {
+    console.log(result.labels);
+}
 ```
 
 **Warning**: The format for `statusCallback` has changed in version 2.0.0 onwards.
