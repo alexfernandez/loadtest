@@ -5,12 +5,8 @@
  * (C) 2013 Alex Fernández.
  */
 
-// requires
 const testing = require('testing');
-const Log = require('log');
-
-// globals
-const log = new Log('info');
+const log = require('log');
 
 
 /**
@@ -18,6 +14,7 @@ const log = new Log('info');
  */
 exports.test = function(callback)
 {
+	log.info('hi')
 	log.debug('Running tests');
 	const tests = {};
 	const libs = ['hrtimer', 'latency', 'integration', 'loadtest', 'headers', 'testserver', 'websocket', 'httpClient'];

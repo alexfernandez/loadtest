@@ -18,6 +18,7 @@
 		"confinode": "^2.1.1",
 		"https-proxy-agent": "^2.2.1",
 		"log": "^6.3.1",
+		"log-node": "^8.0.3",
 		"stdio": "^2.1.1",
 		"testing": "^1.1.1",
 		"websocket": "^1.0.34"
