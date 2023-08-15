@@ -48,8 +48,8 @@ function testIntegrationFile(callback) {
 			return callback(error);
 		}
 		execFile('node',
-			[join(__dirname, '..', 'bin', 'loadtest.js'), 'http://localhost:' + PORT],
-			{ cwd: join(__dirname, '..', 'test') },
+			[join('..', 'bin', 'loadtest.js'), 'http://localhost:' + PORT],
+			{ cwd: join('..', 'test') },
 			(error, stdout) => {
 				if (error) {
 					return callback(error);
