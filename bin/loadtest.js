@@ -60,7 +60,7 @@ if (!options.args || options.args.length < 1) {
 	help();
 }
 
-const configuration = config.loadConfig(options);
+const configuration = config.loadConfig();
 
 options.url = options.args[0];
 options.agentKeepAlive = options.keepalive || options.agent || configuration.agentKeepAlive;

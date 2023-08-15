@@ -17,7 +17,7 @@ const options = stdio.getopt({
 	error: {key: 'e', args: 1, description: 'Return an HTTP error code'},
 	percent: {key: 'p', args: 1, description: 'Return an error (default 500) only for some % of requests'},
 });
-const configuration = config.loadConfig(options)
+const configuration = config.loadConfig()
 if (options.args && options.args.length == 1) {
 	options.port = parseInt(options.args[0], 10);
 	if (!options.port) {
