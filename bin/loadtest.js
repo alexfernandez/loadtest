@@ -5,8 +5,8 @@ import * as stdio from 'stdio'
 import * as fs from 'fs'
 import * as path from 'path'
 import * as urlLib from 'url'
-import * as loadTest from '../lib/loadtest.js'
-import * as headers from '../lib/headers.js'
+import {loadTest} from '../lib/loadtest.js'
+import {addHeaders} from '../lib/headers.js'
 import {loadConfig} from '../lib/config.js'
 
 
@@ -121,7 +121,7 @@ defaultHeaders['user-agent'] = 'loadtest/' + packageJson.version;
 defaultHeaders['accept'] = '*/*';
 
 if (options.headers) {
-	headers.addHeaders(options.headers, defaultHeaders);
+	addHeaders(options.headers, defaultHeaders);
 	console.log('headers: %s, %j', typeof defaultHeaders, defaultHeaders);
 }
 options.headers = defaultHeaders;
@@ -165,7 +165,7 @@ if(!options.proxy) {
 	options.proxy = configuration.proxy;
 }
 
-loadTest.loadTest(options);
+loadTest(options);
 
 function readBody(filename, option) {
 	if (typeof filename !== 'string') {
