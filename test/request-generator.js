@@ -1,14 +1,12 @@
-'use strict';
-
-const loadtest = require('./loadtest.js');
-const testserver = require('./testserver.js');
-const testing = require('testing');
+import testing from 'testing'
+import * as loadtest from '../lib/loadtest.js'
+import {startServer} from '../lib/testserver.js'
 
 const PORT = 10453;
 
 
 function testRequestGenerator(callback) {
-	const server = testserver.startServer({port: PORT}, error => {
+	const server = startServer({port: PORT}, error => {
 		if (error) {
 			return callback('Could not start test server');
 		}
@@ -44,12 +42,7 @@ function testRequestGenerator(callback) {
 /**
  * Run all tests.
  */
-exports.test = function(callback) {
+export function test(callback) {
 	testing.run([testRequestGenerator], 4000, callback);
-};
-
-// start load test if invoked directly
-if (__filename == process.argv[1]) {
-	exports.test(testing.show);
 }
 
