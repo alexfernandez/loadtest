@@ -306,13 +306,17 @@ Open connections using keep-alive.
 
 Note: instead of using the default agent, this option is now an alias for `-k`.
 
-#### `--quiet`
+#### `--quiet` (deprecated)
 
 Do not show any messages.
 
-#### `--debug`
+Note: deprecated in version 6+, shows a warning.
+
+#### `--debug` (deprecated)
 
 Show debug messages.
+
+Note: deprecated in version 6+, shows a warning.
 
 #### `--insecure`
 
@@ -588,9 +592,11 @@ Use an agent with 'Connection: Keep-alive'.
 Note: Uses [agentkeepalive](https://npmjs.org/package/agentkeepalive),
 which performs better than the default node.js agent.
 
-#### `quiet`
+#### `quiet` (deprecated)
 
 Do not show any messages.
+
+Note: deprecated in version 6+, shows a warning.
 
 #### `indexParam`
 

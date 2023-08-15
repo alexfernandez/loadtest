@@ -39,13 +39,13 @@ const options = stdio.getopt({
 	version: {key: 'V', description: 'Show version number and exit'},
 	proxy: {args: 1, description: 'Use a proxy for requests e.g. http://localhost:8080 '},	
 	rps: {args: 1, description: 'Specify the requests per second for each client'},
-	agent: {description: 'Use a keep-alive http agent (deprecated)'},
 	index: {args: 1, description: 'Replace the value of given arg with an index in the URL'},
-	quiet: {description: 'Do not log any messages'},
-	debug: {description: 'Show debug messages'},
 	insecure: {description: 'Allow self-signed certificates over https'},
 	key: {args: 1, description: 'The client key to use'},
-	cert: {args: 1, description: 'The client certificate to use'}
+	cert: {args: 1, description: 'The client certificate to use'},
+	agent: {description: 'Use a keep-alive http agent (deprecated)'},
+	quiet: {description: 'Do not log any messages (deprecated)'},
+	debug: {description: 'Show debug messages (deprecated)'}
 });
 if (options.version) {
 	console.log('Loadtest version: %s', packageJson.version);
