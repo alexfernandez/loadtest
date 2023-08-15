@@ -868,7 +868,7 @@ For more information about the actual configuration file name, read the [confino
 
 ### Complete Example
 
-The file `lib/integration.js` shows a complete example, which is also a full integration test:
+The file `test/integration.js` shows a complete example, which is also a full integration test:
 it starts the server, send 1000 requests, waits for the callback and closes down the server.
 
 ## Versioning

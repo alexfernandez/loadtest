@@ -1,16 +1,8 @@
-'use strict';
-
-/**
- * API usage examples
- * (C) 2013 Alex Fernández.
- */
-
-
-const loadtest = require('./loadtest.js');
-const testserver = require('./testserver.js');
-const testing = require('testing');
-const { execFile } = require('child_process');
-const { join } = require('path');
+import * as testing from 'testing'
+import {execFile} from 'child_process'
+import {join} from 'path'
+import {loadTest} from '../lib/loadtest.js'
+import {startServer} from '../lib/testserver.js'
 
 const PORT = 10408;
 
@@ -19,7 +11,7 @@ const PORT = 10408;
  * Run an integration test.
  */
 function testIntegration(callback) {
-	const server = testserver.startServer({ port: PORT }, error => {
+	const server = startServer({ port: PORT }, error => {
 		if (error) {
 			return callback(error);
 		}
@@ -32,7 +24,7 @@ function testIntegration(callback) {
 				hi: 'there',
 			},
 		};
-		loadtest.loadTest(options, (error, result) => {
+		loadTest(options, (error, result) => {
 			if (error) {
 				return callback(error);
 			}
@@ -51,7 +43,7 @@ function testIntegration(callback) {
  * Run an integration test using configuration file.
  */
 function testIntegrationFile(callback) {
-	const server = testserver.startServer({ port: PORT }, error => {
+	const server = startServer({ port: PORT }, error => {
 		if (error) {
 			return callback(error);
 		}
@@ -78,7 +70,7 @@ function testIntegrationFile(callback) {
  * Run an integration test.
  */
 function testWSIntegration(callback) {
-	const server = testserver.startServer({ port: PORT }, error => {
+	const server = startServer({ port: PORT }, error => {
 		if (error) {
 			return callback(error);
 		}
@@ -96,7 +88,7 @@ function testWSIntegration(callback) {
 				hi: 'there',
 			},
 		};
-		loadtest.loadTest(options, (error, result) => {
+		loadTest(options, (error, result) => {
 			if (error) {
 				return callback(error);
 			}
@@ -119,7 +111,7 @@ function testDelay(callback) {
 		port: PORT + 1,
 		delay: delay,
 	};
-	const server = testserver.startServer(options, error => {
+	const server = startServer(options, error => {
 		if (error) {
 			return callback(error);
 		}
@@ -127,7 +119,7 @@ function testDelay(callback) {
 			url: 'http://localhost:' + (PORT + 1),
 			maxRequests: 10,
 		};
-		loadtest.loadTest(options, (error, result) => {
+		loadTest(options, (error, result) => {
 			if (error) {
 				return callback(error);
 			}
@@ -146,12 +138,7 @@ function testDelay(callback) {
 /**
  * Run all tests.
  */
-exports.test = function(callback) {
+export function test(callback) {
 	testing.run([testIntegration, testIntegrationFile, testDelay, testWSIntegration], 4000, callback);
-};
-
-// start load test if invoked directly
-if (__filename == process.argv[1]) {
-	exports.test(testing.show);
 }
 
