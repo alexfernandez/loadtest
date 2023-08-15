@@ -8,6 +8,7 @@ import {test as testHrtimer} from './hrtimer.js'
 import {test as testHeaders} from './headers.js'
 import {test as testLatency} from './latency.js'
 import {test as testHttpClient} from './httpClient.js'
+import {test as testServer} from './testserver.js'
 
 
 /**
@@ -15,7 +16,8 @@ import {test as testHttpClient} from './httpClient.js'
  */
 function test() {
 	const tests = [
-		testHrtimer, testHeaders, testLatency, testHttpClient
+		testHrtimer, testHeaders, testLatency, testHttpClient,
+		testServer,
 	];
 	testing.run(tests, 4200);
 }
