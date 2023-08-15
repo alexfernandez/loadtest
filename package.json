@@ -43,7 +43,7 @@
 	},
 	"preferGlobal": true,
 	"scripts": {
-		"test": "node test.js",
+		"test": "node test/run.js",
 		"posttest": "eslint ."
 	},
 	"publishConfig": {

@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Package contains a load test script and a test server.
  * (C) 2013 Alex Fernández.
