@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-'use strict';
 
 import packageJson from '../package.json' assert {type: 'json'}
 import * as stdio from 'stdio'
