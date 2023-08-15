@@ -6,6 +6,7 @@
 import testing from 'testing'
 import {test as testHrtimer} from './hrtimer.js'
 import {test as testHeaders} from './headers.js'
+import {test as testLatency} from './latency.js'
 import {test as testHttpClient} from './httpClient.js'
 
 
@@ -13,7 +14,9 @@ import {test as testHttpClient} from './httpClient.js'
  * Run all module tests.
  */
 function test() {
-	const tests = [testHrtimer, testHeaders, testHttpClient];
+	const tests = [
+		testHrtimer, testHeaders, testLatency, testHttpClient
+	];
 	testing.run(tests, 4200);
 }
 
