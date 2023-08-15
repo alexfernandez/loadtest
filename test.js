@@ -6,7 +6,6 @@
  */
 
 const testing = require('testing');
-const log = require('log');
 
 
 /**
@@ -14,8 +13,6 @@ const log = require('log');
  */
 exports.test = function(callback)
 {
-	log.info('hi')
-	log.debug('Running tests');
 	const tests = {};
 	const libs = ['hrtimer', 'latency', 'integration', 'loadtest', 'headers', 'testserver', 'websocket', 'httpClient'];
 	libs.forEach(function(lib)

@@ -8,7 +8,6 @@
 
 const loadtest = require('./lib/loadtest.js');
 const testserver = require('./lib/testserver.js');
-require('log-node')()
 
 exports.loadTest = loadtest.loadTest;
 exports.startServer = testserver.startServer;
