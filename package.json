@@ -17,13 +17,13 @@
 		"agentkeepalive": "^2.0.3",
 		"confinode": "^2.1.1",
 		"https-proxy-agent": "^2.2.1",
-		"log": "1.4.*",
-		"stdio": "^0.2.3",
+		"log": "^6.3.1",
+		"stdio": "^2.1.1",
 		"testing": "^1.1.1",
-		"websocket": "^1.0.28"
+		"websocket": "^1.0.34"
 	},
 	"devDependencies": {
-		"eslint": "^4.19.1"
+		"eslint": "^8.47.0"
 	},
 	"keywords": [
 		"testing",
