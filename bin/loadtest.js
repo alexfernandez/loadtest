@@ -1,22 +1,16 @@
 #!/usr/bin/env node
 'use strict';
 
-/**
- * Binary to run loadtest.
- * (C) 2013 Manuel Ernst, Alex Fernández.
- */
+import packageJson from '../package.json' assert {type: 'json'}
+import * as stdio from 'stdio'
+import * as fs from 'fs'
+import * as path from 'path'
+import * as urlLib from 'url'
+import * as loadTest from '../lib/loadtest.js'
+import * as headers from '../lib/headers.js'
+import {loadConfig} from '../lib/config.js'
 
-// requires
-const stdio = require('stdio');
-const fs = require('fs');
-const path = require('path');
-const urlLib = require('url');
-const loadTest = require('../lib/loadtest.js');
-const headers = require('../lib/headers.js');
-const packageJson = require(__dirname + '/../package.json');
-const config = require('../lib/config');
 
-// init
 const options = stdio.getopt({
 	maxRequests: {key: 'n', args: 1, description: 'Number of requests to perform'},
 	concurrency: {key: 'c', args: 1, description: 'Number of requests to make'},
@@ -60,7 +54,7 @@ if (!options.args || options.args.length < 1) {
 	help();
 }
 
-const configuration = config.loadConfig();
+const configuration = loadConfig();
 
 options.url = options.args[0];
 options.agentKeepAlive = options.keepalive || options.agent || configuration.agentKeepAlive;

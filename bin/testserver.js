@@ -1,23 +1,17 @@
 #!/usr/bin/env node
 'use strict';
 
-/**
- * Binary to run test server.
- * (C) 2013 Manuel Ernst, Alex Fernández.
- */
+import * as stdio from 'stdio'
+import {startServer} from '../lib/testserver.js'
+import {loadConfig} from '../lib/config.js'
 
-// requires
-const stdio = require('stdio');
-const testServer = require('../lib/testserver');
-const config = require('../lib/config')
 
-// init
 const options = stdio.getopt({
 	delay: {key: 'd', args: 1, description: 'Delay the response for the given milliseconds'},
 	error: {key: 'e', args: 1, description: 'Return an HTTP error code'},
 	percent: {key: 'p', args: 1, description: 'Return an error (default 500) only for some % of requests'},
 });
-const configuration = config.loadConfig()
+const configuration = loadConfig()
 if (options.args && options.args.length == 1) {
 	options.port = parseInt(options.args[0], 10);
 	if (!options.port) {
@@ -45,5 +39,5 @@ if(!options.percent) {
 	options.percent = configuration.percent
 }
 
-testServer.startServer(options);
+startServer(options);
 
