@@ -861,7 +861,7 @@ The expected structure of the file is the following:
 }
 ```
 
-See sample file `.loadtestrc` in the root directory.
+See sample file in `sample/.loadtestrc`.
 
 For more information about the actual configuration file name, read the [confinode user manual](https://github.com/slune-org/confinode/blob/master/doc/en/usermanual.md#configuration-search). In the list of the [supported file types](https://github.com/slune-org/confinode/blob/master/doc/extensions.md), please note that only synchronous loaders can be used with _loadtest_.
 
