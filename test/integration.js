@@ -47,7 +47,7 @@ function testIntegrationFile(callback) {
 			return callback(error);
 		}
 		execFile('node',
-			[join('./', 'bin', 'loadtest.js'), 'http://localhost:' + PORT],
+			[join('./', 'bin', 'loadtest.js'), `http://localhost:${PORT}/`, '-n', '100'],
 			(error, stdout) => {
 				if (error) {
 					return callback(error);
