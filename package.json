@@ -35,7 +35,7 @@
 		"black box"
 	],
 	"engines": {
-		"node": ">=10"
+		"node": ">=16"
 	},
 	"bin": {
 		"loadtest": "bin/loadtest.js",
