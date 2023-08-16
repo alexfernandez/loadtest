@@ -477,19 +477,18 @@ thus allowing you to load test your application in your own tests.
 To run a load test, just call the exported function `loadTest()` with a set of options and an optional callback:
 
 ```javascript
-const loadtest = require('loadtest');
+import {loadTest} from 'loadtest'
+
 const options = {
 	url: 'http://localhost:8000',
 	maxRequests: 1000,
-};
-loadtest.loadTest(options, function(error, result)
-{
-	if (error)
-	{
-		return console.error('Got an error: %s', error);
+}
+loadTest(options, function(error, result) {
+	if (error) {
+		return console.error('Got an error: %s', error)
 	}
-	console.log('Tests run successfully');
-});
+	console.log('Tests run successfully')
+})
 ```
 
 The callback `function(error, result)` will be invoked when the max number of requests is reached,
@@ -639,20 +638,20 @@ The TLS/SSL method to use. (e.g. TLSv1_method)
 Example:
 
 ```javascript
-const loadtest = require('loadtest');
+import {loadTest} from 'loadtest'
 
 const options = {
 	url: 'https://www.example.com',
     maxRequests: 100,
     secureProtocol: 'TLSv1_method'
-};
+}
 
-loadtest.loadTest(options, function(error) {
+loadTest(options, function(error) {
 	if (error) {
-		return console.error('Got an error: %s', error);
+		return console.error('Got an error: %s', error)
 	}
-	console.log('Tests run successfully');
-});
+	console.log('Tests run successfully')
+})
 ```
 
 #### `statusCallback`
@@ -674,28 +673,28 @@ You will need to check if `error` is populated in order to determine which objec
 Example:
 
 ```javascript
-const loadtest = require('loadtest');
+import {loadTest} from 'loadtest'
 
 function statusCallback(error, result, latency) {
-    console.log('Current latency %j, result %j, error %j', latency, result, error);
-    console.log('----');
-    console.log('Request elapsed milliseconds: ', result.requestElapsed);
-    console.log('Request index: ', result.requestIndex);
-    console.log('Request loadtest() instance index: ', result.instanceIndex);
+    console.log('Current latency %j, result %j, error %j', latency, result, error)
+    console.log('----')
+    console.log('Request elapsed milliseconds: ', result.requestElapsed)
+    console.log('Request index: ', result.requestIndex)
+    console.log('Request loadtest() instance index: ', result.instanceIndex)
 }
 
 const options = {
     url: 'http://localhost:8000',
     maxRequests: 1000,
     statusCallback: statusCallback
-};
+}
 
-loadtest.loadTest(options, function(error) {
+loadTest(options, function(error) {
     if (error) {
-        return console.error('Got an error: %s', error);
+        return console.error('Got an error: %s', error)
     }
-    console.log('Tests run successfully');
-});
+    console.log('Tests run successfully')
+})
 ```
 
  
@@ -797,8 +796,8 @@ The second parameter contains info about the current request:
 To start the test server use the exported function `startServer()` with a set of options and an optional callback:
 
 ```javascript
-const testserver = require('testserver');
-const server = testserver.startServer({ port: 8000 });
+import {startServer} from 'loadtest'
+const server = startServer({port: 8000})
 ```
 
 This function returns an HTTP server which can be `close()`d when it is no longer useful.
