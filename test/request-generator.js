@@ -24,6 +24,7 @@ function testRequestGenerator(callback) {
 				request.write(message);
 				return request;
 			},
+			quiet: true,
 		};
 		loadTest(options, (error, result) => {
 			if (error) {

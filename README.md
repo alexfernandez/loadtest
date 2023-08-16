@@ -315,17 +315,15 @@ Open connections using keep-alive.
 
 Note: instead of using the default agent, this option is now an alias for `-k`.
 
-#### `--quiet` (deprecated)
+#### `--quiet`
 
 Do not show any messages.
-
-Note: deprecated in version 6+, shows a warning.
 
 #### `--debug` (deprecated)
 
 Show debug messages.
 
-Note: deprecated in version 6+, shows a warning.
+Note: deprecated in version 6+.
 
 #### `--insecure`
 

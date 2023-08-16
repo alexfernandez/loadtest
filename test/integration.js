@@ -26,6 +26,7 @@ function testIntegration(callback) {
 			body: {
 				hi: 'there',
 			},
+			quiet: true,
 		};
 		loadTest(options, (error, result) => {
 			if (error) {
@@ -51,7 +52,8 @@ function testIntegrationFile(callback) {
 			return callback(error);
 		}
 		execFile('node',
-			[join('./', 'bin', 'loadtest.js'), `http://localhost:${PORT}/`, '-n', '100'],
+			[join('./', 'bin', 'loadtest.js'), `http://localhost:${PORT}/`,
+				'-n', '100', '--quiet'],
 			(error, stdout) => {
 				if (error) {
 					return callback(error);
@@ -89,6 +91,7 @@ function testWSIntegration(callback) {
 				type: 'ping',
 				hi: 'there',
 			},
+			quiet: true,
 		};
 		loadTest(options, (error, result) => {
 			if (error) {
@@ -121,6 +124,7 @@ function testDelay(callback) {
 		options = {
 			url: 'http://localhost:' + (PORT + 1),
 			maxRequests: 10,
+			quiet: true,
 		};
 		loadTest(options, (error, result) => {
 			if (error) {
@@ -152,7 +156,6 @@ async function testPromise() {
 	};
 	const result = await loadTest(options)
 	await server.close()
-	console.log(result)
 	return 'Test result: ' + JSON.stringify(result)
 }
 

@@ -16,6 +16,7 @@ function testBodyGenerator(callback) {
 			maxRequests: 100,
 			concurrency: 10,
 			postFile: 'sample/post-file.js',
+			quiet: true,
 		}
 		loadTest(options, (error, result) => {
 			if (error) {

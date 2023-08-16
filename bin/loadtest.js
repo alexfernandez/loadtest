@@ -32,8 +32,8 @@ const options = stdio.getopt({
 	insecure: {description: 'Allow self-signed certificates over https'},
 	key: {args: 1, description: 'The client key to use'},
 	cert: {args: 1, description: 'The client certificate to use'},
+	quiet: {description: 'Do not log any messages'},
 	agent: {description: 'Use a keep-alive http agent (deprecated)'},
-	quiet: {description: 'Do not log any messages (deprecated)'},
 	debug: {description: 'Show debug messages (deprecated)'}
 });
 
