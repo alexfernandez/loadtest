@@ -25,11 +25,11 @@ const options = {
 	}
 };
 
-loadTest(options, (error, results) => {
+loadTest(options, (error, result) => {
 	if (error) {
 		return console.error('Got an error: %s', error);
 	}
-	console.log(results);
+	console.log(result);
 	console.log('Tests run successfully');
 });
 

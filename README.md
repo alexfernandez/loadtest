@@ -84,7 +84,7 @@ but the resulting figure is much more robust.
 `loadtest` is also quite extensible.
 Using the provided API it is very easy to integrate loadtest with your package, and run programmatic load tests.
 loadtest makes it very easy to run load tests as part of systems tests, before deploying a new version of your software.
-The results include mean response times and percentiles,
+The result includes mean response times and percentiles,
 so that you can abort deployment e.g. if 99% of the requests don't finish in 10 ms or less.
 
 ### Usage Don'ts
@@ -389,7 +389,7 @@ with concurrency 10 (only relevant results are shown):
       99%      14 ms
      100%      35997 ms (longest request)
 
-Results were quite erratic, with some requests taking up to 36 seconds;
+The result was quite erratic, with some requests taking up to 36 seconds;
 this suggests that Node.js is queueing some requests for a long time, and answering them irregularly.
 Now we will try a fixed rate of 1000 rps:
 
@@ -444,10 +444,10 @@ We now know that our server can accept 500 rps without problems.
 Not bad for a single-process naïve Node.js server...
 We may refine our results further to find at which point from 500 to 1000 rps our server breaks down.
 
-But instead let us research how to improve the results.
+But instead let us research how to improve the result.
 One obvious candidate is to add keep-alive to the requests so we don't have to create
 a new connection for every request.
-The results (with the same test server) are impressive:
+The result (with the same test server) is impressive:
 
     $ loadtest http://localhost:7357/ -t 20 -c 10 -k
     ...
@@ -665,11 +665,11 @@ loadTest(options, function(error) {
 
 #### `statusCallback`
 
-If present, this function executes after every request operation completes. Provides immediate access to test results while the
+If present, this function executes after every request operation completes. Provides immediate access to the test result while the
 test batch is still running. This can be used for more detailed custom logging or developing your own spreadsheet or
-statistical analysis of results.
+statistical analysis of the result.
 
-The results and error passed to the callback are in the same format as the results passed to the final callback.
+The result and error passed to the callback are in the same format as the result passed to the final callback.
  
 In addition, the following three properties are added to the `result` object:
 
@@ -760,9 +760,9 @@ function contentInspector(result) {
 },
 ```
 
-### Results
+### Result
 
-The latency results passed to your callback at the end of the load test contains a full set of data, including:
+The latency result passed to your callback at the end of the load test contains a full set of data, including:
 mean latency, number of errors and percentiles.
 An example follows:
 

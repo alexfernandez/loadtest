@@ -49,7 +49,7 @@ function testLatencyPercentiles(callback) {
 	};
 	const latency = new Latency(options, error => {
 		testing.check(error, 'Error while testing latency percentiles', callback);
-		const percentiles = latency.getResults().percentiles;
+		const percentiles = latency.getResult().percentiles;
 
 		Object.keys(percentiles).forEach(percentile => {
 			testing.assert(percentiles[percentile] !== false, 'Empty percentile for %s', percentile, callback);

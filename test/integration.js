@@ -31,7 +31,7 @@ function testIntegration(callback) {
 				if (error) {
 					return callback(error);
 				}
-				return callback(null, 'Test results: ' + JSON.stringify(result));
+				return callback(null, 'Test result: ' + JSON.stringify(result));
 			});
 		});
 	});
@@ -56,7 +56,7 @@ function testIntegrationFile(callback) {
 					if (error) {
 						return callback(error);
 					}
-					return callback(null, 'Test results: ' + stdout);
+					return callback(null, 'Test result: ' + stdout);
 				});
 			});
 	});
@@ -94,7 +94,7 @@ function testWSIntegration(callback) {
 				if (error) {
 					return callback(error);
 				}
-				return callback(null, 'Test results: ' + JSON.stringify(result));
+				return callback(null, 'Test result: ' + JSON.stringify(result));
 			});
 		});
 	});
