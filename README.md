@@ -33,8 +33,9 @@ For access to the API just add package `loadtest` to your `package.json` devDepe
 
 ### Compatibility
 
-Versions 5 and later should be used at least with Node.js v10 or later:
+Versions 6 and later should be used at least with Node.js v16 or later:
 
+* Node.js v16 or later: ^6.0.0
 * Node.js v10 or later: ^5.0.0
 * Node.js v8 or later: 4.x.y.
 * Node.js v6 or earlier: ^3.1.0.
