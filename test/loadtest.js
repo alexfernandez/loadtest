@@ -10,6 +10,7 @@ function testMaxSeconds(callback) {
 		url: 'http://localhost:7357/',
 		maxSeconds: 0.1,
 		concurrency: 1,
+		quiet: true,
 	};
 	loadTest(options, callback);
 }
@@ -23,6 +24,7 @@ function testWSEcho(callback) {
 		url: 'ws://localhost:7357/',
 		maxSeconds: 0.1,
 		concurrency: 1,
+		quiet: true,
 	};
 	loadTest(options, callback);
 }
@@ -32,7 +34,8 @@ function testIndexParam(callback) {
 		url: 'http://localhost:7357/replace',
 		concurrency:1,
 		maxSeconds: 0.1,
-		indexParam: "replace"
+		indexParam: "replace",
+		quiet: true,
 	};
 	loadTest(options, callback);
 }
@@ -43,7 +46,8 @@ function testIndexParamWithBody(callback) {
 		concurrency:1,
 		maxSeconds: 0.1,
 		indexParam: "replace",
-		body: '{"id": "replace"}'
+		body: '{"id": "replace"}',
+		quiet: true,
 	};
 	loadTest(options, callback);
 }
@@ -57,7 +61,8 @@ function testIndexParamWithCallback(callback) {
 		indexParamCallback: function() {
 			//https://gist.github.com/6174/6062387
 			return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-		}
+		},
+		quiet: true,
 	};
 	loadTest(options, callback);
 }
@@ -72,7 +77,8 @@ function testIndexParamWithCallbackAndBody(callback) {
 		indexParamCallback: function() {
 			//https://gist.github.com/6174/6062387
 			return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-		}
+		},
+		quiet: true,
 	};
 	loadTest(options, callback);
 }
@@ -82,6 +88,9 @@ function testIndexParamWithCallbackAndBody(callback) {
  * Run all tests.
  */
 export function test(callback) {
-	testing.run([testMaxSeconds, testWSEcho, testIndexParam, testIndexParamWithBody, testIndexParamWithCallback, testIndexParamWithCallbackAndBody], callback);
+	testing.run([
+		testMaxSeconds, testWSEcho, testIndexParam, testIndexParamWithBody,
+		testIndexParamWithCallback, testIndexParamWithCallbackAndBody,
+	], callback);
 }
 

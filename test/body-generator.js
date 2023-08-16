@@ -6,7 +6,7 @@ const PORT = 10453;
 
 
 function testBodyGenerator(callback) {
-	const server = startServer({port: PORT}, error => {
+	const server = startServer({port: PORT, quiet: true}, error => {
 		if (error) {
 			return callback('Could not start test server');
 		}
@@ -16,6 +16,7 @@ function testBodyGenerator(callback) {
 			maxRequests: 100,
 			concurrency: 10,
 			postFile: 'sample/post-file.js',
+			quiet: true,
 		}
 		loadTest(options, (error, result) => {
 			if (error) {

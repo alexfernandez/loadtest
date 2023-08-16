@@ -25,9 +25,9 @@ const options: loadtest.LoadTestOptions = {
     },
 }
 
-loadtest.loadTest(options, (error, results) => {
+loadtest.loadTest(options, (error, result) => {
     if (error) {
         return console.error(`Got an error: ${error}`)
     }
-    console.log("Tests run successfully", {results})
+    console.log("Tests run successfully", {result})
 })

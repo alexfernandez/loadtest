@@ -3,6 +3,7 @@
 import {readFile} from 'fs/promises'
 import * as stdio from 'stdio'
 import {loadTest} from '../lib/loadtest.js'
+import {showResult} from '../lib/show.js'
 
 
 const options = stdio.getopt({
@@ -31,8 +32,8 @@ const options = stdio.getopt({
 	insecure: {description: 'Allow self-signed certificates over https'},
 	key: {args: 1, description: 'The client key to use'},
 	cert: {args: 1, description: 'The client certificate to use'},
+	quiet: {description: 'Do not log any messages'},
 	agent: {description: 'Use a keep-alive http agent (deprecated)'},
-	quiet: {description: 'Do not log any messages (deprecated)'},
 	debug: {description: 'Show debug messages (deprecated)'}
 });
 
@@ -52,7 +53,8 @@ async function processAndRun(options) {
 	}
 	options.url = options.args[0];
 	try {
-		loadTest(options)
+		const result = await loadTest(options)
+		showResult(options, result)
 	} catch(error) {
 		console.error(error.message)
 		help()
