@@ -5,6 +5,7 @@ import {startServer} from '../lib/testserver.js'
 function testStartServer(callback) {
 	const options = {
 		port: 10530,
+		quiet: true,
 	};
 	const server = startServer(options, error => {
 		testing.check(error, 'Could not start server', callback);

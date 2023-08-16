@@ -112,6 +112,7 @@ function testDelay(callback) {
 	let options = {
 		port: PORT + 1,
 		delay: delay,
+		quiet: true,
 	};
 	const server = startServer(options, error => {
 		if (error) {
