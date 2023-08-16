@@ -10,6 +10,7 @@ import {test as testLatency} from './latency.js'
 import {test as testHttpClient} from './httpClient.js'
 import {test as testServer} from './testserver.js'
 import {test as testRequestGenerator} from './request-generator.js'
+import {test as testBodyGenerator} from './body-generator.js'
 import {test as testLoadtest} from './loadtest.js'
 import {test as testWebsocket} from './websocket.js'
 import {test as integrationTest} from './integration.js'
@@ -22,7 +23,7 @@ function test() {
 	const tests = [
 		testHrtimer, testHeaders, testLatency, testHttpClient,
 		testServer, integrationTest, testLoadtest, testWebsocket,
-		testRequestGenerator,
+		testRequestGenerator, testBodyGenerator,
 	];
 	testing.run(tests, 4200);
 }

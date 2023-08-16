@@ -189,44 +189,46 @@ It required `-m` and `-T 'application/x-www-form-urlencoded'`
 Send the data contained in the given file in the POST body.
 Remember to set `-T` to the correct content-type.
 
-If `POST-file` has `.js` extension it will be `require`d. It should be a valid node module and it
-should `export` a single function, which is invoked with an automatically generated request identifier
+If `POST-file` has `.js` extension it will be `import`ed. It should be a valid node module and it
+should `export` a default function, which is invoked with an automatically generated request identifier
 to provide the body of each request.
 This is useful if you want to generate request bodies dynamically and vary them for each request.
 
 Example:
 
 ```javascript
-module.exports = function(requestId) {
+export default function request(requestId) {
   // this object will be serialized to JSON and sent in the body of the request
   return {
 	key: 'value',
 	requestId: requestId
-  };
-};
+  }
+}
 ```
+
+See sample file in `sample/post-file.js`, and test in `test/body-generator.js`.
 
 #### `-u PUT-file`
 
 Send the data contained in the given file as a PUT request.
 Remember to set `-T` to the correct content-type.
 
-If `PUT-file` has `.js` extension it will be `require`d. It should be a valid node module and it
-should `export` a single function, which is invoked with an automatically generated request identifier
+If `PUT-file` has `.js` extension it will be `import`ed. It should be a valid node module and it
+should `export` a default function, which is invoked with an automatically generated request identifier
 to provide the body of each request.
 This is useful if you want to generate request bodies dynamically and vary them for each request.
-For an example function see above for `-p`.
+For examples see above for `-p`.
 
 #### `-a PATCH-file`
 
 Send the data contained in the given file as a PATCH request.
 Remember to set `-T` to the correct content-type.
 
-If `PATCH-file` has `.js` extension it will be `require`d. It should be a valid node module and it
-should `export` a single function, which is invoked with an automatically generated request identifier
+If `PATCH-file` has `.js` extension it will be `import`ed. It should be a valid node module and it
+should `export` a default function, which is invoked with an automatically generated request identifier
 to provide the body of each request.
 This is useful if you want to generate request bodies dynamically and vary them for each request.
-For an example function see above for `-p`.
+For examples see above for `-p`.
 
 ##### `-r`
 
