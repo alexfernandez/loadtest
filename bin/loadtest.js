@@ -41,9 +41,9 @@ const options = stdio.getopt({
 	debug: {description: 'Show debug messages (deprecated)'}
 });
 
-async function processOptions(options) {
-	const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url)))
+async function processAndRun(options) {
 	if (options.version) {
+		const packageJson = JSON.parse(await readFile(new URL('../package.json', import.meta.url)))
 		console.log('Loadtest version: %s', packageJson.version);
 		process.exit(0);
 	}
@@ -55,137 +55,16 @@ async function processOptions(options) {
 		console.error('Too many arguments: %s', options.args);
 		help();
 	}
-
-	const configuration = loadConfig();
-
 	options.url = options.args[0];
-	options.agentKeepAlive = options.keepalive || options.agent || configuration.agentKeepAlive;
-	options.indexParam = options.index || configuration.indexParam;
-
-	//TODO: add index Param
-	// Allow a post body string in options
-	// Ex -P '{"foo": "bar"}'
-	if (options.postBody) {
-		options.method = 'POST';
-		options.body = options.postBody;
+	try {
+		loadTest(options)
+	} catch(error) {
+		console.error(error.message)
+		help()
 	}
-	if (options.postFile) {
-		options.method = 'POST';
-		options.body = readBody(options.postFile, '-p');
-	}
-	if (options.data) {
-		options.body = JSON.parse(options.data);
-	}
-	if (options.method) {
-		const acceptedMethods = ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'get', 'post', 'put', 'delete', 'patch'];
-		if (acceptedMethods.indexOf(options.method) === -1) {
-			options.method = 'GET';
-		}
-	}
-	if(options.putFile) {
-		options.method = 'PUT';
-		options.body = readBody(options.putFile, '-u');
-	}
-	if (options.patchBody) {
-		options.method = 'PATCH';
-		options.body = options.patchBody;
-	}
-	if(options.patchFile) {
-		options.method = 'PATCH';
-		options.body = readBody(options.patchFile, '-a');
-	}
-	if(!options.method) {
-		options.method = configuration.method;
-	}
-	if(!options.body) {
-		if(configuration.body) {
-			options.body = configuration.body;
-		} else if(configuration.file) {
-			options.body = readBody(configuration.file, 'configuration.request.file');
-		}
-	}
-	options.requestsPerSecond = options.rps ? parseFloat(options.rps) : configuration.requestsPerSecond;
-	if(!options.key) {
-		options.key = configuration.key;
-	}
-	if(options.key) {
-		options.key = fs.readFileSync(options.key);
-	}
-	if(!options.cert) {
-		options.cert = configuration.cert;
-	}
-	if(options.cert) {
-		options.cert = fs.readFileSync(options.cert);
-	}
-
-	const defaultHeaders = options.headers || !configuration.headers ? {} : configuration.headers;
-	defaultHeaders['host'] = urlLib.parse(options.url).host;
-	defaultHeaders['user-agent'] = 'loadtest/' + packageJson.version;
-	defaultHeaders['accept'] = '*/*';
-
-	if (options.headers) {
-		addHeaders(options.headers, defaultHeaders);
-		console.log('headers: %s, %j', typeof defaultHeaders, defaultHeaders);
-	}
-	options.headers = defaultHeaders;
-
-	if (!options.requestGenerator) {
-		options.requestGenerator = configuration.requestGenerator;
-	}
-	if (options.requestGenerator) {
-		options.requestGenerator = require(path.resolve(options.requestGenerator));
-	}
-
-	// Use configuration file for other values
-	if(!options.maxRequests) {
-		options.maxRequests = configuration.maxRequests;
-	}
-	if(!options.concurrency) {
-		options.concurrency = configuration.concurrency;
-	}
-	if(!options.maxSeconds) {
-		options.maxSeconds = configuration.maxSeconds;
-	}
-	if(!options.timeout && configuration.timeout) {
-		options.timeout = configuration.timeout;
-	}
-	if(!options.contentType) {
-		options.contentType = configuration.contentType;
-	}
-	if(!options.cookies) {
-		options.cookies = configuration.cookies;
-	}
-	if(!options.secureProtocol) {
-		options.secureProtocol = configuration.secureProtocol;
-	}
-	if(!options.insecure) {
-		options.insecure = configuration.insecure;
-	}
-	if(!options.recover) {
-		options.recover = configuration.recover;
-	}
-	if(!options.proxy) {
-		options.proxy = configuration.proxy;
-	}
-	loadTest(options);
 }
 
-await processOptions(options)
-
-function readBody(filename, option) {
-	if (typeof filename !== 'string') {
-		console.error('Invalid file to open with %s: %s', option, filename);
-		help();
-	}
-
-	if(path.extname(filename) === '.js') {
-		return require(path.resolve(filename));
-	}
-
-	const ret = fs.readFileSync(filename, {encoding: 'utf8'}).replace("\n", "");
-
-	return ret;
-}
+await processAndRun(options)
 
 /**
  * Show online help.
