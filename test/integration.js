@@ -133,10 +133,30 @@ function testDelay(callback) {
 	});
 }
 
+async function testPromise() {
+	const server = await startServer(serverOptions)
+	const options = {
+		url: 'http://localhost:' + PORT,
+		maxRequests: 100,
+		concurrency: 10,
+		method: 'POST',
+		body: {
+			hi: 'there',
+		},
+		quiet: true,
+	};
+	const result = await loadTest(options)
+	await server.close()
+	console.log(result)
+	return 'Test result: ' + JSON.stringify(result)
+}
+
 /**
  * Run all tests.
  */
 export function test(callback) {
-	testing.run([testIntegration, testIntegrationFile, testDelay, testWSIntegration], 4000, callback);
+	testing.run([
+		testIntegration, testIntegrationFile, testDelay, testWSIntegration, testPromise,
+	], 4000, callback);
 }
 
