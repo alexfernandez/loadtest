@@ -1,5 +1,5 @@
 import testing from 'testing'
-import * as loadtest from '../lib/loadtest.js'
+import {loadTest} from '../lib/loadtest.js'
 import {startServer} from '../lib/testserver.js'
 
 const PORT = 10453;
@@ -25,7 +25,7 @@ function testRequestGenerator(callback) {
 				return request;
 			},
 		};
-		loadtest.loadTest(options, (error, result) => {
+		loadTest(options, (error, result) => {
 			if (error) {
 				return callback('Could not run load test with requestGenerator');
 			}
