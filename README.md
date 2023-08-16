@@ -111,6 +111,7 @@ The following parameters are compatible with Apache ab.
 #### `-n requests`
 
 Number of requests to send out.
+Default is no limit; will keep on sending if not specified.
 
 Note: the total number of requests sent can be bigger than the parameter if there is a concurrency parameter;
 loadtest will report just the first `n`.
@@ -119,6 +120,7 @@ loadtest will report just the first `n`.
 
 loadtest will create a certain number of clients; this parameter controls how many.
 Requests from them will arrive concurrently to the server.
+Default value is 1.
 
 Note: requests are not sent in parallel (from different processes),
 but concurrently (a second request may be sent before the first has been answered).
@@ -126,6 +128,7 @@ but concurrently (a second request may be sent before the first has been answere
 #### `-t timelimit`
 
 Max number of seconds to wait until requests no longer go out.
+Default is no limit; will keep on sending if not specified.
 
 Note: this is different than Apache `ab`, which stops _receiving_ requests after the given seconds.
 
@@ -175,15 +178,17 @@ Send the string as the PATCH body. E.g.: `-A '{"key": "a9acf03f"}'`
 
 #### `-m method`
 
-Send method to link. Accept: [GET, POST, PUT, DELETE, PATCH, get, post, put, delete, patch], Default is GET
-E.g.: -m POST
+Set method that will be sent to the test URL.
+Accepts: `GET`, `POST`, `PUT`, `DELETE`, `PATCH`,
+and lowercase versions. Default is `GET`.
+Example: `-m POST`.
 
-#### `--data POST some variables`
+#### `--data body`
 
-Send some data. It does not support method GET.
-E.g: `--data '{"username": "test", "password": "test"}' -T 'application/x-www-form-urlencoded' -m POST`
+Add some data to send in the body. It does not support method GET.
+Requires setting the method with `-m` and the type with `-T`.
+Example: `--data '{"username": "test", "password": "test"}' -T 'application/x-www-form-urlencoded' -m POST`
 
-It required `-m` and `-T 'application/x-www-form-urlencoded'`
 
 #### `-p POST-file`
 
@@ -256,6 +261,7 @@ The following parameters are _not_ compatible with Apache ab.
 
 Controls the number of requests per second that are sent.
 Can be fractional, e.g. `--rps 0.5` sends one request every two seconds.
+Not used by default: each request is sent as soon as the previous one is responded.
 
 Note: Concurrency doesn't affect the final number of requests per second,
 since rps will be shared by all the clients. E.g.:
