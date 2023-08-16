@@ -4,13 +4,17 @@ import {join} from 'path'
 import {loadTest, startServer} from '../index.js'
 
 const PORT = 10408;
+const serverOptions = {
+	port: PORT,
+	quiet: true,
+}
 
 
 /**
  * Run an integration test.
  */
 function testIntegration(callback) {
-	const server = startServer({ port: PORT }, error => {
+	const server = startServer(serverOptions, error => {
 		if (error) {
 			return callback(error);
 		}
@@ -42,7 +46,7 @@ function testIntegration(callback) {
  * Run an integration test using configuration file.
  */
 function testIntegrationFile(callback) {
-	const server = startServer({ port: PORT }, error => {
+	const server = startServer(serverOptions, error => {
 		if (error) {
 			return callback(error);
 		}
@@ -68,7 +72,7 @@ function testIntegrationFile(callback) {
  * Run an integration test.
  */
 function testWSIntegration(callback) {
-	const server = startServer({ port: PORT }, error => {
+	const server = startServer(serverOptions, error => {
 		if (error) {
 			return callback(error);
 		}
