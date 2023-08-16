@@ -1,12 +1,10 @@
-/**
- * Package contains a load test script and a test server.
- * (C) 2013 Alex Fernández.
- */
+import {loadTest} from './lib/loadtest.js'
+import {startServer} from './lib/testserver.js'
 
+const loadtest = {loadTest, startServer}
 
-const loadtest = require('./lib/loadtest.js');
-const testserver = require('./lib/testserver.js');
+export default loadtest
 
-exports.loadTest = loadtest.loadTest;
-exports.startServer = testserver.startServer;
+export * from './lib/loadtest.js'
+export * from './lib/testserver.js'
 

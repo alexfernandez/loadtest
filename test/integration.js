@@ -1,8 +1,7 @@
 import * as testing from 'testing'
 import {execFile} from 'child_process'
 import {join} from 'path'
-import {loadTest} from '../lib/loadtest.js'
-import {startServer} from '../lib/testserver.js'
+import {loadTest, startServer} from '../index.js'
 
 const PORT = 10408;
 
