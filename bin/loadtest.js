@@ -2,12 +2,7 @@
 
 import {readFile} from 'fs/promises'
 import * as stdio from 'stdio'
-import * as fs from 'fs'
-import * as path from 'path'
-import * as urlLib from 'url'
 import {loadTest} from '../lib/loadtest.js'
-import {addHeaders} from '../lib/headers.js'
-import {loadConfig} from '../lib/config.js'
 
 
 const options = stdio.getopt({
