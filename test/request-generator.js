@@ -27,7 +27,8 @@ function testRequestGenerator(callback) {
 		};
 		loadTest(options, (error, result) => {
 			if (error) {
-				return callback('Could not run load test with requestGenerator');
+				console.error(error)
+				return callback(`Could not run load test with requestGenerator: ${error.message}`);
 			}
 			server.close(error => {
 				if (error) {
