@@ -54,7 +54,7 @@ async function processAndRun(options) {
 	options.url = options.args[0];
 	try {
 		const result = await loadTest(options)
-		showResult(result)
+		showResult(options, result)
 	} catch(error) {
 		console.error(error.message)
 		help()
