@@ -802,14 +802,20 @@ The second parameter contains info about the current request:
     
 ### Start Test Server
 
-To start the test server use the exported function `startServer()` with a set of options and an optional callback:
+To start the test server use the exported function `startServer()` with a set of options:
 
 ```javascript
 import {startServer} from 'loadtest'
-const server = startServer({port: 8000})
+const server = await startServer({port: 8000})
 ```
 
 This function returns an HTTP server which can be `close()`d when it is no longer useful.
+As a legacy from before promises existed,
+if the optional callback is passed then it will not behave as `async`:
+
+```
+const server = startServer({port: 8000}, error => console.error(error))
+```
 
 The following options are available.
 
