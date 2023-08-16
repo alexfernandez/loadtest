@@ -21,8 +21,8 @@ import {test as integrationTest} from './integration.js'
 function test() {
 	const tests = [
 		testHrtimer, testHeaders, testLatency, testHttpClient,
-		testServer, testRequestGenerator, testLoadtest, testWebsocket,
-		integrationTest,
+		testServer, integrationTest, testLoadtest, testWebsocket,
+		testRequestGenerator,
 	];
 	testing.run(tests, 4200);
 }
