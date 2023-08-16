@@ -1,12 +1,10 @@
-'use strict';
-
 /**
  * Sample request generator usage.
  * Contributed by jjohnsonvng:
  * https://github.com/alexfernandez/loadtest/issues/86#issuecomment-211579639
  */
 
-const loadtest = require('../lib/loadtest.js');
+import {loadTest} from '../index.js'
 
 const options = {
 	url: 'http://yourHost',
@@ -27,7 +25,7 @@ const options = {
 	}
 };
 
-loadtest.loadTest(options, (error, results) => {
+loadTest(options, (error, results) => {
 	if (error) {
 		return console.error('Got an error: %s', error);
 	}

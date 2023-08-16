@@ -33,8 +33,9 @@ For access to the API just add package `loadtest` to your `package.json` devDepe
 
 ### Compatibility
 
-Versions 5 and later should be used at least with Node.js v10 or later:
+Versions 6 and later should be used at least with Node.js v16 or later:
 
+* Node.js v16 or later: ^6.0.0
 * Node.js v10 or later: ^5.0.0
 * Node.js v8 or later: 4.x.y.
 * Node.js v6 or earlier: ^3.1.0.
@@ -189,44 +190,46 @@ It required `-m` and `-T 'application/x-www-form-urlencoded'`
 Send the data contained in the given file in the POST body.
 Remember to set `-T` to the correct content-type.
 
-If `POST-file` has `.js` extension it will be `require`d. It should be a valid node module and it
-should `export` a single function, which is invoked with an automatically generated request identifier
+If `POST-file` has `.js` extension it will be `import`ed. It should be a valid node module and it
+should `export` a default function, which is invoked with an automatically generated request identifier
 to provide the body of each request.
 This is useful if you want to generate request bodies dynamically and vary them for each request.
 
 Example:
 
 ```javascript
-module.exports = function(requestId) {
+export default function request(requestId) {
   // this object will be serialized to JSON and sent in the body of the request
   return {
 	key: 'value',
 	requestId: requestId
-  };
-};
+  }
+}
 ```
+
+See sample file in `sample/post-file.js`, and test in `test/body-generator.js`.
 
 #### `-u PUT-file`
 
 Send the data contained in the given file as a PUT request.
 Remember to set `-T` to the correct content-type.
 
-If `PUT-file` has `.js` extension it will be `require`d. It should be a valid node module and it
-should `export` a single function, which is invoked with an automatically generated request identifier
+If `PUT-file` has `.js` extension it will be `import`ed. It should be a valid node module and it
+should `export` a default function, which is invoked with an automatically generated request identifier
 to provide the body of each request.
 This is useful if you want to generate request bodies dynamically and vary them for each request.
-For an example function see above for `-p`.
+For examples see above for `-p`.
 
 #### `-a PATCH-file`
 
 Send the data contained in the given file as a PATCH request.
 Remember to set `-T` to the correct content-type.
 
-If `PATCH-file` has `.js` extension it will be `require`d. It should be a valid node module and it
-should `export` a single function, which is invoked with an automatically generated request identifier
+If `PATCH-file` has `.js` extension it will be `import`ed. It should be a valid node module and it
+should `export` a default function, which is invoked with an automatically generated request identifier
 to provide the body of each request.
 This is useful if you want to generate request bodies dynamically and vary them for each request.
-For an example function see above for `-p`.
+For examples see above for `-p`.
 
 ##### `-r`
 
@@ -306,13 +309,17 @@ Open connections using keep-alive.
 
 Note: instead of using the default agent, this option is now an alias for `-k`.
 
-#### `--quiet`
+#### `--quiet` (deprecated)
 
 Do not show any messages.
 
-#### `--debug`
+Note: deprecated in version 6+, shows a warning.
+
+#### `--debug` (deprecated)
 
 Show debug messages.
+
+Note: deprecated in version 6+, shows a warning.
 
 #### `--insecure`
 
@@ -473,19 +480,18 @@ thus allowing you to load test your application in your own tests.
 To run a load test, just call the exported function `loadTest()` with a set of options and an optional callback:
 
 ```javascript
-const loadtest = require('loadtest');
+import {loadTest} from 'loadtest'
+
 const options = {
 	url: 'http://localhost:8000',
 	maxRequests: 1000,
-};
-loadtest.loadTest(options, function(error, result)
-{
-	if (error)
-	{
-		return console.error('Got an error: %s', error);
+}
+loadTest(options, function(error, result) {
+	if (error) {
+		return console.error('Got an error: %s', error)
 	}
-	console.log('Tests run successfully');
-});
+	console.log('Tests run successfully')
+})
 ```
 
 The callback `function(error, result)` will be invoked when the max number of requests is reached,
@@ -588,9 +594,11 @@ Use an agent with 'Connection: Keep-alive'.
 Note: Uses [agentkeepalive](https://npmjs.org/package/agentkeepalive),
 which performs better than the default node.js agent.
 
-#### `quiet`
+#### `quiet` (deprecated)
 
 Do not show any messages.
+
+Note: deprecated in version 6+, shows a warning.
 
 #### `indexParam`
 
@@ -633,20 +641,20 @@ The TLS/SSL method to use. (e.g. TLSv1_method)
 Example:
 
 ```javascript
-const loadtest = require('loadtest');
+import {loadTest} from 'loadtest'
 
 const options = {
 	url: 'https://www.example.com',
     maxRequests: 100,
     secureProtocol: 'TLSv1_method'
-};
+}
 
-loadtest.loadTest(options, function(error) {
+loadTest(options, function(error) {
 	if (error) {
-		return console.error('Got an error: %s', error);
+		return console.error('Got an error: %s', error)
 	}
-	console.log('Tests run successfully');
-});
+	console.log('Tests run successfully')
+})
 ```
 
 #### `statusCallback`
@@ -668,28 +676,28 @@ You will need to check if `error` is populated in order to determine which objec
 Example:
 
 ```javascript
-const loadtest = require('loadtest');
+import {loadTest} from 'loadtest'
 
 function statusCallback(error, result, latency) {
-    console.log('Current latency %j, result %j, error %j', latency, result, error);
-    console.log('----');
-    console.log('Request elapsed milliseconds: ', result.requestElapsed);
-    console.log('Request index: ', result.requestIndex);
-    console.log('Request loadtest() instance index: ', result.instanceIndex);
+    console.log('Current latency %j, result %j, error %j', latency, result, error)
+    console.log('----')
+    console.log('Request elapsed milliseconds: ', result.requestElapsed)
+    console.log('Request index: ', result.requestIndex)
+    console.log('Request loadtest() instance index: ', result.instanceIndex)
 }
 
 const options = {
     url: 'http://localhost:8000',
     maxRequests: 1000,
     statusCallback: statusCallback
-};
+}
 
-loadtest.loadTest(options, function(error) {
+loadTest(options, function(error) {
     if (error) {
-        return console.error('Got an error: %s', error);
+        return console.error('Got an error: %s', error)
     }
-    console.log('Tests run successfully');
-});
+    console.log('Tests run successfully')
+})
 ```
 
  
@@ -791,8 +799,8 @@ The second parameter contains info about the current request:
 To start the test server use the exported function `startServer()` with a set of options and an optional callback:
 
 ```javascript
-const testserver = require('testserver');
-const server = testserver.startServer({ port: 8000 });
+import {startServer} from 'loadtest'
+const server = startServer({port: 8000})
 ```
 
 This function returns an HTTP server which can be `close()`d when it is no longer useful.
@@ -856,11 +864,13 @@ The expected structure of the file is the following:
 }
 ```
 
+See sample file in `sample/.loadtestrc`.
+
 For more information about the actual configuration file name, read the [confinode user manual](https://github.com/slune-org/confinode/blob/master/doc/en/usermanual.md#configuration-search). In the list of the [supported file types](https://github.com/slune-org/confinode/blob/master/doc/extensions.md), please note that only synchronous loaders can be used with _loadtest_.
 
 ### Complete Example
 
-The file `lib/integration.js` shows a complete example, which is also a full integration test:
+The file `test/integration.js` shows a complete example, which is also a full integration test:
 it starts the server, send 1000 requests, waits for the callback and closes down the server.
 
 ## Versioning

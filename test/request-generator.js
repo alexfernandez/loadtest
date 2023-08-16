@@ -1,26 +1,19 @@
-'use strict';
+import testing from 'testing'
+import {loadTest} from '../lib/loadtest.js'
+import {startServer} from '../lib/testserver.js'
 
-const loadtest = require('./loadtest.js');
-const testserver = require('./testserver.js');
-const testing = require('testing');
-const Log = require('log');
-
-// globals
-const log = new Log('info');
-
-// constants
 const PORT = 10453;
 
 
 function testRequestGenerator(callback) {
-	const server = testserver.startServer({port: PORT}, error => {
+	const server = startServer({port: PORT}, error => {
 		if (error) {
 			return callback('Could not start test server');
 		}
 		const options = {
 			url: 'http://localhost:' + PORT,
 			method: 'POST',
-			requestsPerSecond: 20,
+			requestsPerSecond: 100,
 			maxRequests: 100,
 			concurrency: 10,
 			requestGenerator: (params, options, client, callback) => {
@@ -32,9 +25,10 @@ function testRequestGenerator(callback) {
 				return request;
 			},
 		};
-		loadtest.loadTest(options, (error, result) => {
+		loadTest(options, (error, result) => {
 			if (error) {
-				return callback('Could not run load test with requestGenerator');
+				console.error(error)
+				return callback(`Could not run load test with requestGenerator: ${error.message}`);
 			}
 			server.close(error => {
 				if (error) {
@@ -49,13 +43,7 @@ function testRequestGenerator(callback) {
 /**
  * Run all tests.
  */
-exports.test = function(callback) {
-	log.debug('Running all tests');
+export function test(callback) {
 	testing.run([testRequestGenerator], 4000, callback);
-};
-
-// start load test if invoked directly
-if (__filename == process.argv[1]) {
-	exports.test(testing.show);
 }
 

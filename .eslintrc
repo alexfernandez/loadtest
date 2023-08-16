@@ -6,7 +6,7 @@ env:
 extends: eslint:recommended
 parserOptions:
   sourceType: module
-  ecmaVersion: 8
+  ecmaVersion: 14
 rules:
   no-inner-declarations: 0
   no-unused-vars:

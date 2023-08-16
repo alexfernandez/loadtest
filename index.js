@@ -1,16 +1,10 @@
-'use strict';
+import {loadTest} from './lib/loadtest.js'
+import {startServer} from './lib/testserver.js'
 
-/**
- * Package contains a load test script and a test server.
- * (C) 2013 Alex Fernández.
- */
+const loadtest = {loadTest, startServer}
 
+export default loadtest
 
-// requires
-const loadtest = require('./lib/loadtest.js');
-const testserver = require('./lib/testserver.js');
-
-// exports
-exports.loadTest = loadtest.loadTest;
-exports.startServer = testserver.startServer;
+export * from './lib/loadtest.js'
+export * from './lib/testserver.js'
 

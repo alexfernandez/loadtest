@@ -1,6 +1,7 @@
 {
 	"name": "loadtest",
-	"version": "5.2.0",
+	"version": "6.0.0",
+	"type": "module",
 	"description": "Run load tests for your web application. Mostly ab-compatible interface, with an option to force requests per second. Includes an API for automated load testing.",
 	"homepage": "https://github.com/alexfernandez/loadtest",
 	"contributors": [
@@ -17,13 +18,12 @@
 		"agentkeepalive": "^2.0.3",
 		"confinode": "^2.1.1",
 		"https-proxy-agent": "^2.2.1",
-		"log": "1.4.*",
-		"stdio": "^0.2.3",
-		"testing": "^1.1.1",
-		"websocket": "^1.0.28"
+		"stdio": "0.2.7",
+		"testing": "^3.0.3",
+		"websocket": "^1.0.34"
 	},
 	"devDependencies": {
-		"eslint": "^4.19.1"
+		"eslint": "^8.47.0"
 	},
 	"keywords": [
 		"testing",
@@ -35,7 +35,7 @@
 		"black box"
 	],
 	"engines": {
-		"node": ">=10"
+		"node": ">=16"
 	},
 	"bin": {
 		"loadtest": "bin/loadtest.js",
@@ -43,7 +43,7 @@
 	},
 	"preferGlobal": true,
 	"scripts": {
-		"test": "node test.js",
+		"test": "node test/all.js",
 		"posttest": "eslint ."
 	},
 	"publishConfig": {
