@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-'use strict';
 
 import * as stdio from 'stdio'
 import {startServer} from '../lib/testserver.js'

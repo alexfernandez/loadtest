@@ -1,11 +1,3 @@
-'use strict';
-
-/**
- * Support for custom headers.
- * (C) 2013 Alex Fernández.
- */
-
-// requires
 import testing from 'testing'
 import {addHeaders, addUserAgent} from '../lib/headers.js'
 
