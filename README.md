@@ -647,6 +647,9 @@ function(params, options, client, callback) {
 }
 ```
 
+See [`sample/request-generator.js`](sample/request-generator.js) for some sample code including a body
+(or [`sample/request-generator.ts`](sample/request-generator.ts) for ES6/TypeScript).
+
 #### `agentKeepAlive`
 
 Use an agent with 'Connection: Keep-alive'.
