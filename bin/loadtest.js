@@ -3,7 +3,7 @@
 import {readFile} from 'fs/promises'
 import * as stdio from 'stdio'
 import {loadTest} from '../lib/loadtest.js'
-import {showResult} from '../lib/show.js'
+import {showResult} from '../lib/result.js'
 
 
 const options = stdio.getopt({
