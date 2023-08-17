@@ -12,7 +12,7 @@ function testBodyGenerator(callback) {
 		}
 		const options = {
 			url: 'http://localhost:' + PORT,
-			requestsPerSecond: 100,
+			requestsPerSecond: 1000,
 			maxRequests: 100,
 			concurrency: 10,
 			postFile: 'sample/post-file.js',

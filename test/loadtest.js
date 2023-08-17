@@ -2,9 +2,6 @@ import testing from 'testing'
 import {loadTest} from '../lib/loadtest.js'
 
 
-/**
- * A load test with max seconds.
- */
 function testMaxSeconds(callback) {
 	const options = {
 		url: 'http://localhost:7357/',
@@ -15,10 +12,6 @@ function testMaxSeconds(callback) {
 	loadTest(options, callback);
 }
 
-
-/**
- * A load test with max seconds.
- */
 function testWSEcho(callback) {
 	const options = {
 		url: 'ws://localhost:7357/',
@@ -83,6 +76,34 @@ function testIndexParamWithCallbackAndBody(callback) {
 	loadTest(options, callback);
 }
 
+function testError(callback) {
+	const options = {
+		maxSeconds: 0.1,
+		concurrency: 1,
+		quiet: true,
+	};
+	loadTest(options, (error) => {
+		if (!error) {
+			return callback('Should error without URL')
+		}
+		return callback(false, 'OK')
+	});
+}
+
+/**
+ * A load test with keep-alive.
+ */
+function testKeepAlive(callback) {
+	const options = {
+		url: 'http://localhost:7357/',
+		maxSeconds: 0.1,
+		concurrency: 1,
+		quiet: true,
+		keepalive: true,
+	};
+	loadTest(options, callback)
+}
+
 
 /**
  * Run all tests.
@@ -91,6 +112,7 @@ export function test(callback) {
 	testing.run([
 		testMaxSeconds, testWSEcho, testIndexParam, testIndexParamWithBody,
 		testIndexParamWithCallback, testIndexParamWithCallbackAndBody,
+		testError, testKeepAlive,
 	], callback);
 }
 

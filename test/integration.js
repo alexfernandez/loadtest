@@ -112,16 +112,16 @@ function testWSIntegration(callback) {
  */
 function testDelay(callback) {
 	const delay = 10;
-	let options = {
+	const serverOptions = {
 		port: PORT + 1,
-		delay: delay,
+		delay,
 		quiet: true,
 	};
-	const server = startServer(options, error => {
+	const server = startServer(serverOptions, error => {
 		if (error) {
 			return callback(error);
 		}
-		options = {
+		const options = {
 			url: 'http://localhost:' + (PORT + 1),
 			maxRequests: 10,
 			quiet: true,

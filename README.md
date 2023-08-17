@@ -481,7 +481,28 @@ thus allowing you to load test your application in your own tests.
 
 ### Invoke Load Test
 
-To run a load test, just call the exported function `loadTest()` with a set of options and an optional callback:
+To run a load test, just `await` for the exported function `loadTest()` with the desired options, described below:
+
+```javascript
+import {loadTest} from 'loadtest'
+
+const options = {
+	url: 'http://localhost:8000',
+	maxRequests: 1000,
+}
+const result = await loadTest(options)
+result.show()
+console.log('Tests run successfully')
+})
+```
+
+The call returns a `Result` object that contains all info about the load test, also described below.
+Call `result.show()` to display the results in the standard format on the console.
+
+As a legacy from before promises existed,
+if an optional callback is passed as second parameter then it will not behave as `async`:
+the callback `function(error, result)` will be invoked when the max number of requests is reached,
+or when the max number of seconds has elapsed.
 
 ```javascript
 import {loadTest} from 'loadtest'
@@ -494,15 +515,50 @@ loadTest(options, function(error, result) {
 	if (error) {
 		return console.error('Got an error: %s', error)
 	}
+	result.show()
 	console.log('Tests run successfully')
 })
 ```
 
-The callback `function(error, result)` will be invoked when the max number of requests is reached,
-or when the max number of seconds has elapsed.
 
 Beware: if there are no `maxRequests` and no `maxSeconds`, then tests will run forever
 and will not call the callback.
+
+### Result
+
+The latency result returned at the end of the load test contains a full set of data, including:
+mean latency, number of errors and percentiles.
+An example follows:
+
+```javascript
+{
+  url: 'http://localhost:80/',
+  maxRequests: 1000,
+  maxSeconds: 0,
+  concurrency: 10,
+  agent: 'none',
+  requestsPerSecond: undefined,
+  totalRequests: 1000,
+  percentiles: {
+	'50': 7,
+	'90': 10,
+	'95': 11,
+	'99': 15
+  },
+  rps: 2824,
+  totalTimeSeconds: 0.354108,
+  meanLatencyMs: 7.72,
+  maxLatencyMs: 20,
+  totalErrors: 3,
+  errorCodes: {
+	'0': 1,
+	'500': 2
+  },
+}
+```
+
+The `result` object also has a `result.show()` function
+that displays the results on the console in the standard format.
 
 ### Options
 
@@ -591,6 +647,9 @@ function(params, options, client, callback) {
 }
 ```
 
+See [`sample/request-generator.js`](sample/request-generator.js) for some sample code including a body
+(or [`sample/request-generator.ts`](sample/request-generator.ts) for ES6/TypeScript).
+
 #### `agentKeepAlive`
 
 Use an agent with 'Connection: Keep-alive'.
@@ -677,6 +736,19 @@ In addition, the following three properties are added to the `result` object:
 
 You will need to check if `error` is populated in order to determine which object to check for these properties.
 
+The second parameter contains info about the current request:
+
+```javascript
+{
+	host: 'localhost',
+	path: '/',
+	method: 'GET',
+	statusCode: 200,
+	body: '<html><body>hi</body></html>',
+	headers: [...]
+}
+```
+
 Example:
 
 ```javascript
@@ -703,7 +775,6 @@ loadTest(options, function(error) {
     console.log('Tests run successfully')
 })
 ```
-
  
 In some situations request data needs to be available in the statusCallBack.
 This data can be assigned to `request.labels` in the requestGenerator:
@@ -757,46 +828,6 @@ function contentInspector(result) {
     }
 },
 ```
-
-### Result
-
-The latency result passed to your callback at the end of the load test contains a full set of data, including:
-mean latency, number of errors and percentiles.
-An example follows:
-
-```javascript
-{
-  totalRequests: 1000,
-  percentiles: {
-	'50': 7,
-	'90': 10,
-	'95': 11,
-	'99': 15
-  },
-  rps: 2824,
-  totalTimeSeconds: 0.354108,
-  meanLatencyMs: 7.72,
-  maxLatencyMs: 20,
-  totalErrors: 3,
-  errorCodes: {
-	'0': 1,
-	'500': 2
-  }
-}
-```
-
-The second parameter contains info about the current request:
-
-```javascript
-{
-	host: 'localhost',
-	path: '/',
-	method: 'GET',
-	statusCode: 200,
-	body: '<html><body>hi</body></html>',
-	headers: [...]
-}
-```
     
 ### Start Test Server
 
@@ -805,11 +836,14 @@ To start the test server use the exported function `startServer()` with a set of
 ```javascript
 import {startServer} from 'loadtest'
 const server = await startServer({port: 8000})
+// do your thing
+await server.close()
 ```
 
-This function returns an HTTP server which can be `close()`d when it is no longer useful.
+This function returns when the server is up and running,
+with an HTTP server which can be `close()`d when it is no longer useful.
 As a legacy from before promises existed,
-if the optional callback is passed then it will not behave as `async`:
+if an optional callback is passed as second parameter then it will not behave as `async`:
 
 ```
 const server = startServer({port: 8000}, error => console.error(error))
