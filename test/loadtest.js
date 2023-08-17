@@ -90,6 +90,20 @@ function testError(callback) {
 	});
 }
 
+/**
+ * A load test with keep-alive.
+ */
+function testKeepAlive(callback) {
+	const options = {
+		url: 'http://localhost:7357/',
+		maxSeconds: 0.1,
+		concurrency: 1,
+		quiet: true,
+		keepalive: true,
+	};
+	loadTest(options, callback)
+}
+
 
 /**
  * Run all tests.
@@ -98,7 +112,7 @@ export function test(callback) {
 	testing.run([
 		testMaxSeconds, testWSEcho, testIndexParam, testIndexParamWithBody,
 		testIndexParamWithCallback, testIndexParamWithCallbackAndBody,
-		testError,
+		testError, testKeepAlive,
 	], callback);
 }
 
