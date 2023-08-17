@@ -703,7 +703,6 @@ loadTest(options, function(error) {
     console.log('Tests run successfully')
 })
 ```
-
  
 In some situations request data needs to be available in the statusCallBack.
 This data can be assigned to `request.labels` in the requestGenerator:
@@ -766,6 +765,12 @@ An example follows:
 
 ```javascript
 {
+  url: 'http://localhost:80/',
+  maxRequests: 1000,
+  maxSeconds: 0,
+  concurrency: 10,
+  agent: 'none',
+  requestsPerSecond: undefined,
   totalRequests: 1000,
   percentiles: {
 	'50': 7,
