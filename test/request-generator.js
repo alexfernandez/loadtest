@@ -13,7 +13,7 @@ function testRequestGenerator(callback) {
 		const options = {
 			url: 'http://localhost:' + PORT,
 			method: 'POST',
-			requestsPerSecond: 100,
+			requestsPerSecond: 1000,
 			maxRequests: 100,
 			concurrency: 10,
 			requestGenerator: (params, options, client, callback) => {
