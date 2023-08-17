@@ -3,7 +3,6 @@
 import {readFile} from 'fs/promises'
 import * as stdio from 'stdio'
 import {loadTest} from '../lib/loadtest.js'
-import {showResult} from '../lib/result.js'
 
 
 const options = stdio.getopt({
@@ -54,7 +53,7 @@ async function processAndRun(options) {
 	options.url = options.args[0];
 	try {
 		const result = await loadTest(options)
-		showResult(options, result)
+		result.show()
 	} catch(error) {
 		console.error(error.message)
 		help()
