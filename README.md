@@ -677,6 +677,19 @@ In addition, the following three properties are added to the `result` object:
 
 You will need to check if `error` is populated in order to determine which object to check for these properties.
 
+The second parameter contains info about the current request:
+
+```javascript
+{
+	host: 'localhost',
+	path: '/',
+	method: 'GET',
+	statusCode: 200,
+	body: '<html><body>hi</body></html>',
+	headers: [...]
+}
+```
+
 Example:
 
 ```javascript
@@ -787,19 +800,6 @@ An example follows:
 	'0': 1,
 	'500': 2
   }
-}
-```
-
-The second parameter contains info about the current request:
-
-```javascript
-{
-	host: 'localhost',
-	path: '/',
-	method: 'GET',
-	statusCode: 200,
-	body: '<html><body>hi</body></html>',
-	headers: [...]
 }
 ```
     
