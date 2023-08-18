@@ -3,7 +3,7 @@
 import {readFile} from 'fs/promises'
 import * as stdio from 'stdio'
 import {loadTest} from '../lib/loadtest.js'
-import {runTask} from '../lib/multicore.js'
+import {runTask} from '../lib/cluster.js'
 
 
 const options = stdio.getopt({

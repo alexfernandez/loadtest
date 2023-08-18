@@ -3,9 +3,7 @@
 import * as stdio from 'stdio'
 import {startServer} from '../lib/testserver.js'
 import {loadConfig} from '../lib/config.js'
-import * as cluster from 'cluster'
-import {cpus} from 'os'
-import {getHalfCores, runTask} from '../lib/multicore.js'
+import {getHalfCores, runTask} from '../lib/cluster.js'
 
 const options = readOptions()
 start(options)
