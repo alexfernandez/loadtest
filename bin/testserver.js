@@ -5,6 +5,7 @@ import {startServer} from '../lib/testserver.js'
 import {loadConfig} from '../lib/config.js'
 import * as cluster from 'cluster'
 import {cpus} from 'os'
+import {getHalfCores, runTask} from '../lib/multicore.js'
 
 const options = readOptions()
 start(options)
@@ -15,7 +16,7 @@ function readOptions() {
 		delay: {key: 'd', args: 1, description: 'Delay the response for the given milliseconds'},
 		error: {key: 'e', args: 1, description: 'Return an HTTP error code'},
 		percent: {key: 'p', args: 1, description: 'Return an error (default 500) only for some % of requests'},
-		cores: {key: 'c', args: 1, description: 'Number of cores to use, default is half the total'}
+		cores: {key: 'c', args: 1, description: 'Number of cores to use, default is half the total', default: getHalfCores()}
 	});
 	const configuration = loadConfig()
 	if (options.args && options.args.length == 1) {
@@ -44,22 +45,11 @@ function readOptions() {
 	if(!options.percent) {
 		options.percent = configuration.percent
 	}
-	if (!options.cores) {
-		// default is half the cores available
-		const totalCores = cpus().length;
-		options.cores = Math.round(totalCores / 2) || 1
-	}
 	return options
 }
 
 function start(options) {
-	if (cluster.isMaster) {
-		for (let index = 0; index < options.cores; index++) {
-			cluster.fork();
-		}
-	} else {
-		startServer(options);
-	}
+	runTask(options.cores, () => startServer(options))
 }
 
 
