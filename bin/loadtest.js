@@ -3,6 +3,7 @@
 import {readFile} from 'fs/promises'
 import * as stdio from 'stdio'
 import {loadTest} from '../lib/loadtest.js'
+import {runTask} from '../lib/multicore.js'
 
 
 const options = stdio.getopt({
@@ -32,8 +33,9 @@ const options = stdio.getopt({
 	key: {args: 1, description: 'The client key to use'},
 	cert: {args: 1, description: 'The client certificate to use'},
 	quiet: {description: 'Do not log any messages'},
+	cores: {args: 1, description: 'Number of cores to use', default: 1},
 	agent: {description: 'Use a keep-alive http agent (deprecated)'},
-	debug: {description: 'Show debug messages (deprecated)'}
+	debug: {description: 'Show debug messages (deprecated)'},
 });
 
 async function processAndRun(options) {
@@ -51,7 +53,7 @@ async function processAndRun(options) {
 		help();
 	}
 	options.url = options.args[0];
-	await startTest(options)
+	runTask(options.cores, async () => await startTest(options))
 }
 
 async function startTest(options) {
