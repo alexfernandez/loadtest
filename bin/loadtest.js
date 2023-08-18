@@ -51,6 +51,10 @@ async function processAndRun(options) {
 		help();
 	}
 	options.url = options.args[0];
+	await startTest(options)
+}
+
+async function startTest(options) {
 	try {
 		const result = await loadTest(options)
 		result.show()
@@ -62,10 +66,8 @@ async function processAndRun(options) {
 
 await processAndRun(options)
 
-/**
- * Show online help.
- */
 function help() {
 	options.printHelp();
 	process.exit(1);
 }
+
