@@ -4,6 +4,7 @@ import {readFile} from 'fs/promises'
 import * as stdio from 'stdio'
 import {loadTest} from '../lib/loadtest.js'
 import {runTask} from '../lib/cluster.js'
+import {Result} from '../lib/result.js'
 
 
 const options = stdio.getopt({
@@ -55,18 +56,35 @@ async function processAndRun(options) {
 	options.url = options.args[0];
 	const cores = parseInt(options.cores) || 1
 	const results = await runTask(cores, async () => await startTest(options))
-	console.log(results)
+	if (!results) {
+		process.exit(0)
+		return
+	}
+	console.trace('***')
+	console.log(results.length)
+	showResults(results)
 }
 
 async function startTest(options) {
 	try {
-		const result = await loadTest(options)
-		result.show()
-		return result
+		return await loadTest(options)
 	} catch(error) {
 		console.error(error.message)
 		help()
 	}
+}
+
+function showResults(results) {
+	console.log(results.length)
+	if (results.length == 1) {
+		results[0].show()
+		return
+	}
+	const combined = new Result()
+	for (const result of results) {
+		combined.combine(result)
+	}
+	combined.show()
 }
 
 await processAndRun(options)
