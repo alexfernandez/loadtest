@@ -53,13 +53,16 @@ async function processAndRun(options) {
 		help();
 	}
 	options.url = options.args[0];
-	runTask(options.cores, async () => await startTest(options))
+	const cores = parseInt(options.cores) || 1
+	const results = await runTask(cores, async () => await startTest(options))
+	console.log(results)
 }
 
 async function startTest(options) {
 	try {
 		const result = await loadTest(options)
 		result.show()
+		return result
 	} catch(error) {
 		console.error(error.message)
 		help()
