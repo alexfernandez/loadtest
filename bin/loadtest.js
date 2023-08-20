@@ -54,14 +54,15 @@ async function processAndRun(options) {
 		help();
 	}
 	options.url = options.args[0];
+	// share values amongst cores
 	const cores = parseInt(options.cores) || 1
+	options.maxRequests = parseInt(options.maxRequests) / cores
+	options.requestsPerSecond = parseInt(options.requestsPerSecond) / cores
 	const results = await runTask(cores, async () => await startTest(options))
 	if (!results) {
 		process.exit(0)
 		return
 	}
-	console.trace('***')
-	console.log(results.length)
 	showResults(results)
 }
 
@@ -75,7 +76,6 @@ async function startTest(options) {
 }
 
 function showResults(results) {
-	console.log(results.length)
 	if (results.length == 1) {
 		results[0].show()
 		return
