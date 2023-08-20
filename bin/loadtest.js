@@ -56,8 +56,8 @@ async function processAndRun(options) {
 	options.url = options.args[0];
 	// share values amongst cores
 	const cores = parseInt(options.cores) || 1
-	options.maxRequests = parseInt(options.maxRequests) / cores
-	options.requestsPerSecond = parseInt(options.requestsPerSecond) / cores
+	options.maxRequests = options.maxRequests ? parseInt(options.maxRequests) / cores : null
+	options.rps = options.rps ? parseInt(options.rps) / cores : null
 	const results = await runTask(cores, async () => await startTest(options))
 	if (!results) {
 		process.exit(0)
