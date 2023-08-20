@@ -22,10 +22,10 @@ function testCombineResults(callback) {
 			requestsPerSecond: 100,
 			totalRequests: 330,
 			totalErrors: 10,
-			totalTimeSeconds: 5,
+			elapsedSeconds: 5 + index,
 			accumulatedMs: 5000,
 			maxLatencyMs: 350 + index,
-			minLatencyMs: index + 2,
+			minLatencyMs: 2 + index,
 			errorCodes: {200: 100, 100: 200},
 			histogramMs: {2: 1, 3: 4, 100: 300},
 		}
@@ -34,6 +34,7 @@ function testCombineResults(callback) {
 	testing.assertEquals(combined.url, url, callback)
 	testing.assertEquals(combined.cores, 3, callback)
 	testing.assertEquals(combined.totalErrors, 30, callback)
+	testing.assertEquals(combined.elapsedSeconds, 7, callback)
 	testing.success(callback)
 }
 
