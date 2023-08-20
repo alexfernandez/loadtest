@@ -47,7 +47,7 @@ function readOptions() {
 }
 
 function start(options) {
-	runTask(options.cores, () => startServer(options))
+	runTask(options.cores, async () => await startServer(options))
 }
 
 
