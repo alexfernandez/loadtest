@@ -54,16 +54,25 @@ async function processAndRun(options) {
 		help();
 	}
 	options.url = options.args[0];
-	// share values amongst cores
-	const cores = parseInt(options.cores) || 1
-	options.maxRequests = options.maxRequests ? parseInt(options.maxRequests) / cores : null
-	options.rps = options.rps ? parseInt(options.rps) / cores : null
-	const results = await runTask(cores, async () => await startTest(options))
+	computeCores(options)
+	const results = await runTask(options.cores, async () => await startTest(options))
 	if (!results) {
 		process.exit(0)
 		return
 	}
 	showResults(results)
+}
+
+function computeCores(options) {
+	options.cores = parseInt(options.cores) || 1
+	if (options.maxRequests) {
+		const maxRequests = parseInt(options.maxRequests)
+		options.maxRequests = Math.round(maxRequests / options.cores)
+	}
+	if (options.rps) {
+		const rps = parseInt(options.rps)
+		options.rps = Math.round(rps / options.cores)
+	}
 }
 
 async function startTest(options) {
