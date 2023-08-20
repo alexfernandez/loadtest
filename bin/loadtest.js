@@ -54,34 +54,13 @@ async function processAndRun(options) {
 		help();
 	}
 	options.url = options.args[0];
-	computeCores(options)
-	const results = await runTask(options.cores, async () => await startTest(options))
+	options.cores = parseInt(options.cores) || 1
+	const results = await runTask(options.cores, async workerId => await startTest(options, workerId))
 	if (!results) {
 		process.exit(0)
 		return
 	}
 	showResults(results)
-}
-
-function computeCores(options) {
-	options.cores = parseInt(options.cores) || 1
-	if (options.maxRequests) {
-		const maxRequests = parseInt(options.maxRequests)
-		options.maxRequests = Math.round(maxRequests / options.cores)
-	}
-	if (options.rps) {
-		const rps = parseInt(options.rps)
-		options.rps = Math.round(rps / options.cores)
-	}
-}
-
-async function startTest(options) {
-	try {
-		return await loadTest(options)
-	} catch(error) {
-		console.error(error.message)
-		help()
-	}
 }
 
 function showResults(results) {
@@ -94,6 +73,37 @@ function showResults(results) {
 		combined.combine(result)
 	}
 	combined.show()
+}
+
+async function startTest(options, workerId) {
+	if (!workerId) {
+		// standalone; controlled errors
+		try {
+			return await loadTest(options)
+		} catch(error) {
+			console.error(error.message)
+			return help()
+		}
+	}
+	shareWorker(options, workerId)
+	return await loadTest(options)
+}
+
+function shareWorker(options, workerId) {
+	options.maxRequests = shareOption(options.maxRequests, workerId, options.cores)
+	options.rps = shareOption(options.rps, workerId, options.cores)
+}
+
+function shareOption(option, workerId, cores) {
+	if (!option) return null
+	const total = parseInt(option)
+	const shared = Math.round(total / cores)
+	if (workerId == cores) {
+		// last worker gets remainder
+		return total - shared * (cores - 1)
+	} else {
+		return shared
+	}
 }
 
 await processAndRun(options)
