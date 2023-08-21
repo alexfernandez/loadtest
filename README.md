@@ -528,7 +528,7 @@ and will not call the callback.
 
 The latency result returned at the end of the load test contains a full set of data, including:
 mean latency, number of errors and percentiles.
-An example follows:
+A simplified example follows:
 
 ```javascript
 {
@@ -545,8 +545,8 @@ An example follows:
 	'95': 11,
 	'99': 15
   },
-  rps: 2824,
-  totalTimeSeconds: 0.354108,
+  effectiveRps: 2824,
+  elapsedSeconds: 0.354108,
   meanLatencyMs: 7.72,
   maxLatencyMs: 20,
   totalErrors: 3,
