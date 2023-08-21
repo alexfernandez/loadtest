@@ -90,9 +90,13 @@ so that you can abort deployment e.g. if 99% of the requests don't finish in 10 
 ### Usage Don'ts
 
 `loadtest` saturates a single CPU pretty quickly.
-Do not use `loadtest` if the Node.js process is above 100% usage in `top`, which happens approx. when your load is above 1000~4000 rps.
+Do not use `loadtest` in this mode
+if the Node.js process is above 100% usage in `top`, which happens approx. when your load is above 1000~4000 rps.
 (You can measure the practical limits of `loadtest` on your specific test machines by running it against a simple
-Apache or nginx process and seeing when it reaches 100% CPU.)
+[test server](#test-server)
+and seeing when it reaches 100% CPU.)
+In this case try using in multi-process mode using the `--cores` parameter,
+see below.
 
 There are better tools for that use case:
 
@@ -260,8 +264,9 @@ The following parameters are _not_ compatible with Apache ab.
 #### `--rps requestsPerSecond`
 
 Controls the number of requests per second that are sent.
-Can be fractional, e.g. `--rps 0.5` sends one request every two seconds.
-Not used by default: each request is sent as soon as the previous one is responded.
+Cannot be fractional, e.g. `--rps 0.5`.
+In this mode each request is not sent as soon as the previous one is responded,
+but periodically even if previous requests have not been responded yet.
 
 Note: Concurrency doesn't affect the final number of requests per second,
 since rps will be shared by all the clients. E.g.:
@@ -275,6 +280,16 @@ Beware: if concurrency is too low then it is possible that there will not be eno
 to send all of the rps, adjust it with `-c` if needed.
 
 Note: --rps is not supported for websockets.
+
+#### `--cores number`
+
+Start `loadtest` in multi-process mode on a number of cores simultaneously.
+Useful when a single CPU is saturated.
+Forks the requested number of processes using the
+[Node.js cluster module](https://nodejs.org/api/cluster.html).
+
+In this mode the total number of requests and the rps rate are shared among all processes.
+The result returned is the aggregation of results from all cores.
 
 #### `--timeout milliseconds`
 
@@ -337,11 +352,11 @@ Sets the certificate for the http client to use. Must be used with `--key`.
 
 Sets the key for the http client to use. Must be used with `--cert`.
 
-### Server
+### Test Server
 
 loadtest bundles a test server. To run it:
 
-    $ testserver-loadtest [--delay ms] [error 5xx] [percent yy] [port]
+    $ testserver-loadtest [options] [port]
 
 This command will show the number of requests received per second,
 the latency in answering requests and the headers for selected requests.
@@ -354,6 +369,27 @@ The optional delay instructs the server to wait for the given number of millisec
 before answering each request, to simulate a busy server.
 You can also simulate errors on a given percent of requests.
 
+The following optional parameters are available.
+
+#### `--delay ms`
+
+Wait the specified number of milliseconds before answering each request.
+
+#### `--error 5xx`
+
+Return the given error for every request.
+
+#### `--percent yy`
+
+Return an error (default 500) only for the specified % of requests.
+
+#### `--cores number`
+
+Number of cores to use. If not 1, will start in multi-process mode.
+
+Note: since version v6.3.0 the test server uses half the available cores by default;
+use `--cores 1` to use in single-process mode.
+
 ### Complete Example
 
 Let us now see how to measure the performance of the test server.
@@ -364,8 +400,9 @@ First we install `loadtest` globally:
 
 Now we start the test server:
 
-    $ testserver-loadtest
-    Listening on port 7357
+    $ testserver-loadtest --cores 2
+    Listening on http://localhost:7357/
+    Listening on http://localhost:7357/
 
 On a different console window we run a load test against it for 20 seconds
 with concurrency 10 (only relevant results are shown):
@@ -458,7 +495,7 @@ The result (with the same test server) is impressive:
     99%      10 ms
     100%      25 ms (longest request)
 
-Now you're talking! The steady rate also goes up to 2 krps:
+Now we're talking! The steady rate also goes up to 2 krps:
 
     $ loadtest http://localhost:7357/ -t 20 -c 10 --keepalive --rps 2000
     ...
