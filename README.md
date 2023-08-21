@@ -291,6 +291,9 @@ Forks the requested number of processes using the
 In this mode the total number of requests and the rps rate are shared among all processes.
 The result returned is the aggregation of results from all cores.
 
+Note: this option is not available in the API,
+where it runs just in the provided process.
+
 #### `--timeout milliseconds`
 
 Timeout for each generated request in milliseconds.
