@@ -14,6 +14,7 @@ import {test as testBodyGenerator} from './body-generator.js'
 import {test as testLoadtest} from './loadtest.js'
 import {test as testWebsocket} from './websocket.js'
 import {test as integrationTest} from './integration.js'
+import {test as testResult} from './result.js'
 
 
 /**
@@ -23,7 +24,7 @@ function test() {
 	const tests = [
 		testHrtimer, testHeaders, testLatency, testHttpClient,
 		testServer, integrationTest, testLoadtest, testWebsocket,
-		testRequestGenerator, testBodyGenerator,
+		testRequestGenerator, testBodyGenerator, testResult,
 	];
 	testing.run(tests, 4200);
 }

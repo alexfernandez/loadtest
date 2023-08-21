@@ -3,6 +3,8 @@
 import {readFile} from 'fs/promises'
 import * as stdio from 'stdio'
 import {loadTest} from '../lib/loadtest.js'
+import {runTask} from '../lib/cluster.js'
+import {Result} from '../lib/result.js'
 
 
 const options = stdio.getopt({
@@ -32,8 +34,9 @@ const options = stdio.getopt({
 	key: {args: 1, description: 'The client key to use'},
 	cert: {args: 1, description: 'The client certificate to use'},
 	quiet: {description: 'Do not log any messages'},
+	cores: {args: 1, description: 'Number of cores to use', default: 1},
 	agent: {description: 'Use a keep-alive http agent (deprecated)'},
-	debug: {description: 'Show debug messages (deprecated)'}
+	debug: {description: 'Show debug messages (deprecated)'},
 });
 
 async function processAndRun(options) {
@@ -51,21 +54,62 @@ async function processAndRun(options) {
 		help();
 	}
 	options.url = options.args[0];
-	try {
-		const result = await loadTest(options)
-		result.show()
-	} catch(error) {
-		console.error(error.message)
-		help()
+	options.cores = parseInt(options.cores) || 1
+	const results = await runTask(options.cores, async workerId => await startTest(options, workerId))
+	if (!results) {
+		process.exit(0)
+		return
+	}
+	showResults(results)
+}
+
+function showResults(results) {
+	if (results.length == 1) {
+		results[0].show()
+		return
+	}
+	const combined = new Result()
+	for (const result of results) {
+		combined.combine(result)
+	}
+	combined.show()
+}
+
+async function startTest(options, workerId) {
+	if (!workerId) {
+		// standalone; controlled errors
+		try {
+			return await loadTest(options)
+		} catch(error) {
+			console.error(error.message)
+			return help()
+		}
+	}
+	shareWorker(options, workerId)
+	return await loadTest(options)
+}
+
+function shareWorker(options, workerId) {
+	options.maxRequests = shareOption(options.maxRequests, workerId, options.cores)
+	options.rps = shareOption(options.rps, workerId, options.cores)
+}
+
+function shareOption(option, workerId, cores) {
+	if (!option) return null
+	const total = parseInt(option)
+	const shared = Math.round(total / cores)
+	if (workerId == cores) {
+		// last worker gets remainder
+		return total - shared * (cores - 1)
+	} else {
+		return shared
 	}
 }
 
 await processAndRun(options)
 
-/**
- * Show online help.
- */
 function help() {
 	options.printHelp();
 	process.exit(1);
 }
+
