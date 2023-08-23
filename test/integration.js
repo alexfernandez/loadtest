@@ -159,12 +159,41 @@ async function testPromise() {
 	return 'Test result: ' + JSON.stringify(result)
 }
 
+async function testIndexParam() {
+	const urls = new Map()
+	const bodies = new Map()
+	function logger(request) {
+		if (urls.has(request.url)) {
+			throw new Error(`Duplicated url ${request.url}`)
+		}
+		urls.set(request.url, true)
+		if (bodies.has(request.body)) {
+			throw new Error(`Duplicated body ${request.body}`)
+		}
+		bodies.set(request.body, true)
+	}
+	const server = await startServer({logger, ...serverOptions})
+	const options = {
+		url: `http://localhost:${PORT}/?param=index`,
+		maxRequests: 100,
+		concurrency: 10,
+		postBody: {
+			hi: 'my_index',
+		},
+		indexParam: 'index',
+		quiet: true,
+	};
+	await loadTest(options)
+	await server.close()
+}
+
 /**
  * Run all tests.
  */
 export function test(callback) {
 	testing.run([
-		testIntegration, testIntegrationFile, testDelay, testWSIntegration, testPromise,
+		testIntegration, testIntegrationFile, testDelay, testWSIntegration,
+		testPromise, testIndexParam,
 	], 4000, callback);
 }
 
