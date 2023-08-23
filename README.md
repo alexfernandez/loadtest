@@ -300,30 +300,9 @@ Setting this to 0 disables timeout (default).
 
 #### `-R requestGeneratorModule.js`
 
-Use custom request generator function from an external file.
-
-Example request generator module could look like this:
-
-```javascript
-module.exports = function(params, options, client, callback) {
-  generateMessageAsync(function(message) {
-
-    if (message)
-    {
-      options.headers['Content-Length'] = message.length;
-      options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-    }
-    request = client(options, callback);
-    if (message){
-      request.write(message);
-    }
-
-    return request;
-  }
-}
-```
-
-See [`sample/request-generator.js`](sample/request-generator.js) for some sample code including a body
+Use a custom request generator function from an external file.
+See an example of a request generator module in [`--requestGenerator`](#requestGenerator) below.
+Also see [`sample/request-generator.js`](sample/request-generator.js) for some sample code including a body
 (or [`sample/request-generator.ts`](sample/request-generator.ts) for ES6/TypeScript).
 
 #### `--agent` (deprecated)
@@ -665,24 +644,20 @@ How many requests each client will send per second.
 
 #### `requestGenerator`
 
-Custom request generator function.
+Use a custom request generator function.
+The request needs to be generated synchronously and returned when this function is invoked.
 
 Example request generator function could look like this:
 
 ```javascript
 function(params, options, client, callback) {
-  generateMessageAsync(function(message)) {
-    request = client(options, callback);
-
-    if (message)
-    {
-      options.headers['Content-Length'] = message.length;
-      options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-      request.write(message);
-    }
-
-    request.end();
-  }
+  const message = generateMessage();
+  const request = client(options, callback);
+  options.headers['Content-Length'] = message.length;
+  options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+  request.write(message);
+  request.end();
+  return request;
 }
 ```
 
