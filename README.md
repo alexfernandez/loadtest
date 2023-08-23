@@ -511,7 +511,6 @@ const options = {
 const result = await loadTest(options)
 result.show()
 console.log('Tests run successfully')
-})
 ```
 
 The call returns a `Result` object that contains all info about the load test, also described below.
