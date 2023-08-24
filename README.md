@@ -28,8 +28,9 @@ Versions 6 and later should be used at least with Node.js v16 or later:
 
 * Node.js v16 or later: ^6.0.0
 * Node.js v10 or later: ^5.0.0
-* Node.js v8 or later: 4.x.y.
-* Node.js v6 or earlier: ^3.1.0.
+* Node.js v8 or later: 4.x.y
+* Node.js v6 or earlier: ^3.1.0
+* ES5 support (no `let`, `const` or arrow functions): ^2.0.0.
 
 ## Usage
 
@@ -612,12 +613,6 @@ For more information about the actual configuration file name, read the [confino
 
 The file `test/integration.js` contains complete examples, which are also a full integration test suite:
 they start the server with different options, send requests, waits for finalization and close down the server.
-
-## Versioning
-
-Version 3.x uses ES2015 (ES6) features,
-such as `const` or `let` and arrow functions.
-For ES5 support please use versions 2.x.
 
 ## Licensed under The MIT License
 
