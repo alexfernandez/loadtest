@@ -187,13 +187,34 @@ async function testIndexParam() {
 	await server.close()
 }
 
+async function testStatusCallback() {
+	let calls = 0
+	const server = await startServer(serverOptions)
+	const options = {
+		url: `http://localhost:${PORT}/`,
+		maxRequests: 100,
+		concurrency: 10,
+		postBody: {
+			hi: 'hey',
+		},
+		quiet: true,
+		statusCallback: (error, result) => {
+			testing.assertEquals(result.statusCode, 200, 'Should receive status 200')
+			calls += 1
+		}
+	};
+	await loadTest(options)
+	testing.assertEquals(calls, 100, 'Should have 100 calls')
+	await server.close()
+}
+
 /**
  * Run all tests.
  */
 export function test(callback) {
 	testing.run([
 		testIntegration, testIntegrationFile, testDelay, testWSIntegration,
-		testPromise, testIndexParam,
+		testPromise, testIndexParam, testStatusCallback,
 	], 4000, callback);
 }
 
