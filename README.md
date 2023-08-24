@@ -725,23 +725,22 @@ loadTest(options, function(error) {
 })
 ```
 
-#### `statusCallback(error, result, latency)`
+#### `statusCallback(error, result)`
 
 If present, this function executes after every request operation completes. Provides immediate access to the test result while the
 test batch is still running. This can be used for more detailed custom logging or developing your own spreadsheet or
 statistical analysis of the result.
 
-The result and error passed to the callback are in the same format as the result passed to the final callback.
- 
-In addition, the following three properties are added to the `result` object:
+The `error` and `result` passed to the callback are in the same format as the result passed to the final callback:
 
-- `requestElapsed`: time in milliseconds it took to complete this individual request.
-- `requestIndex`: 0-based index of this particular request in the sequence of all requests to be made.
-- `instanceIndex`: the `loadtest(...)` instance index. This is useful if you call `loadtest()` more than once.
+* `error` is only populated if the request finished in error,
+* `result` contains info about the current request: `host`, `path`, `method`, `statusCode`, received `body` and `headers`.
+Additionally has the following additional parameters:
+  - `requestElapsed`: time in milliseconds it took to complete this individual request.
+  - `requestIndex`: 0-based index of this particular request in the sequence of all requests to be made.
+  - `instanceIndex`: the `loadtest(...)` instance index. This is useful if you call `loadtest()` more than once.
 
-You will need to check if `error` is populated in order to determine which object to check for these properties.
-
-The second parameter contains info about the current request:
+Example result:
 
 ```javascript
 {
@@ -750,11 +749,14 @@ The second parameter contains info about the current request:
 	method: 'GET',
 	statusCode: 200,
 	body: '<html><body>hi</body></html>',
-	headers: [...]
+	headers: [...],
+	requestElapsed: 248,
+	requestIndex: 8748,
+	instanceIndex: 5,
 }
 ```
 
-Example:
+Full example:
 
 ```javascript
 import {loadTest} from 'loadtest'
@@ -804,6 +806,9 @@ function statusCallback(error, result, latency) {
     console.log(result.labels);
 }
 ```
+
+**Warning**: The format for `statusCallback` has changed again in version 7+.
+The third parameter `latency` has been removed due to performance reasons.
 
 **Warning**: The format for `statusCallback` has changed in version 2.0.0 onwards.
 It used to be `statusCallback(latency, result, error)`,
