@@ -756,59 +756,11 @@ Example result:
 }
 ```
 
-Full example:
+See full example in [doc/status-callback.md][].
 
-```javascript
-import {loadTest} from 'loadtest'
-
-function statusCallback(error, result, latency) {
-    console.log('Current latency %j, result %j, error %j', latency, result, error)
-    console.log('----')
-    console.log('Request elapsed milliseconds: ', result.requestElapsed)
-    console.log('Request index: ', result.requestIndex)
-    console.log('Request loadtest() instance index: ', result.instanceIndex)
-}
-
-const options = {
-    url: 'http://localhost:8000',
-    maxRequests: 1000,
-    statusCallback: statusCallback
-}
-
-loadTest(options, function(error) {
-    if (error) {
-        return console.error('Got an error: %s', error)
-    }
-    console.log('Tests run successfully')
-})
-```
- 
-In some situations request data needs to be available in the statusCallBack.
-This data can be assigned to `request.labels` in the requestGenerator:
-```javascript
-const options = {
-	// ...
-	requestGenerator: (params, options, client, callback) => {
-		// ...
-        const randomInputData = Math.random().toString().substr(2, 8);
-        const message = JSON.stringify({ randomInputData })
-		const request = client(options, callback);
-        request.labels = randomInputData;
-		request.write(message);
-		return request;
-	}
-};
-```
-
-Then in statusCallBack the labels can be accessed through `result.labels`:
-```javascript
-function statusCallback(error, result, latency) {
-    console.log(result.labels);
-}
-```
-
-**Warning**: The format for `statusCallback` has changed again in version 7+.
-The third parameter `latency` has been removed due to performance reasons.
+**Warning**: The format for `statusCallback` has changed in version 7+.
+Used to be `statusCallback(error, result, latency)`;
+the third parameter `latency` has been removed due to performance reasons.
 
 **Warning**: The format for `statusCallback` has changed in version 2.0.0 onwards.
 It used to be `statusCallback(latency, result, error)`,
