@@ -803,7 +803,7 @@ with an HTTP server which can be `close()`d when it is no longer useful.
 As a legacy from before promises existed,
 if an optional callback is passed as second parameter then it will not behave as `async`:
 
-```
+```javascript
 const server = startServer({port: 8000}, error => console.error(error))
 ```
 
