@@ -89,15 +89,18 @@ and seeing when it reaches 100% CPU.)
 In this case try using in multi-process mode using the `--cores` parameter,
 see below.
 
-There are better tools for that use case:
+If you reached the limits of `loadtest`, there are other tools that you can use.
 
+* [AutoCannon](https://www.npmjs.com/package/autocannon): also an `npm` package,
+awesome tool with an interface similar to `wrk`.
 * [Apache `ab`](http://httpd.apache.org/docs/2.2/programs/ab.html)
 has great performance, but it is also limited by a single CPU performance.
 Its practical limit is somewhere around ~40 krps.
 * [weighttp](http://redmine.lighttpd.net/projects/weighttp/wiki) is also `ab`-compatible
 and is supposed to be very fast (the author has not personally used it).
-* [wrk](https://github.com/wg/wrk) is multithreaded and fit for use when multiple CPUs are required or available.
+* [wrk](https://github.com/wg/wrk) is multithreaded and highly performance.
 It may need installing from source though, and its interface is not `ab`-compatible.
+* [wrk2](https://github.com/giltene/wrk2): evolution of `wrk`.
 
 ### Regular Usage
 
