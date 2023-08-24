@@ -756,7 +756,7 @@ Example result:
 }
 ```
 
-See full example in [doc/status-callback.md][].
+See [full example](doc/status-callback.md).
 
 **Warning**: The format for `statusCallback` has changed in version 7+.
 Used to be `statusCallback(error, result, latency)`;
