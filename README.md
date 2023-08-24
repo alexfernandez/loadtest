@@ -18,17 +18,9 @@ On Ubuntu or Mac OS X systems install using sudo:
 
     $ sudo npm install -g loadtest
 
-For access to the API just add package `loadtest` to your `package.json` devDependencies:
+For access to the API just install it in your `npm` package as a dev dependency:
 
-```json
-{
-	...
-	"devDependencies": {
-		"loadtest": "*"
-	},
-	...
-}
-```
+    $ npm install --save-dev loadtest
 
 ### Compatibility
 
