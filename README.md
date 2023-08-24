@@ -231,12 +231,12 @@ to provide the body of each request.
 This is useful if you want to generate request bodies dynamically and vary them for each request.
 For examples see above for `-p`.
 
-##### `-r`
+##### `-r recover`
 
 Recover from errors. Always active: loadtest does not stop on errors.
 After the tests are finished, if there were errors a report with all error codes will be shown.
 
-#### `-s`
+#### `-s secureProtocol`
 
 The TLS/SSL method to use. (e.g. TLSv1_method)
 
@@ -244,7 +244,7 @@ Example:
 
     $ loadtest -n 1000 -s TLSv1_method https://www.example.com
 
-#### `-V`
+#### `-V version`
 
 Show version number and exit.
 
