@@ -187,6 +187,27 @@ async function testIndexParam() {
 	await server.close()
 }
 
+async function testStatusCallback() {
+	let calls = 0
+	const server = await startServer(serverOptions)
+	const options = {
+		url: `http://localhost:${PORT}/`,
+		maxRequests: 100,
+		concurrency: 10,
+		postBody: {
+			hi: 'my_index',
+		},
+		quiet: true,
+		statusCallback: (error, result, latency) => {
+			console.log(error, result, latency)
+			calls += 1
+		}
+	};
+	testing.assertEquals(calls, 100, 'Should have 100 calls')
+	await loadTest(options)
+	await server.close()
+}
+
 /**
  * Run all tests.
  */
