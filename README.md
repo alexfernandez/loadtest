@@ -735,7 +735,7 @@ The `error` and `result` passed to the callback are in the same format as the re
 
 * `error` is only populated if the request finished in error,
 * `result` contains info about the current request: `host`, `path`, `method`, `statusCode`, received `body` and `headers`.
-Additionally has the following additional parameters:
+Additionally has the following parameters:
   - `requestElapsed`: time in milliseconds it took to complete this individual request.
   - `requestIndex`: 0-based index of this particular request in the sequence of all requests to be made.
   - `instanceIndex`: the `loadtest(...)` instance index. This is useful if you call `loadtest()` more than once.
