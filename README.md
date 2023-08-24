@@ -884,6 +884,11 @@ Return an HTTP error code.
 Return an HTTP error code only for the given % of requests.
 If no error code was specified, default is 500.
 
+#### `logger`
+
+A function to be called as `logger(request, response)` after every request served by the test server.
+Where `request` and `response` are the usual HTTP objects.
+
 ### Configuration file
 
 It is possible to put configuration options in a file named `.loadtestrc` in your working directory or in a file whose name is specified in the `loadtest` entry of your `package.json`. The options in the file will be used only if they are not specified in the command line.
