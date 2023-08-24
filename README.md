@@ -641,7 +641,7 @@ The MIME type to use for the body. Default content type is `text/plain`.
 
 How many requests each client will send per second.
 
-#### `requestGenerator`
+#### `requestGenerator(params, options, client, callback)`
 
 Use a custom request generator function.
 The request needs to be generated synchronously and returned when this function is invoked.
@@ -733,7 +733,7 @@ loadTest(options, function(error) {
 })
 ```
 
-#### `statusCallback`
+#### `statusCallback(error, result, latency)`
 
 If present, this function executes after every request operation completes. Provides immediate access to the test result while the
 test batch is still running. This can be used for more detailed custom logging or developing your own spreadsheet or
@@ -817,7 +817,7 @@ function statusCallback(error, result, latency) {
 It used to be `statusCallback(latency, result, error)`,
 it has been changed to conform to the usual Node.js standard.
 
-#### `contentInspector`
+#### `contentInspector(result)`
 
 A function that would be executed after every request before its status be added to the final statistics.
 
