@@ -195,16 +195,16 @@ async function testStatusCallback() {
 		maxRequests: 100,
 		concurrency: 10,
 		postBody: {
-			hi: 'my_index',
+			hi: 'hey',
 		},
 		quiet: true,
-		statusCallback: (error, result, latency) => {
-			console.log(error, result, latency)
+		statusCallback: (error, result) => {
+			testing.assertEquals(result.statusCode, 200, 'Should receive status 200')
 			calls += 1
 		}
 	};
-	testing.assertEquals(calls, 100, 'Should have 100 calls')
 	await loadTest(options)
+	testing.assertEquals(calls, 100, 'Should have 100 calls')
 	await server.close()
 }
 
