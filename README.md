@@ -762,10 +762,6 @@ See [full example](doc/status-callback.md).
 Used to be `statusCallback(error, result, latency)`;
 the third parameter `latency` has been removed due to performance reasons.
 
-**Warning**: The format for `statusCallback` has changed in version 2.0.0 onwards.
-It used to be `statusCallback(latency, result, error)`,
-it has been changed to conform to the usual Node.js standard.
-
 #### `contentInspector(result)`
 
 A function that would be executed after every request before its status be added to the final statistics.
