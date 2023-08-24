@@ -278,15 +278,19 @@ Note: --rps is not supported for websockets.
 #### `--cores number`
 
 Start `loadtest` in multi-process mode on a number of cores simultaneously.
-Useful when a single CPU is saturated.
 Forks the requested number of processes using the
 [Node.js cluster module](https://nodejs.org/api/cluster.html).
+Default: half the available CPUs on the machine.
 
-In this mode the total number of requests and the rps rate are shared among all processes.
-The result returned is the aggregation of results from all cores.
+The total number of requests and the rps rate are shared among all processes.
+The result shown is the aggregation of results from all cores.
 
 Note: this option is not available in the API,
-where it runs just in the provided process.
+since it runs just within the calling process.
+
+**Warning**: the default value for `--cores` has changed in version 7+,
+from 1 to half the available CPUs on the machine.
+Set to 1 to get the previous single-process mode.
 
 #### `--timeout milliseconds`
 
