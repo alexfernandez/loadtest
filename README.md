@@ -610,8 +610,8 @@ For more information about the actual configuration file name, read the [confino
 
 ### Complete Example
 
-The file `test/integration.js` shows a complete example, which is also a full integration test:
-it starts the server, send 1000 requests, waits for the callback and closes down the server.
+The file `test/integration.js` contains complete examples, which are also a full integration test suite:
+they start the server with different options, send requests, waits for finalization and close down the server.
 
 ## Versioning
 
