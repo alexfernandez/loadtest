@@ -5,6 +5,7 @@ import * as stdio from 'stdio'
 import {loadTest} from '../lib/loadtest.js'
 import {runTask} from '../lib/cluster.js'
 import {Result} from '../lib/result.js'
+import {getHalfCores} from '../lib/cluster.js'
 
 
 const options = stdio.getopt({
@@ -34,7 +35,7 @@ const options = stdio.getopt({
 	key: {args: 1, description: 'The client key to use'},
 	cert: {args: 1, description: 'The client certificate to use'},
 	quiet: {description: 'Do not log any messages'},
-	cores: {args: 1, description: 'Number of cores to use', default: 1},
+	cores: {args: 1, description: 'Number of cores to use', default: getHalfCores()},
 	agent: {description: 'Use a keep-alive http agent (deprecated)'},
 	debug: {description: 'Show debug messages (deprecated)'},
 });
