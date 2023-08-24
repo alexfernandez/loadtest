@@ -214,7 +214,7 @@ async function testStatusCallback() {
 export function test(callback) {
 	testing.run([
 		testIntegration, testIntegrationFile, testDelay, testWSIntegration,
-		testPromise, testIndexParam,
+		testPromise, testIndexParam, testStatusCallback,
 	], 4000, callback);
 }
 
