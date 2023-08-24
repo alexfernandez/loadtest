@@ -557,15 +557,14 @@ const server = await startServer({port: 8000})
 await server.close()
 ```
 
-The following options are available:
+The following options are available,
+see [doc/api.md](doc/api.md) for details.
+
 * `port`: optional port to use for the server, default 7357.
 * `delay`: milliseconds to wait before answering each request.
 * `error`: HTTP status code to return, default 200 (no error).
 * `percent`: return error only for the given % of requests.
-* `logger(request, response)`
-
-A function to be called as `logger(request, response)` after every request served by the test server.
-Where `request` and `response` are the usual HTTP objects.
+* `logger(request, response)`: function to call after every request.
 
 ### Configuration file
 
