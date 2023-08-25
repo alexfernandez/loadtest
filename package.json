@@ -1,6 +1,6 @@
 {
 	"name": "loadtest",
-	"version": "7.0.0",
+	"version": "7.1.0",
 	"type": "module",
 	"description": "Run load tests for your web application. Mostly ab-compatible interface, with an option to force requests per second. Includes an API for automated load testing.",
 	"homepage": "https://github.com/alexfernandez/loadtest",
@@ -23,7 +23,8 @@
 		"websocket": "^1.0.34"
 	},
 	"devDependencies": {
-		"eslint": "^8.47.0"
+		"eslint": "^8.47.0",
+		"microprofiler": "^2.0.0"
 	},
 	"keywords": [
 		"testing",
