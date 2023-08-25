@@ -100,7 +100,7 @@ there are other tools that you can try.
 * [AutoCannon](https://www.npmjs.com/package/autocannon): also an `npm` package,
 awesome tool with an interface similar to `wrk`.
 * [Apache `ab`](http://httpd.apache.org/docs/2.2/programs/ab.html)
-has great performance, but it is also limited by a single CPU performance.
+has great performance, but it is limited by a single CPU performance.
 Its practical limit is somewhere around ~40 krps.
 * [weighttp](http://redmine.lighttpd.net/projects/weighttp/wiki) is also `ab`-compatible
 and is supposed to be very fast (the author has not personally used it).
