@@ -23,7 +23,8 @@
 		"websocket": "^1.0.34"
 	},
 	"devDependencies": {
-		"eslint": "^8.47.0"
+		"eslint": "^8.47.0",
+		"microprofiler": "^2.0.0"
 	},
 	"keywords": [
 		"testing",
