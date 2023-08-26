@@ -85,14 +85,18 @@ so that you can abort deployment e.g. if 99% of the requests don't finish in 10 
 but it is still limited.
 `loadtest` saturates a single CPU pretty quickly,
 so it uses half the available cores in your processor.
-If you see that the Node.js processes are above 100% usage in `top`,
-which happens approx. when your load is above 4000~5000 rps per core,
-please adjust the number of cores.
+The Node.js processes can reach 100% usage in `top`,
+which happens approx. when your load is above 4000~7000 rps per core.
+In this case please adjust the number of cores.
 So for instance with eight cores you can expect to get a maximum performance of
-8 * 5000 ~ 40 krps.
-(You can measure the practical limits of `loadtest` on your specific test machines by running it against a simple
+8 * 5000 = 40 krps.
+
+You can measure the practical limits of `loadtest` on your specific test machines by running it against a simple
 [test server](#test-server)
-and seeing when it reaches 100% CPU.)
+and seeing when it reaches 100% CPU. Run the following commands on two different consoles:
+
+    $ node bin/testserver.js
+    $ node bin/loadtest.js -n 1000000 -c 100 http://localhost:7357/
 
 If you have reached the limits of `loadtest` even after using all cores,
 there are other tools that you can try.
