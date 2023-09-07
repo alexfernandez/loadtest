@@ -157,3 +157,18 @@ if we want to have a test without keep-alive at some point.
 Now we come to the really critical part:
 parsing the response including the content.
 
+A very simple implementation just parses the response as a string,
+reads the first line and extracts the status code.
+Performance is now down to around 68 krps.
+Note that we are still assuming that each response is a single packet.
+
+To move ahead we need to parse all incoming headers,
+find the content length,
+and then parse the rest of the packet.
+Again, a very simple implementation that parses content length and checks against body length
+goes down to 63 krps.
+
+It is possible that a response comes in multiple packets,
+so we need to keep some state between packets.
+
+
