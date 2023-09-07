@@ -14,7 +14,9 @@ function readOptions() {
 		delay: {key: 'd', args: 1, description: 'Delay the response for the given milliseconds'},
 		error: {key: 'e', args: 1, description: 'Return an HTTP error code'},
 		percent: {key: 'p', args: 1, description: 'Return an error (default 500) only for some % of requests'},
-		cores: {key: 'c', args: 1, description: 'Number of cores to use, default is half the total', default: getHalfCores()}
+		cores: {key: 'c', args: 1, description: 'Number of cores to use, default is half the total', default: getHalfCores()},
+		body: {key: 'b', args: 1, description: 'Body to return'},
+		file: {key: 'f', args: 1, description: 'File to read and return as body'},
 	});
 	const configuration = loadConfig()
 	if (options.args && options.args.length == 1) {

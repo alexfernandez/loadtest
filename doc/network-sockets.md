@@ -170,5 +170,6 @@ goes down to 63 krps.
 
 It is possible that a response comes in multiple packets,
 so we need to keep some state between packets.
-
+This is the next step.
+Keep in mind that even headers can be so long that they come in several packets!
 
