@@ -36,6 +36,7 @@ const options = stdio.getopt({
 	cert: {args: 1, description: 'The client certificate to use'},
 	quiet: {description: 'Do not log any messages'},
 	cores: {args: 1, description: 'Number of cores to use', default: getHalfCores()},
+	net: {description: 'Use network sockets (experimental)'},
 	agent: {description: 'Use a keep-alive http agent (deprecated)'},
 	debug: {description: 'Show debug messages (deprecated)'},
 });
