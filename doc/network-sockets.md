@@ -24,6 +24,8 @@ node bin/testserver.js
 ```
 
 Running on an Intel Core i5-12400T processor with 6 cores.
+Performance numbers are shown in bold and as thousands of requests per second (krps):
+**80 krps**.
 
 ### Targets
 
@@ -42,7 +44,7 @@ ab -t 10 -c 10 http://localhost:7357/
 Requests per second:    20395.83 [#/sec] (mean)
 ```
 
-Results are around 20 krps.
+Results are around **20 krps**.
 Keep-alive cannot be used as far as the author knows.
 
 #### Autocannon
@@ -62,7 +64,7 @@ autocannon http://localhost:7357/
 └───────────┴─────────┴─────────┴─────────┴─────────┴──────────┴─────────┴─────────┘
 ```
 
-Results are around 57 krps.
+Results are around **57 krps**.
 Keep-alive cannot be disabled as far as the author knows.
 
 ### Baseline
@@ -70,7 +72,7 @@ Keep-alive cannot be disabled as far as the author knows.
 The baseline is the existing `http` implementation in `loadtest` 7.1,
 running on one core.
 
-Without keep-alive close to 6 krps:
+Without keep-alive close to **6 krps**:
 
 ```
 node bin/loadtest.js http://localhost:7357 --cores 1
@@ -87,7 +89,9 @@ node bin/loadtest.js http://localhost:7357 --cores 1 -k
 Effective rps:       20490
 ```
 
-Again quite far from the 57 krps by `autocannon`.
+We are around **20 krps**.
+Again quite far from the 57 krps by `autocannon`;
+close to `ab` but it doesn't use keep-alive so the comparison is meaningless.
 
 ### Proof of Concept
 
@@ -102,7 +106,7 @@ this.params.request = `${this.params.method} ${this.params.path} HTTP/1.1\r\n\r\
 We don't parse the result either,
 just assume that it is received as one packet
 and disregard it.
-The results are almost 80 krps:
+The results are almost **80 krps**:
 
 ```
 node bin/loadtest.js http://localhost:7357 --cores 1 --net
@@ -117,7 +121,7 @@ we want to make sure we don't lose too much performance when adding all the func
 
 We can also do a barebones implementation without keep-alive,
 creating a new socket for every request.
-The result is around 10 krps,
+The result is around **10 krps**,
 still far from Apache `ab`.
 But here there is not much we can do:
 apparently writing sockets in C is more efficient than in Node.js,
@@ -132,7 +136,7 @@ So from now on we will focus on the keep-alive tests.
 First we add the proper headers in the request.
 This means we are sending out more data for each round,
 but performance doesn't seem to be altered much,
-still around 80 krps.
+still around **80 krps**.
 
 The request we are now sending is:
 
