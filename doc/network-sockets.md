@@ -242,9 +242,29 @@ Now we can go back to using multiple cores:
 
 ```
 node bin/loadtest.js http://localhost:7357 --cores 3 --net
+[...]
+Effective rps:       115379
 ```
 
 In this case half the available cores,
 leaving the rest for the test server.
 Now we go up to **115 krps**!
+
+For comparison we try using `autocannon` also with three workers:
+
+```
+autocannon http://localhost:7357/ -w 3 -c 30
+[...]
+┌───────────┬───────┬───────┬─────────┬─────────┬──────────┬─────────┬───────┐
+│ Stat      │ 1%    │ 2.5%  │ 50%     │ 97.5%   │ Avg      │ Stdev   │ Min   │
+├───────────┼───────┼───────┼─────────┼─────────┼──────────┼─────────┼───────┤
+│ Req/Sec   │ 88511 │ 88511 │ 107071  │ 110079  │ 105132.8 │ 6148.39 │ 88460 │
+├───────────┼───────┼───────┼─────────┼─────────┼──────────┼─────────┼───────┤
+│ Bytes/Sec │ 11 MB │ 11 MB │ 13.3 MB │ 13.6 MB │ 13 MB    │ 764 kB  │ 11 MB │
+└───────────┴───────┴───────┴─────────┴─────────┴──────────┴─────────┴───────┘
+```
+
+Median rate (50% percentile) is **107 krps**.
+So `loadtest` has managed to be slightly above `autocannon`,
+using multiple tricks.
 
