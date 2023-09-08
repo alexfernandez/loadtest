@@ -159,20 +159,88 @@ parsing the response including the content.
 
 A very simple implementation just parses the response as a string,
 reads the first line and extracts the status code.
-Performance is now down to around 68 krps.
+Performance is now down to around **68 krps**.
 Note that we are still assuming that each response is a single packet.
+A sample response from the test server included with `loadtest`
+can look like this:
 
-To move ahead we need to parse all incoming headers,
-find the content length,
-and then parse the rest of the packet.
-Again, a very simple implementation that parses content length and checks against body length
-goes down to 63 krps.
+```
+HTTP/1.1 200 OK
+Date: Fri, 08 Sep 2023 11:04:21 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+Content-Length: 2
+
+OK
+```
+
+We can see a very simple HTTP response that fits in one packet.
+
+### Parsing All Headers
 
 It is possible that a response comes in multiple packets,
 so we need to keep some state between packets.
-This is the next step.
+This is the next step:
+we should make sure that we have received the whole body and not just part of it.
+The way to do this is to read the `content-length` header,
+and then check that the body that we have has this length;
+only then can we be 100% sure that we have the whole body.
+
+Therefore we need to parse all incoming headers,
+find the content length (in the header `content-length`),
+and then parse the rest of the packet to check that we have the whole body.
+Again, a very simple implementation that parses content length and checks against body length
+goes down to **63 krps**.
+
+If the body is not complete we need to keep the partial body,
+and add the rest as it comes until the required `content-length`.
 Keep in mind that even headers can be so long that they come in several packets!
+In this case even more state needs to be stored between packets.
+
 With decent packet parsing,
-including multi-packet bodies,
-performance goes down to 60 krps.
+including multi-packet headers and bodies,
+performance goes down to **60 krps**.
+Most of the time is spent parsing headers,
+since the body only needs to be checked for length,
+not parsed.
+
+### Considering Duplicates
+
+Given that answers tend to be identical in a load test,
+perhaps changing a date or a serial number,
+we can apply a trick:
+when receiving a packet check if it's similar enough to one received before
+so we can skip parsing the headers altogether.
+
+The algorithm checks the following conditions:
+
+- Length of the received packet is less than 1000 bytes.
+- Length of the packet is identical to one received before.
+- Length of headers and body are also identical.
+- Same status as before.
+
+If all of them apply then the headers in the message are not parsed:
+we estimate that the packet is complete and we don't need to check for content length.
+Keep in mind that we _might_ be wrong:
+we might have received a packet with just part of a response
+that happens to have the same length, status and header length as a previous complete response,
+and which is also below 1000 bytes.
+This is however extremely unlikely.
+
+Using this trick we go back to **67 krps**.
+
+Packets of different lengths are stored for comparison,
+which can cause memory issues when size varies constantly.
+
+## Multiprocess
+
+Now we can go back to using multiple cores:
+
+```
+node bin/loadtest.js http://localhost:7357 --cores 3 --net
+```
+
+In this case half the available cores,
+leaving the rest for the test server.
+Now we go up to **115 krps**!
 
