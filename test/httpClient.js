@@ -1,5 +1,5 @@
 import testing from 'testing'
-import {create} from '../lib/httpClient.js'
+import {HttpClient} from '../lib/httpClient.js'
 
 
 function testHttpClient(callback) {
@@ -8,7 +8,7 @@ function testHttpClient(callback) {
 		maxSeconds: 0.1,
 		concurrency: 1,
 	};
-	create({}, options);
+	new HttpClient({options});
 	testing.success(callback);
 }
 

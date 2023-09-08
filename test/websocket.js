@@ -1,5 +1,5 @@
 import testing from 'testing'
-import {create} from '../lib/websocket.js'
+import {WebsocketClient} from '../lib/websocket.js'
 
 
 function testWebsocketClient(callback) {
@@ -8,7 +8,7 @@ function testWebsocketClient(callback) {
 		maxSeconds: 0.1,
 		concurrency: 1,
 	};
-	create({}, options);
+	new WebsocketClient({options});
 	testing.success(callback);
 }
 
