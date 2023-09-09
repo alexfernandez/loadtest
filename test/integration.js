@@ -203,7 +203,8 @@ async function testStatusCallback() {
 			calls += 1
 		}
 	};
-	await loadTest(options)
+	const result = await loadTest(options)
+	testing.assertEquals(result.totalRequests, 100, 'Should have 100 requests')
 	testing.assertEquals(calls, 100, 'Should have 100 calls')
 	await server.close()
 }
