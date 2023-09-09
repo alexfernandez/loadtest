@@ -15,6 +15,7 @@ import {test as testLoadtest} from './loadtest.js'
 import {test as testWebsocket} from './websocket.js'
 import {test as integrationTest} from './integration.js'
 import {test as testResult} from './result.js'
+import {test as testNetworkClient} from './networkClient.js'
 
 
 /**
@@ -25,6 +26,7 @@ function test() {
 		testHrtimer, testHeaders, testLatency, testHttpClient,
 		testServer, integrationTest, testLoadtest, testWebsocket,
 		testRequestGenerator, testBodyGenerator, testResult,
+		testNetworkClient,
 	];
 	testing.run(tests, 4200);
 }

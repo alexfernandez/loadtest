@@ -209,13 +209,31 @@ async function testStatusCallback() {
 	await server.close()
 }
 
+async function testNetworkClient() {
+	const server = await startServer(serverOptions)
+	const options = {
+		url: 'http://localhost:' + PORT,
+		maxRequests: 100,
+		concurrency: 10,
+		method: 'POST',
+		body: {
+			hi: 'there',
+		},
+		quiet: true,
+		network: true,
+	};
+	const result = await loadTest(options)
+	await server.close()
+	return 'Test result: ' + JSON.stringify(result)
+}
+
 /**
  * Run all tests.
  */
 export function test(callback) {
 	testing.run([
 		testIntegration, testIntegrationFile, testDelay, testWSIntegration,
-		testPromise, testIndexParam, testStatusCallback,
+		testPromise, testIndexParam, testStatusCallback, testNetworkClient,
 	], 4000, callback);
 }
 
