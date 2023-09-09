@@ -236,7 +236,7 @@ Using this trick we go back to **67 krps**.
 Packets of different lengths are stored for comparison,
 which can cause memory issues when size varies constantly.
 
-## Multiprocess
+### Multiprocess
 
 Now we can go back to using multiple cores:
 
@@ -267,4 +267,25 @@ autocannon http://localhost:7357/ -w 3 -c 30
 Median rate (50% percentile) is **107 krps**.
 So `loadtest` has managed to be slightly above `autocannon`,
 using multiple tricks.
+
+### Pool of Clients
+
+We are not done yet.
+As it happens the new code is not very precise with connections and clients:
+in particular it doesn't play nice with our `--rps` feature,
+which is used to send an exact number of requests per second.
+We need to do a complete refactoring to have a pool of clients,
+take them to fulfill a request and them free them back to the pool.
+
+After the refactoring we get some bad news:
+performance has dropped down back to **60 krps**!
+
+```
+node bin/loadtest.js http://localhost:7357/ --net --cores 1
+[...]
+Effective rps:       60331
+```
+
+We need to do the painstaking exercise of getting back to our target performance.
+
 
