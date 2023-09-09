@@ -8,7 +8,8 @@ function testHttpClient(callback) {
 		maxSeconds: 0.1,
 		concurrency: 1,
 	};
-	new NetworkClient({options});
+	const client = new NetworkClient({options});
+	client.stop()
 	testing.success(callback);
 }
 
