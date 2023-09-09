@@ -214,7 +214,6 @@ async function testNetworkClient() {
 	const options = {
 		url: 'http://localhost:' + PORT,
 		maxRequests: 100,
-		concurrency: 10,
 		method: 'POST',
 		body: {
 			hi: 'there',
@@ -227,6 +226,22 @@ async function testNetworkClient() {
 	return 'Test result: ' + JSON.stringify(result)
 }
 
+async function testNetworkNoServer() {
+	const options = {
+		url: 'http://localhost:' + PORT,
+		maxRequests: 100,
+		rps: 1000,
+		method: 'POST',
+		body: {
+			hi: 'there',
+		},
+		quiet: true,
+		network: true,
+	};
+	const result = await loadTest(options)
+	return 'Test result: ' + JSON.stringify(result)
+}
+
 /**
  * Run all tests.
  */
@@ -234,6 +249,7 @@ export function test(callback) {
 	testing.run([
 		testIntegration, testIntegrationFile, testDelay, testWSIntegration,
 		testPromise, testIndexParam, testStatusCallback, testNetworkClient,
+		testNetworkNoServer,
 	], 4000, callback);
 }
 
