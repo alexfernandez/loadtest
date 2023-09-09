@@ -24,7 +24,8 @@
 	},
 	"devDependencies": {
 		"eslint": "^8.47.0",
-		"microprofiler": "^2.0.0"
+		"microprofiler": "^2.0.0",
+		"why-is-node-running": "^2.2.2"
 	},
 	"keywords": [
 		"testing",
