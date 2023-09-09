@@ -9,9 +9,9 @@ const mockLoadTest = {running: true, checkStop: () => false, countClients: () =>
  */
 function testLatencyIds(callback) {
 	const latency = new Latency(mockLoadTest);
-	const firstId = latency.start();
+	const firstId = latency.begin();
 	testing.assert(firstId, 'Invalid first latency id %s', firstId, callback);
-	const secondId = latency.start();
+	const secondId = latency.begin();
 	testing.assert(secondId, 'Invalid second latency id', callback);
 	testing.assert(firstId != secondId, 'Repeated latency ids', callback);
 	testing.success(callback);
@@ -27,10 +27,10 @@ function testLatencyRequests(callback) {
 	const errorCode = '500';
 	const latency = new Latency({options, ...mockLoadTest})
 	for (let i = 0; i < 9; i++) {
-		const id = latency.start();
+		const id = latency.begin();
 		latency.end(id);
 	}
-	const id = latency.start();
+	const id = latency.begin();
 	latency.end(id, errorCode);
 	testing.assert(latency.shouldStop(), 'Should stop now', callback);
 	latency.stop()
@@ -52,7 +52,7 @@ function testLatencyPercentiles(callback) {
 	const latency = new Latency({options, ...mockLoadTest})
 	for (let ms = 1; ms <= 10; ms++) {
 		(function() {
-			const id = latency.start();
+			const id = latency.begin();
 			setTimeout(() => {
 				latency.end(id);
 			}, ms);
