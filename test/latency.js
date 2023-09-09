@@ -2,11 +2,13 @@ import testing from 'testing'
 import {Latency} from '../lib/latency.js'
 
 
+const mockLoadTest = {running: true, checkStop: () => false, countClients: () => 0}
+
 /**
  * Test latency ids.
  */
 function testLatencyIds(callback) {
-	const latency = new Latency({running: true});
+	const latency = new Latency(mockLoadTest);
 	const firstId = latency.start();
 	testing.assert(firstId, 'Invalid first latency id %s', firstId, callback);
 	const secondId = latency.start();
@@ -23,13 +25,15 @@ function testLatencyRequests(callback) {
 		maxRequests: 10,
 	};
 	const errorCode = '500';
-	const latency = new Latency({options, running: true})
+	const latency = new Latency({options, ...mockLoadTest})
 	for (let i = 0; i < 9; i++) {
 		const id = latency.start();
 		latency.end(id);
 	}
 	const id = latency.start();
 	latency.end(id, errorCode);
+	testing.assert(latency.shouldStop(), 'Should stop now', callback);
+	latency.stop()
 	const result = latency.getResult()
 	testing.assertEquals(result.totalRequests, 10, 'Invalid total requests', callback);
 	testing.assertEquals(result.totalErrors, 1, 'Invalid total errors', callback);
@@ -45,7 +49,7 @@ function testLatencyPercentiles(callback) {
 	const options = {
 		maxRequests: 10
 	};
-	const latency = new Latency({options, running: true})
+	const latency = new Latency({options, ...mockLoadTest})
 	for (let ms = 1; ms <= 10; ms++) {
 		(function() {
 			const id = latency.start();
@@ -55,6 +59,8 @@ function testLatencyPercentiles(callback) {
 		})();
 	}
 	setTimeout(() => {
+		testing.assert(latency.shouldStop(), 'Should stop now', callback);
+		latency.stop()
 		const percentiles = latency.getResult().percentiles;
 
 		Object.keys(percentiles).forEach(percentile => {
