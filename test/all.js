@@ -16,6 +16,7 @@ import {test as testWebsocket} from './websocket.js'
 import {test as integrationTest} from './integration.js'
 import {test as testResult} from './result.js'
 import {test as testNetworkClient} from './networkClient.js'
+//import log from 'why-is-node-running'
 
 
 /**
@@ -30,6 +31,8 @@ function test() {
 	];
 	testing.run(tests, 4200);
 }
+
+//setTimeout(log, 4000)
 
 test()
 
