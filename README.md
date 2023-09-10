@@ -342,6 +342,15 @@ Sets the certificate for the http client to use. Must be used with `--key`.
 
 Sets the key for the http client to use. Must be used with `--cert`.
 
+#### `--tcp` (experimental)
+
+Option to use low level TCP sockets,
+faster than the standard HTTP library.
+Not all options are supported.
+
+**Warning**: experimental option.
+May not work with your test case.
+
 ### Test Server
 
 loadtest bundles a test server. To run it:

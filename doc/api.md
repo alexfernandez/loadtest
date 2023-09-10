@@ -317,6 +317,16 @@ function contentInspector(result) {
     }
 },
 ```
+
+#### `tcp`
+
+If true, use low-level TCP sockets.
+Faster option that can increase performance by up to 10x,
+especially in local test setups.
+
+**Warning**: Experimental option.
+May not work for your test case.
+Not compatible with options `indexParam`, `statusCallback`, `requestGenerator`.
     
 ### Start Test Server
 
