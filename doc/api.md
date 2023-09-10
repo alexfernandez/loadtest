@@ -330,13 +330,16 @@ await server.close()
 ```
 
 This function returns when the server is up and running,
-with an HTTP server which can be `close()`d when it is no longer useful.
+with a server object which can be `close()`d when it is no longer useful.
 As a legacy from before promises existed,
 if an optional callback is passed as second parameter then it will not behave as `async`:
 
 ```javascript
 const server = startServer({port: 8000}, error => console.error(error))
 ```
+
+**Warning**: up until version 7 this function returned an HTTP server;
+this was changed to a test server object with an identical `close()` method.
 
 The following options are available.
 

@@ -571,6 +571,8 @@ see [doc/api.md](doc/api.md) for details.
 * `percent`: return error only for the given % of requests.
 * `logger(request, response)`: function to call after every request.
 
+Returns a test server that you can `close()` when finished.
+
 ### Configuration file
 
 It is possible to put configuration options in a file named `.loadtestrc` in your working directory or in a file whose name is specified in the `loadtest` entry of your `package.json`. The options in the file will be used only if they are not specified in the command line.
