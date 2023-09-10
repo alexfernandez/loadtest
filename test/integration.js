@@ -3,9 +3,9 @@ import {execFile} from 'child_process'
 import {join} from 'path'
 import {loadTest, startServer} from '../index.js'
 
-const PORT = 10408;
+const port = 10408;
 const serverOptions = {
-	port: PORT,
+	port,
 	quiet: true,
 }
 
@@ -19,7 +19,7 @@ function testIntegration(callback) {
 			return callback(error);
 		}
 		const options = {
-			url: 'http://localhost:' + PORT,
+			url: `http://localhost:${port}`,
 			maxRequests: 100,
 			concurrency: 10,
 			method: 'POST',
@@ -52,7 +52,7 @@ function testIntegrationFile(callback) {
 			return callback(error);
 		}
 		execFile('node',
-			[join('./', 'bin', 'loadtest.js'), `http://localhost:${PORT}/`,
+			[join('./', 'bin', 'loadtest.js'), `http://localhost:${port}/`,
 				'-n', '100', '--quiet'],
 			(error, stdout) => {
 				if (error) {
@@ -79,7 +79,7 @@ function testWSIntegration(callback) {
 			return callback(error);
 		}
 		const options = {
-			url: 'ws://localhost:' + PORT,
+			url: `ws://localhost:${port}`,
 			maxRequests: 10,
 			concurrency: 10,
 			body: {
@@ -113,7 +113,7 @@ function testWSIntegration(callback) {
 function testDelay(callback) {
 	const delay = 10;
 	const serverOptions = {
-		port: PORT + 1,
+		port: port + 1,
 		delay,
 		quiet: true,
 	};
@@ -122,7 +122,7 @@ function testDelay(callback) {
 			return callback(error);
 		}
 		const options = {
-			url: 'http://localhost:' + (PORT + 1),
+			url: 'http://localhost:' + (port + 1),
 			maxRequests: 10,
 			quiet: true,
 		};
@@ -145,7 +145,7 @@ function testDelay(callback) {
 async function testPromise() {
 	const server = await startServer(serverOptions)
 	const options = {
-		url: 'http://localhost:' + PORT,
+		url: `http://localhost:${port}`,
 		maxRequests: 100,
 		concurrency: 10,
 		method: 'POST',
@@ -174,7 +174,7 @@ async function testIndexParam() {
 	}
 	const server = await startServer({logger, ...serverOptions})
 	const options = {
-		url: `http://localhost:${PORT}/?param=index`,
+		url: `http://localhost:${port}/?param=index`,
 		maxRequests: 100,
 		concurrency: 10,
 		postBody: {
@@ -191,7 +191,7 @@ async function testStatusCallback() {
 	let calls = 0
 	const server = await startServer(serverOptions)
 	const options = {
-		url: `http://localhost:${PORT}/`,
+		url: `http://localhost:${port}/`,
 		maxRequests: 100,
 		concurrency: 10,
 		postBody: {
@@ -212,7 +212,7 @@ async function testStatusCallback() {
 async function testNetworkClient() {
 	const server = await startServer(serverOptions)
 	const options = {
-		url: 'http://localhost:' + PORT,
+		url: `http://localhost:${port}`,
 		maxRequests: 100,
 		method: 'POST',
 		body: {
@@ -228,7 +228,7 @@ async function testNetworkClient() {
 
 async function testNetworkNoServer() {
 	const options = {
-		url: 'http://localhost:' + PORT,
+		url: `http://localhost:${port}`,
 		maxRequests: 100,
 		rps: 1000,
 		method: 'POST',

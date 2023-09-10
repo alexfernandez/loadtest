@@ -2,16 +2,16 @@ import testing from 'testing'
 import {loadTest} from '../lib/loadtest.js'
 import {startServer} from '../lib/testserver.js'
 
-const PORT = 10453;
+const port = 10453;
 
 
 function testBodyGenerator(callback) {
-	const server = startServer({port: PORT, quiet: true}, error => {
+	const server = startServer({port, quiet: true}, error => {
 		if (error) {
 			return callback('Could not start test server');
 		}
 		const options = {
-			url: 'http://localhost:' + PORT,
+			url: `http://localhost:${port}`,
 			requestsPerSecond: 1000,
 			maxRequests: 100,
 			concurrency: 10,
