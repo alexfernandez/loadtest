@@ -77,7 +77,7 @@ but the resulting figure is much more robust.
 Using the provided API it is very easy to integrate loadtest with your package, and run programmatic load tests.
 loadtest makes it very easy to run load tests as part of systems tests, before deploying a new version of your software.
 The result includes mean response times and percentiles,
-so that you can abort deployment e.g. if 99% of the requests don't finish in 10 ms or less.
+so that you can abort deployment e.g. if 99% of all requests don't finish in 10 ms or less.
 
 ### Usage Don'ts
 
@@ -416,7 +416,7 @@ with concurrency 10 (only relevant results are shown):
     Requests per second: 368
     Total time:          44.503181166000005 s
 
-    Percentage of the requests served within a certain time
+    Percentage of requests served within a certain time
       50%      4 ms
       90%      5 ms
       95%      6 ms
@@ -433,7 +433,7 @@ Now we will try a fixed rate of 1000 rps:
     Requests: 9546, requests per second: 1000, mean latency: 0 ms
     Requests: 14549, requests per second: 1000, mean latency: 20 ms
     ...
-    Percentage of the requests served within a certain time
+    Percentage of requests served within a certain time
       50%      1 ms
       90%      2 ms
       95%      8 ms
@@ -464,7 +464,7 @@ Let us lower the rate to 500 rps:
     Requests per second: 488
     Total time:          20.002735398000002 s
 
-    Percentage of the requests served within a certain time
+    Percentage of requests served within a certain time
       50%      1 ms
       90%      1 ms
       95%      1 ms
@@ -487,7 +487,7 @@ The result (with the same test server) is impressive:
     ...
     Requests per second: 4099
 
-    Percentage of the requests served within a certain time
+    Percentage of requests served within a certain time
     50%      2 ms
     90%      3 ms
     95%      3 ms
@@ -500,7 +500,7 @@ Now we're talking! The steady rate also goes up to 2 krps:
     ...
     Requests per second: 1950
 
-    Percentage of the requests served within a certain time
+    Percentage of requests served within a certain time
       50%      1 ms
       90%      2 ms
       95%      2 ms
