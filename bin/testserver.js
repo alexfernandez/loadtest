@@ -15,7 +15,7 @@ function readOptions() {
 		error: {key: 'e', args: 1, description: 'Return an HTTP error code'},
 		percent: {key: 'p', args: 1, description: 'Return an error (default 500) only for some % of requests'},
 		cores: {key: 'c', args: 1, description: 'Number of cores to use, default is half the total', default: getHalfCores()},
-		body: {key: 'b', args: 1, description: 'Body to return'},
+		body: {key: 'b', args: 1, description: 'Body to return, default "OK"'},
 		file: {key: 'f', args: 1, description: 'File to read and return as body'},
 	});
 	const configuration = loadConfig()
