@@ -4,7 +4,7 @@ import {WebsocketClient} from '../lib/websocket.js'
 
 function testWebsocketClient(callback) {
 	const options = {
-		url: 'ws://localhost:7357/',
+		url: 'ws://localhost:7358/',
 		maxSeconds: 0.1,
 		concurrency: 1,
 	};
