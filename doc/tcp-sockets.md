@@ -24,6 +24,7 @@ Detailed explanations follow.
 First without keep-alive, one-core tester against 3-core test server:
 
 |package|krps|
+|-------|----|
 |ab|**20**|
 |loadtest 7.1|6|
 |tcp barebones|10|
@@ -32,6 +33,7 @@ First without keep-alive, one-core tester against 3-core test server:
 Now with keep-alive, also one-core tester against 3-core test server:
 
 |package|krps|
+|-------|----|
 |autocannon|57|
 |wrk|73|
 |loadtest 7.1|20|
