@@ -37,7 +37,7 @@ result.show()
 console.log('Tests run successfully')
 ```
 
-The call returns a `Result` object that contains all info about the load test, also described below.
+The call returns a `Result` object that contains all info about the load test, also described [below](#result).
 Call `result.show()` to display the results in the standard format on the console.
 
 As a legacy from before promises existed,
@@ -60,46 +60,6 @@ loadTest(options, function(error, result) {
 	console.log('Tests run successfully')
 })
 ```
-
-
-Beware: if there are no `maxRequests` and no `maxSeconds`, then tests will run forever
-and will not call the callback.
-
-### Result
-
-The latency result returned at the end of the load test contains a full set of data, including:
-mean latency, number of errors and percentiles.
-A simplified example follows:
-
-```javascript
-{
-  url: 'http://localhost:80/',
-  maxRequests: 1000,
-  maxSeconds: 0,
-  concurrency: 10,
-  agent: 'none',
-  requestsPerSecond: undefined,
-  totalRequests: 1000,
-  percentiles: {
-	'50': 7,
-	'90': 10,
-	'95': 11,
-	'99': 15
-  },
-  effectiveRps: 2824,
-  elapsedSeconds: 0.354108,
-  meanLatencyMs: 7.72,
-  maxLatencyMs: 20,
-  totalErrors: 3,
-  errorCodes: {
-	'0': 1,
-	'500': 2
-  },
-}
-```
-
-The `result` object also has a `result.show()` function
-that displays the results on the console in the standard format.
 
 ### Options
 
@@ -327,6 +287,75 @@ especially in local test setups.
 **Warning**: Experimental option.
 May not work for your test case.
 Not compatible with options `indexParam`, `statusCallback`, `requestGenerator`.
+
+### Result
+
+The latency result returned at the end of the load test contains a full set of data, including:
+mean latency, number of errors and percentiles.
+A simplified example follows:
+
+```javascript
+{
+  url: 'http://localhost:80/',
+  maxRequests: 1000,
+  maxSeconds: 0,
+  concurrency: 10,
+  agent: 'none',
+  requestsPerSecond: undefined,
+  totalRequests: 1000,
+  percentiles: {
+	'50': 7,
+	'90': 10,
+	'95': 11,
+	'99': 15
+  },
+  effectiveRps: 2824,
+  elapsedSeconds: 0.354108,
+  meanLatencyMs: 7.72,
+  maxLatencyMs: 20,
+  totalErrors: 3,
+  clients: 10,
+  errorCodes: {
+	'0': 1,
+	'500': 2
+  },
+}
+```
+
+The `result` object also has a `result.show()` function
+that displays the results on the console in the standard format.
+
+Some of the attributes (`url`, `concurrency`) will be identical to the parameters passed.
+The following attributes can also be returned.
+
+#### `totalRequests`
+
+How many requests were actually processed.
+
+#### `totalRequests`
+
+How many requests resulted in an error.
+
+#### `effectiveRps`
+
+How many requests per second were actually processed.
+
+#### `elapsedSeconds`
+
+How many seconds the test lasted.
+
+#### `meanLatencyMs`
+
+Average latency in milliseconds.
+
+#### `errorCodes`
+
+Object containing a map with all status codes received.
+
+#### `clients`
+
+Number of concurrent clients started.
+Should equal the concurrency level unless the `rps` option is specified.
     
 ### Start Test Server
 
