@@ -310,7 +310,7 @@ Setting this to 0 disables timeout (default).
 #### `-R requestGeneratorModule.js`
 
 Use a custom request generator function from an external file.
-See an example of a request generator module in [`--requestGenerator`](#requestGenerator) below.
+See an example of a request generator module in [`requestGenerator`](doc/api.md#requestGenerator).
 Also see [`sample/request-generator.js`](sample/request-generator.js) for some sample code including a body
 (or [`sample/request-generator.ts`](sample/request-generator.ts) for ES6/TypeScript).
 
