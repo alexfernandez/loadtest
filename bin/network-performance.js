@@ -13,7 +13,6 @@ async function runNetworkPerformanceTest() {
 	};
 	const result = await loadTest(options)
 	await server.close()
-	console.log(server)
 	console.log(`Requests received: ${server.totalRequests}`)
 	result.show()
 }
