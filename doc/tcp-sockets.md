@@ -1,4 +1,4 @@
-# TCP Sockets
+# TCP Sockets Performance
 
 To improve performance the author tried out using raw TCP sockets
 using the [net module](https://nodejs.org/api/net.html),

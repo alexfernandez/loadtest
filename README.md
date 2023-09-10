@@ -350,6 +350,7 @@ Not all options are supported.
 
 **Warning**: experimental option.
 May not work with your test case.
+See [TCP Sockets Performance](doc/tcp-sockets.md) for details.
 
 ### Test Server
 

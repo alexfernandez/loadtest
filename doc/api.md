@@ -287,6 +287,7 @@ especially in local test setups.
 **Warning**: Experimental option.
 May not work for your test case.
 Not compatible with options `indexParam`, `statusCallback`, `requestGenerator`.
+See [TCP Sockets Performance](doc/tcp-sockets.md) for details.
 
 ### Result
 
