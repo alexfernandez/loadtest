@@ -15,6 +15,30 @@ so it is usually much faster.
 We need to run the measurements with and without it
 to see how each factor is affected.
 
+### Summary
+
+The following tables summarize all comparisons.
+Fastest option is shown **in bold**.
+Detailed explanations follow.
+
+First without keep-alive, one-core tester against 3-core test server:
+
+|package|krps|
+|ab|**20**|
+|loadtest 7.1|6|
+|tcp barebones|10|
+|tcp 8.0|9|
+
+Now with keep-alive, also one-core tester against 3-core test server:
+
+|package|krps|
+|autocannon|57|
+|wrk|73|
+|loadtest 7.1|20|
+|tcp barebones|**80**|
+|tcp 8.0|
+
+
 ## Implementations
 
 All measurements against the test server using 3 cores (default):
@@ -328,6 +352,18 @@ Effective rps:       68466
 ```
 
 Marginally better than before.
+By the way, it would be a good idea to try again without keep-alive.
+There is currently no option to disable keep-alive,
+but it can be done by hacking the header as
+`Keep-alive: close`.
+We get a bit less performance than the barebones implementation,
+almost **9 krps**:
+
+```
+node bin/loadtest.js http://localhost:7357/ --tcp --cores 1
+[...]
+Effective rps:       8682
+```
 
 ### Reproducible Script
 
