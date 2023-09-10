@@ -36,8 +36,14 @@ so they are not to be compared between them.
 
 #### Apache ab
 
-First target performance is against [Apache `ab`](https://httpd.apache.org/docs/2.4/programs/ab.html),
-with 10 concurrent connections without keep-alive.
+First target performance is against [Apache `ab`](https://httpd.apache.org/docs/2.4/programs/ab.html).
+
+```
+ab -V
+Version 2.3 <$Revision: 1879490 $>
+```
+
+With 10 concurrent connections without keep-alive.
 
 ```
 ab -t 10 -c 10 http://localhost:7357/
@@ -54,6 +60,12 @@ The [autocannon](https://www.npmjs.com/package/autocannon) package uses by defau
 10 concurrent connections with keep-alive enabled:
 
 ```
+autocannon --version
+autocannon v7.12.0
+node v18.17.1
+```
+
+```
 autocannon http://localhost:7357/
 [...]
 ┌───────────┬─────────┬─────────┬─────────┬─────────┬──────────┬─────────┬─────────┐
@@ -65,13 +77,30 @@ autocannon http://localhost:7357/
 └───────────┴─────────┴─────────┴─────────┴─────────┴──────────┴─────────┴─────────┘
 ```
 
-We report the median rate (reported as 50%),
+We will look at the median rate (reported as 50%),
 so results are around **57 krps**.
 Keep-alive cannot be disabled as far as the author knows.
 
+#### `wrk`
+
+To complete the set we try `wrk`:
+
+```
+wrk -v
+wrk debian/4.1.0-3build1 [epoll]
+```
+
+With a single thread (core) for fair comparison we get almost **73 krps**:
+
+```
+wrk http://localhost:7357/ -t 1
+[...]
+Requests/sec:  72639.52
+```
+
 ### Baseline
 
-The baseline is the existing `http` implementation in `loadtest` 7.1,
+The baseline is the existing `http` implementation in `loadtest` 7.1.1,
 running on one core.
 
 Without keep-alive close to **6 krps**:
