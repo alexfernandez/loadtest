@@ -23,14 +23,15 @@ All measurements against the test server using 3 cores (default):
 node bin/testserver.js
 ```
 
-Running on an Intel Core i5-12400T processor with 6 cores.
+Tests run on an Intel Core i5-12400T processor with 6 cores,
+with Ubuntu 22.04.3 LTS (Xubuntu actually).
 Performance numbers are shown in bold and as thousands of requests per second (krps):
 **80 krps**.
 
 ### Targets
 
 We compare a few packages on the test machine.
-Keep in mind that `autocannon` does not use keep-alive while `ab` does,
+Keep in mind that `ab` does not use keep-alive while `autocannon` does,
 so they are not to be compared between them.
 
 #### Apache ab
@@ -45,7 +46,7 @@ Requests per second:    20395.83 [#/sec] (mean)
 ```
 
 Results are around **20 krps**.
-Keep-alive cannot be used as far as the author knows.
+Keep-alive cannot be used with `ab` as far as the author knows.
 
 #### Autocannon
 
@@ -64,7 +65,8 @@ autocannon http://localhost:7357/
 └───────────┴─────────┴─────────┴─────────┴─────────┴──────────┴─────────┴─────────┘
 ```
 
-Results are around **57 krps**.
+We report the median rate (reported as 50%),
+so results are around **57 krps**.
 Keep-alive cannot be disabled as far as the author knows.
 
 ### Baseline
@@ -288,4 +290,108 @@ Effective rps:       60331
 
 We need to do the painstaking exercise of getting back to our target performance.
 
+After some optimizing and a lot of bug fixing we are back to **68 krps**:
 
+```
+node bin/loadtest.js http://localhost:7357/ --tcp --cores 1
+[...]
+Effective rps:       68466
+```
+
+Marginally better than before.
+
+### Reproducible Script
+
+The current setup is a bit cumbersome: start the server,
+then start the load test with the right parameters.
+We need to have a reproducible way of getting performance measurements.
+So we introduce the script `bin/tcp-performance.js`,
+that starts a test server and then runs a load test with the parameters we have been using.
+Unfortunately the test server only uses one core (being run in API mode),
+and maxes out quickly at **27 krps**.
+
+```
+node bin/tcp-performance.js 
+[...]
+Effective rps:       27350
+```
+
+The author has carried out multiple attempts at getting a multi-core test server running:
+use the cluster module,
+run as a multi-core process,
+run it as a script using
+[child_process.exec()](https://nodejs.org/api/child_process.html#child_processexeccommand-options-callback)...
+They all add too much complexity.
+So we can use the single-core measurements as a benchmark,
+even if they are not representative of full operation.
+
+By the way, `autocannon` does a bit better in this scenario (single-core test server),
+as it reaches **43 krps**.
+How does it do this magic?
+One part of the puzzle can be that it sends less headers,
+without `user-agent` or `accepts`.
+So we can do a quick trial of removing these headers in `loadtest`:
+
+```
+node bin/loadtest.js http://localhost:7357/ --tcp --cores 1
+[...]
+Effective rps:       29694
+```
+
+Performance is improved a bit but not much, to almost **30 krps**.
+How `autocannon` does this wizardry is not evident.
+
+### Face-off with Nginx
+
+Our last test is to run `loadtest` against a local Nginx server,
+which is sure not to max out with only one core:
+it goes to **61 krps**.
+
+```
+node bin/loadtest.js http://localhost:80/ --tcp --cores 1
+[...]
+Effective rps:       61059
+```
+
+A similar test with `autocannon` yields only **40 krps**:
+
+```
+autocannon http://localhost:80/
+[...]
+┌───────────┬─────────┬─────────┬───────┬─────────┬─────────┬─────────┬─────────┐
+│ Stat      │ 1%      │ 2.5%    │ 50%   │ 97.5%   │ Avg     │ Stdev   │ Min     │
+├───────────┼─────────┼─────────┼───────┼─────────┼─────────┼─────────┼─────────┤
+│ Req/Sec   │ 34591   │ 34591   │ 40735 │ 43679   │ 40400   │ 2664.56 │ 34590   │
+├───────────┼─────────┼─────────┼───────┼─────────┼─────────┼─────────┼─────────┤
+│ Bytes/Sec │ 29.7 MB │ 29.7 MB │ 35 MB │ 37.5 MB │ 34.7 MB │ 2.29 MB │ 29.7 MB │
+└───────────┴─────────┴─────────┴───────┴─────────┴─────────┴─────────┴─────────┘
+
+```
+
+Now it's not evident either how it reaches less performance against an Nginx
+than against our Node.js test server,
+but the numbers are quite consistent.
+
+Running again `loadtest` with three cores we get **111 krps**:
+
+```
+node bin/loadtest.js http://localhost:80/ --tcp --cores 3
+[...]
+Effective rps:       110858
+```
+
+while `autocannon` with three workers reaches **80 krps**,
+
+```
+autocannon http://localhost:80/ -w 3
+[...]
+┌───────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
+│ Stat      │ 1%      │ 2.5%    │ 50%     │ 97.5%   │ Avg     │ Stdev   │ Min     │
+├───────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+│ Req/Sec   │ 65727   │ 65727   │ 80191   │ 84223   │ 78668.8 │ 5071.38 │ 65676   │
+├───────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┼─────────┤
+│ Bytes/Sec │ 56.4 MB │ 56.4 MB │ 68.9 MB │ 72.4 MB │ 67.6 MB │ 4.36 MB │ 56.4 MB │
+└───────────┴─────────┴─────────┴─────────┴─────────┴─────────┴─────────┴─────────┘
+```
+
+Consistent with the numbers reached above against a test server with 3 cores.
