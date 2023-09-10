@@ -4,12 +4,12 @@ const port = 7359;
 const serverOptions = {port}
 
 
-async function runNetworkPerformanceTest() {
+async function runTcpPerformanceTest() {
 	const server = await startServer(serverOptions)
 	const options = {
 		url: `http://localhost:${port}`,
 		method: 'GET',
-		network: true,
+		tcp: true,
 	};
 	const result = await loadTest(options)
 	await server.close()
@@ -17,5 +17,5 @@ async function runNetworkPerformanceTest() {
 	result.show()
 }
 
-await runNetworkPerformanceTest()
+await runTcpPerformanceTest()
 

@@ -1,6 +1,6 @@
-# Network Sockets
+# TCP Sockets
 
-To improve performance the author tried out using raw network sockets
+To improve performance the author tried out using raw TCP sockets
 using the [net module](https://nodejs.org/api/net.html),
 instead of the [HTTP module](https://nodejs.org/api/http.html).
 This is the story of how it went.
@@ -109,7 +109,7 @@ and disregard it.
 The results are almost **80 krps**:
 
 ```
-node bin/loadtest.js http://localhost:7357 --cores 1 --net
+node bin/loadtest.js http://localhost:7357 --cores 1 --tcp
 [...]
 Effective rps:       79997
 ```
@@ -241,7 +241,7 @@ which can cause memory issues when size varies constantly.
 Now we can go back to using multiple cores:
 
 ```
-node bin/loadtest.js http://localhost:7357 --cores 3 --net
+node bin/loadtest.js http://localhost:7357 --cores 3 --tcp
 [...]
 Effective rps:       115379
 ```
@@ -281,7 +281,7 @@ After the refactoring we get some bad news:
 performance has dropped down back to **60 krps**!
 
 ```
-node bin/loadtest.js http://localhost:7357/ --net --cores 1
+node bin/loadtest.js http://localhost:7357/ --tcp --cores 1
 [...]
 Effective rps:       60331
 ```

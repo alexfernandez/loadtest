@@ -209,7 +209,7 @@ async function testStatusCallback() {
 	await server.close()
 }
 
-async function testNetworkClient() {
+async function testTcpClient() {
 	const server = await startServer(serverOptions)
 	const options = {
 		url: `http://localhost:${port}`,
@@ -219,14 +219,14 @@ async function testNetworkClient() {
 			hi: 'there',
 		},
 		quiet: true,
-		network: true,
+		tcp: true,
 	};
 	const result = await loadTest(options)
 	await server.close()
 	return 'Test result: ' + JSON.stringify(result)
 }
 
-async function testNetworkNoServer() {
+async function testTcpNoServer() {
 	const options = {
 		url: `http://localhost:${port}`,
 		maxRequests: 100,
@@ -236,7 +236,7 @@ async function testNetworkNoServer() {
 			hi: 'there',
 		},
 		quiet: true,
-		network: true,
+		tcp: true,
 	};
 	const result = await loadTest(options)
 	return 'Test result: ' + JSON.stringify(result)
@@ -248,8 +248,8 @@ async function testNetworkNoServer() {
 export function test(callback) {
 	testing.run([
 		testIntegration, testIntegrationFile, testDelay, testWSIntegration,
-		testPromise, testIndexParam, testStatusCallback, testNetworkClient,
-		testNetworkNoServer,
+		testPromise, testIndexParam, testStatusCallback, testTcpClient,
+		testTcpNoServer,
 	], 4000, callback);
 }
 

@@ -1,5 +1,5 @@
 import testing from 'testing'
-import {NetworkClient} from '../lib/networkClient.js'
+import {TcpClient} from '../lib/tcpClient.js'
 
 
 function testHttpClient(callback) {
@@ -8,7 +8,7 @@ function testHttpClient(callback) {
 		maxSeconds: 0.1,
 		concurrency: 1,
 	};
-	const client = new NetworkClient({options});
+	const client = new TcpClient({options});
 	client.stop()
 	testing.success(callback);
 }

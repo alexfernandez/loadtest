@@ -15,7 +15,7 @@ import {test as testLoadtest} from './loadtest.js'
 import {test as testWebsocket} from './websocket.js'
 import {test as integrationTest} from './integration.js'
 import {test as testResult} from './result.js'
-import {test as testNetworkClient} from './networkClient.js'
+import {test as testTcpClient} from './tcpClient.js'
 //import log from 'why-is-node-running'
 
 
@@ -27,7 +27,7 @@ function test() {
 		testHrtimer, testHeaders, testLatency, testHttpClient,
 		testServer, integrationTest, testLoadtest, testWebsocket,
 		testRequestGenerator, testBodyGenerator, testResult,
-		testNetworkClient,
+		testTcpClient,
 	];
 	testing.run(tests, 4200);
 }
