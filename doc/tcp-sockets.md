@@ -73,7 +73,7 @@ Finally with keep-alive, 3-core load tester against Nginx:
 
 All measurements against the test server using 3 cores (default):
 
-```bash
+```
 $ node bin/testserver.js
 ```
 
@@ -93,14 +93,14 @@ so they are not to be compared between them.
 
 First target performance is against [Apache `ab`](https://httpd.apache.org/docs/2.4/programs/ab.html).
 
-```bash
+```
 $ ab -V
 Version 2.3 <$Revision: 1879490 $>
 ```
 
 With 10 concurrent connections without keep-alive.
 
-```bash
+```
 $ ab -t 10 -c 10 http://localhost:7357/
 [...]
 Requests per second:    20395.83 [#/sec] (mean)
@@ -444,10 +444,11 @@ import microprofiler from 'microprofiler'
 ```
 
 Each of the four calls are instrumented.
-When run the output has a lot of lines like this:
-The results are as follows:
+When this code runs the output has a lot of lines like this:
 
 ```
+$ node bin/loadtest.js http://localhost:7357/ --tcp --cores 1
+[...]
 Profiling connect: 100000 requests, mean time: 1.144 µs, rps: 6948026
 Profiling create parser: 100000 requests, mean time: 0.152 µs, rps: 6582446
 Profiling latency begin: 100000 requests, mean time: 1.138 µs, rps: 878664
@@ -461,13 +462,14 @@ There is not a lot that we can do with the `connection.write()` call,
 since it's directly speaking with the Node.js core;
 we can try reducing the message size (not sending all headers)
 but it doesn't seem to do much.
-So we center on the `this.connect()` call.
+So we center on the `this.connect()` call,
+which we can reduce to less than a µs.
 Then we repeat again on the `finishRequest()` call to see if we can squeeze another microsecond there.
 
 After some optimizing and a lot of bug fixing we are back to **68 krps**:
 
 ```
-node bin/loadtest.js http://localhost:7357/ --tcp --cores 1
+$ node bin/loadtest.js http://localhost:7357/ --tcp --cores 1
 [...]
 Effective rps:       68466
 ```
@@ -475,7 +477,7 @@ Effective rps:       68466
 With classic `loadtest` without the `--tcp` option, we still get **21 krps**:
 
 ```
-node bin/loadtest.js http://localhost:7357/ -k --cores 1
+$ node bin/loadtest.js http://localhost:7357/ -k --cores 1
 [...]
 Effective rps:       21446
 ```
@@ -489,7 +491,7 @@ We get a bit less performance than the barebones implementation,
 almost **9 krps**:
 
 ```
-node bin/loadtest.js http://localhost:7357/ --tcp --cores 1
+$ node bin/loadtest.js http://localhost:7357/ --tcp --cores 1
 [...]
 Effective rps:       8682
 ```
@@ -505,7 +507,7 @@ Unfortunately the test server only uses one core (being run in API mode),
 and maxes out quickly at **27 krps**.
 
 ```
-node bin/tcp-performance.js 
+$ node bin/tcp-performance.js 
 [...]
 Effective rps:       27350
 ```
@@ -527,7 +529,7 @@ without `user-agent` or `accepts`.
 So we can do a quick trial of removing these headers in `loadtest`:
 
 ```
-node bin/loadtest.js http://localhost:7357/ --tcp --cores 1
+$ node bin/loadtest.js http://localhost:7357/ --tcp --cores 1
 [...]
 Effective rps:       29694
 ```
@@ -542,7 +544,7 @@ which is sure not to max out with only one core:
 it goes to **61 krps**.
 
 ```
-node bin/loadtest.js http://localhost:80/ --tcp --cores 1
+$ node bin/loadtest.js http://localhost:80/ --tcp --cores 1
 [...]
 Effective rps:       61059
 ```
@@ -551,7 +553,7 @@ While without `--tcp` we only get **19 krps**.
 A similar test with `autocannon` yields only **40 krps**:
 
 ```
-autocannon http://localhost:80/
+$ autocannon http://localhost:80/
 [...]
 ┌───────────┬─────────┬─────────┬───────┬─────────┬─────────┬─────────┬─────────┐
 │ Stat      │ 1%      │ 2.5%    │ 50%   │ 97.5%   │ Avg     │ Stdev   │ Min     │
@@ -568,7 +570,7 @@ but the numbers are quite consistent.
 While `wrk` takes the crown again with **111 krps**:
 
 ```
-wrk http://localhost:80/ -t 1
+$ wrk http://localhost:80/ -t 1
 [...]
 Requests/sec: 111176.14
 ```
@@ -576,7 +578,7 @@ Requests/sec: 111176.14
 Running again `loadtest` with three cores we get **111 krps**:
 
 ```
-node bin/loadtest.js http://localhost:80/ --tcp --cores 3
+$ node bin/loadtest.js http://localhost:80/ --tcp --cores 3
 [...]
 Effective rps:       110858
 ```
@@ -585,7 +587,7 @@ Without `--tcp` we get **49 krps**.
 While `autocannon` with three workers reaches **80 krps**:
 
 ```
-autocannon http://localhost:80/ -w 3
+$ autocannon http://localhost:80/ -w 3
 [...]
 ┌───────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┬─────────┐
 │ Stat      │ 1%      │ 2.5%    │ 50%     │ 97.5%   │ Avg     │ Stdev   │ Min     │
@@ -601,7 +603,7 @@ Consistent with the numbers reached above against a test server with 3 cores.
 `wrk` does not go much further with three threads than with one, at **122 krps**:
 
 ```
-wrk http://localhost:80/ -t 3
+$ wrk http://localhost:80/ -t 3
 [...]
 Requests/sec: 121991.96
 ```
