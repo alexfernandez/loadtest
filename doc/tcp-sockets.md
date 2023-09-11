@@ -26,44 +26,48 @@ First without keep-alive, one-core load tester against 3-core test server:
 
 |package|krps|
 |-------|----|
-|ab|**20**|
-|loadtest 7.1|6|
+|loadtest|6|
 |tcp barebones|10|
-|loadtest 8.0|9|
+|loadtest tcp|9|
+|ab|**20**|
+|autocannon|8|
 
 Now with keep-alive, also one-core load tester against 3-core test server:
 
 |package|krps|
 |-------|----|
+|loadtest|21|
+|tcp barebones|**80**|
+|loadtest tcp|68|
 |autocannon|57|
 |wrk|73|
-|loadtest 7.1|20|
-|tcp barebones|**80**|
-|loadtest 8.0|68|
 
 With keep-alive, 3-core load tester against 3-core test server:
 
 |package|krps|
 |-------|----|
+|loadtest|54|
+|loadtest tcp|115|
 |autocannon|107|
 |wrk|**118**|
-|loadtest 8.0|115|
 
 With keep-alive, 1-core load tester against Nginx:
 
 |package|krps|
 |-------|----|
+|loadtest|19|
+|loadtest tcp|61|
 |autocannon|40|
 |wrk|**111**|
-|loadtest 8.0|61|
 
 Finally with keep-alive, 3-core load tester against Nginx:
 
 |package|krps|
 |-------|----|
+|loadtest|49|
+|loadtest tcp|111|
 |autocannon|80|
 |wrk|**122**|
-|loadtest 8.0|111|
 
 ## Implementations
 
@@ -129,7 +133,21 @@ autocannon http://localhost:7357/
 
 We will look at the median rate (reported as 50%),
 so results are around **57 krps**.
-Keep-alive cannot be disabled as far as the author knows.
+Keep-alive cannot be disabled with an option,
+but it can be changed directly in the code by setting the header `Connection: close`.
+Performance is near **8 krps**:
+
+```
+npx autocannon http://localhost:7357/
+[...]
+┌───────────┬────────┬────────┬────────┬────────┬────────┬─────────┬────────┐
+│ Stat      │ 1%     │ 2.5%   │ 50%    │ 97.5%  │ Avg    │ Stdev   │ Min    │
+├───────────┼────────┼────────┼────────┼────────┼────────┼─────────┼────────┤
+│ Req/Sec   │ 5831   │ 5831   │ 7703   │ 8735   │ 7674.4 │ 753.53  │ 5828   │
+├───────────┼────────┼────────┼────────┼────────┼────────┼─────────┼────────┤
+│ Bytes/Sec │ 560 kB │ 560 kB │ 739 kB │ 839 kB │ 737 kB │ 72.4 kB │ 559 kB │
+└───────────┴────────┴────────┴────────┴────────┴────────┴─────────┴────────┘
+```
 
 #### `wrk`
 
@@ -331,6 +349,15 @@ In this case half the available cores,
 leaving the rest for the test server.
 Now we go up to **115 krps**!
 
+What about regular `http` connections without the `--tcp` option?
+It stays at **54 krps**:
+
+```
+node bin/loadtest.js http://localhost:7357/ -k --cores 3
+[...]
+Effective rps:       54432
+```
+
 For comparison we try using `autocannon` also with three workers:
 
 ```
@@ -383,6 +410,14 @@ After some optimizing and a lot of bug fixing we are back to **68 krps**:
 node bin/loadtest.js http://localhost:7357/ --tcp --cores 1
 [...]
 Effective rps:       68466
+```
+
+With classic `loadtest` without the `--tcp` option, we still get **21 krps**:
+
+```
+node bin/loadtest.js http://localhost:7357/ -k --cores 1
+[...]
+Effective rps:       21446
 ```
 
 Marginally better than before.
@@ -452,6 +487,7 @@ node bin/loadtest.js http://localhost:80/ --tcp --cores 1
 Effective rps:       61059
 ```
 
+While without `--tcp` we only get **19 krps**.
 A similar test with `autocannon` yields only **40 krps**:
 
 ```
@@ -485,7 +521,8 @@ node bin/loadtest.js http://localhost:80/ --tcp --cores 3
 Effective rps:       110858
 ```
 
-while `autocannon` with three workers reaches **80 krps**,
+Without `--tcp` we get **49 krps**.
+While `autocannon` with three workers reaches **80 krps**:
 
 ```
 autocannon http://localhost:80/ -w 3
@@ -518,10 +555,15 @@ while `autocannon` is maintained by Matteo Collina who is one of the leading Nod
 
 There are some unexplained effects,
 like why does `autocannon` perform so poorly against Nginx.
+It would be really interesting to understand it.
 
 Now with TCP sockets and keep-alive you can use `loadtest`
 to go beyond the paltry 6 to 20 krps that we used to get:
 especially with multiple cores you can reach 100 krps locally.
 If you need performance that goes beyond that,
 you can try some of the other options used here.
+
+Note that there are many options not yet implemented for TCP sockets,
+like secure connections with HTTPS.
+They will come in the next releases.
 
