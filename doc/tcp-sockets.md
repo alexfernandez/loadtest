@@ -73,7 +73,7 @@ Finally with keep-alive, 3-core load tester against Nginx:
 
 All measurements against the test server using 3 cores (default):
 
-```
+```console
 $ node bin/testserver.js
 ```
 
