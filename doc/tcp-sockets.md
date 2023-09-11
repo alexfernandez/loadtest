@@ -1,4 +1,4 @@
-# TCP Sockets Performance
+# Load Testing with TCP Sockets
 
 The `loadtest` module has impressive performance,
 and it has got better during the years as the Node.js core improves.
