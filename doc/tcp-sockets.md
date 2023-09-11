@@ -57,7 +57,7 @@ With keep-alive, 1-core load tester against Nginx:
 |wrk|**111**|
 |loadtest 8.0|61|
 
-Finally, with keep-alive, 3-core load tester against Nginx:
+Finally with keep-alive, 3-core load tester against Nginx:
 
 |package|krps|
 |-------|----|
