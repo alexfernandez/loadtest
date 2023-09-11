@@ -123,6 +123,10 @@ Default is 10 seconds, applies only if no `--maxRequests` is specified.
 
 Note: this is different than Apache `ab`, which stops _receiving_ requests after the given seconds.
 
+**Warning**: max seconds used to have no default value,
+so tests would run indefinitely if no `--maxSeconds` and no `--maxRequests` were specified.
+Max seconds was changed to default to 10 in version 8.
+
 #### `-n`, `--maxRequests`
 
 Number of requests to send out.

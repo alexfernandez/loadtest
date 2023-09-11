@@ -70,23 +70,34 @@ See also the [simplified list](../README.md#loadtest-parameters).
 
 The URL to invoke. Mandatory.
 
-#### `concurrency`
+#### `maxSeconds`
 
-How many clients to start in parallel.
+Max number of seconds to run the tests.
+Default is 10 seconds, applies only if no `maxRequests` is specified.
+
+Note: after the given number of seconds `loadtest` will stop sending requests,
+but may continue receiving tests afterwards.
+
+**Warning**: max seconds used to have no default value,
+so tests would run indefinitely if no `maxSeconds` and no `maxRequests` were specified.
+Max seconds was changed to default to 10 in version 8.
 
 #### `maxRequests`
 
 A max number of requests; after they are reached the test will end.
+Default is no limit;
+will keep on sending until the time limit in `maxSeconds` is reached.
 
 Note: the actual number of requests sent can be bigger if there is a concurrency level;
 loadtest will report just on the max number of requests.
 
-#### `maxSeconds`
+#### `concurrency`
 
-Max number of seconds to run the tests.
+How many clients to start in parallel, default is 10.
+Does not apply if `requestsPerSecond` is specified.
 
-Note: after the given number of seconds `loadtest` will stop sending requests,
-but may continue receiving tests afterwards.
+**Warning**: concurrency used to have a default value of 1,
+until it was changed to 10 in version 8.
 
 #### `timeout`
 
@@ -94,7 +105,7 @@ Timeout for each generated request in milliseconds. Setting this to 0 disables t
 
 #### `cookies`
 
-An array of cookies to send. Each cookie should be a string of the form name=value.
+An array of cookies to send. Each cookie should be a string of the form `name=value`.
 
 #### `headers`
 
@@ -105,9 +116,6 @@ like this:
     {
         accept: "text/plain;text/html"
     }
-
-Note: when using the API, the "host" header is not inferred from the URL but needs to be sent
-explicitly.
 
 #### `method`
 
