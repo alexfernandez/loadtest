@@ -19,18 +19,19 @@ to see how each factor is affected.
 
 The following tables summarize all comparisons.
 Fastest option is shown **in bold**.
+Results are shown with one core (or worker, or thread) and three cores for the load tester.
 Detailed explanations follow.
 
-First without keep-alive, one-core tester against 3-core test server:
+First without keep-alive, one-core load tester against 3-core test server:
 
 |package|krps|
 |-------|----|
 |ab|**20**|
 |loadtest 7.1|6|
 |tcp barebones|10|
-|tcp 8.0|9|
+|loadtest 8.0|9|
 
-Now with keep-alive, also one-core tester against 3-core test server:
+Now with keep-alive, also one-core load tester against 3-core test server:
 
 |package|krps|
 |-------|----|
@@ -38,8 +39,31 @@ Now with keep-alive, also one-core tester against 3-core test server:
 |wrk|73|
 |loadtest 7.1|20|
 |tcp barebones|**80**|
-|tcp 8.0|
+|loadtest 8.0|68|
 
+With keep-alive, 3-core load tester against 3-core test server:
+
+|package|krps|
+|-------|----|
+|autocannon|107|
+|wrk|**118**|
+|loadtest 8.0|115|
+
+With keep-alive, 1-core load tester against Nginx:
+
+|package|krps|
+|-------|----|
+|autocannon|40|
+|wrk|**111**|
+|loadtest 8.0|61|
+
+Finally, with keep-alive, 3-core load tester against Nginx:
+
+|package|krps|
+|-------|----|
+|autocannon|80|
+|wrk|**122**|
+|loadtest 8.0|111|
 
 ## Implementations
 
@@ -293,7 +317,7 @@ Using this trick we go back to **67 krps**.
 Packets of different lengths are stored for comparison,
 which can cause memory issues when size varies constantly.
 
-### Multiprocess
+### Multiprocess, Multi-core
 
 Now we can go back to using multiple cores:
 
@@ -322,8 +346,16 @@ autocannon http://localhost:7357/ -w 3 -c 30
 ```
 
 Median rate (50% percentile) is **107 krps**.
-So `loadtest` has managed to be slightly above `autocannon`,
-using multiple tricks.
+Now `wrk` which yields **118 krps**:
+
+```
+wrk http://localhost:7357/ -t 3
+[...]
+Requests/sec:  118164.03
+```
+
+So `loadtest` has managed to be slightly above `autocannon` using multiple tricks,
+but below `wrk`.
 
 ### Pool of Clients
 
@@ -432,12 +464,18 @@ autocannon http://localhost:80/
 ├───────────┼─────────┼─────────┼───────┼─────────┼─────────┼─────────┼─────────┤
 │ Bytes/Sec │ 29.7 MB │ 29.7 MB │ 35 MB │ 37.5 MB │ 34.7 MB │ 2.29 MB │ 29.7 MB │
 └───────────┴─────────┴─────────┴───────┴─────────┴─────────┴─────────┴─────────┘
-
 ```
 
 Now it's not evident either how it reaches less performance against an Nginx
 than against our Node.js test server,
 but the numbers are quite consistent.
+While `wrk` takes the crown again with **111 krps**:
+
+```
+wrk http://localhost:80/ -t 1
+[...]
+Requests/sec: 111176.14
+```
 
 Running again `loadtest` with three cores we get **111 krps**:
 
@@ -462,3 +500,28 @@ autocannon http://localhost:80/ -w 3
 ```
 
 Consistent with the numbers reached above against a test server with 3 cores.
+
+`wrk` does not go much further with three threads than with one, at **122 krps**:
+
+```
+wrk http://localhost:80/ -t 3
+[...]
+Requests/sec: 121991.96
+```
+
+## Conclusions
+
+It is good to know that `loadtest` can hold its own against such beasts like `ab`,
+`autocannon` or `wrk`.
+`ab` and `wrk` are written in C,
+while `autocannon` is maintained by Matteo Collina who is one of the leading Node.js performance gurus.
+
+There are some unexplained effects,
+like why does `autocannon` perform so poorly against Nginx.
+
+Now with TCP sockets and keep-alive you can use `loadtest`
+to go beyond the paltry 6 to 20 krps that we used to get:
+especially with multiple cores you can reach 100 krps locally.
+If you need performance that goes beyond that,
+you can try some of the other options used here.
+
