@@ -73,10 +73,11 @@ Finally with keep-alive, 3-core load tester against Nginx:
 
 All measurements against the test server using 3 cores (default):
 
-```
-node bin/testserver.js
+```bash
+$ node bin/testserver.js
 ```
 
+Note that the first `$` is the console prompt.
 Tests run on an Intel Core i5-12400T processor with 6 cores,
 with Ubuntu 22.04.3 LTS (Xubuntu actually).
 Performance numbers are shown in bold and as thousands of requests per second (krps):
@@ -92,15 +93,15 @@ so they are not to be compared between them.
 
 First target performance is against [Apache `ab`](https://httpd.apache.org/docs/2.4/programs/ab.html).
 
-```
-ab -V
+```bash
+$ ab -V
 Version 2.3 <$Revision: 1879490 $>
 ```
 
 With 10 concurrent connections without keep-alive.
 
-```
-ab -t 10 -c 10 http://localhost:7357/
+```bash
+$ ab -t 10 -c 10 http://localhost:7357/
 [...]
 Requests per second:    20395.83 [#/sec] (mean)
 ```
@@ -114,13 +115,13 @@ The [autocannon](https://www.npmjs.com/package/autocannon) package uses by defau
 10 concurrent connections with keep-alive enabled:
 
 ```
-autocannon --version
+$ autocannon --version
 autocannon v7.12.0
 node v18.17.1
 ```
 
 ```
-autocannon http://localhost:7357/
+$ autocannon http://localhost:7357/
 [...]
 ┌───────────┬─────────┬─────────┬─────────┬─────────┬──────────┬─────────┬─────────┐
 │ Stat      │ 1%      │ 2.5%    │ 50%     │ 97.5%   │ Avg      │ Stdev   │ Min     │
@@ -138,7 +139,7 @@ but it can be changed directly in the code by setting the header `Connection: cl
 Performance is near **8 krps**:
 
 ```
-npx autocannon http://localhost:7357/
+$ npx autocannon http://localhost:7357/
 [...]
 ┌───────────┬────────┬────────┬────────┬────────┬────────┬─────────┬────────┐
 │ Stat      │ 1%     │ 2.5%   │ 50%    │ 97.5%  │ Avg    │ Stdev   │ Min    │
@@ -154,14 +155,14 @@ npx autocannon http://localhost:7357/
 To complete the set we try `wrk`:
 
 ```
-wrk -v
+$ wrk -v
 wrk debian/4.1.0-3build1 [epoll]
 ```
 
 With a single thread (core) for fair comparison we get almost **73 krps**:
 
 ```
-wrk http://localhost:7357/ -t 1
+$ wrk http://localhost:7357/ -t 1
 [...]
 Requests/sec:  72639.52
 ```
@@ -174,7 +175,7 @@ running on one core.
 Without keep-alive close to **6 krps**:
 
 ```
-node bin/loadtest.js http://localhost:7357 --cores 1
+$ node bin/loadtest.js http://localhost:7357 --cores 1
 [...]
 Effective rps:       6342
 ```
@@ -183,7 +184,7 @@ Very far away from the 20 krps given by `ab`.
 With keep-alive:
 
 ```
-node bin/loadtest.js http://localhost:7357 --cores 1 -k
+$ node bin/loadtest.js http://localhost:7357 --cores 1 -k
 [...]
 Effective rps:       20490
 ```
@@ -198,7 +199,7 @@ For the first implementation we want to learn if the bare sockets implementation
 In this naïve implementation we open the socket,
 send a short canned request without taking into account any parameters or headers:
 
-```
+```js
 this.params.request = `${this.params.method} ${this.params.path} HTTP/1.1\r\n\r\n`
 ```
 
@@ -208,7 +209,7 @@ and disregard it.
 The results are almost **80 krps**:
 
 ```
-node bin/loadtest.js http://localhost:7357 --cores 1 --tcp
+$ node bin/loadtest.js http://localhost:7357 --cores 1 --tcp
 [...]
 Effective rps:       79997
 ```
@@ -340,7 +341,7 @@ which can cause memory issues when size varies constantly.
 Now we can go back to using multiple cores:
 
 ```
-node bin/loadtest.js http://localhost:7357 --cores 3 --tcp
+$ node bin/loadtest.js http://localhost:7357 --cores 3 --tcp
 [...]
 Effective rps:       115379
 ```
@@ -353,7 +354,7 @@ What about regular `http` connections without the `--tcp` option?
 It stays at **54 krps**:
 
 ```
-node bin/loadtest.js http://localhost:7357/ -k --cores 3
+$ node bin/loadtest.js http://localhost:7357/ -k --cores 3
 [...]
 Effective rps:       54432
 ```
@@ -361,7 +362,7 @@ Effective rps:       54432
 For comparison we try using `autocannon` also with three workers:
 
 ```
-autocannon http://localhost:7357/ -w 3 -c 30
+$ autocannon http://localhost:7357/ -w 3 -c 30
 [...]
 ┌───────────┬───────┬───────┬─────────┬─────────┬──────────┬─────────┬───────┐
 │ Stat      │ 1%    │ 2.5%  │ 50%     │ 97.5%   │ Avg      │ Stdev   │ Min   │
@@ -376,7 +377,7 @@ Median rate (50% percentile) is **107 krps**.
 Now `wrk` which yields **118 krps**:
 
 ```
-wrk http://localhost:7357/ -t 3
+$ wrk http://localhost:7357/ -t 3
 [...]
 Requests/sec:  118164.03
 ```
@@ -397,7 +398,7 @@ After the refactoring we get some bad news:
 performance has dropped down back to **60 krps**!
 
 ```
-node bin/loadtest.js http://localhost:7357/ --tcp --cores 1
+$ node bin/loadtest.js http://localhost:7357/ --tcp --cores 1
 [...]
 Effective rps:       60331
 ```
