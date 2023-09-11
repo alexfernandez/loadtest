@@ -9,9 +9,9 @@ import {getHalfCores} from '../lib/cluster.js'
 
 
 const options = stdio.getopt({
+	maxSeconds: {key: 't', args: 1, description: 'Max time in seconds to wait for responses, default 10'},
 	maxRequests: {key: 'n', args: 1, description: 'Number of requests to perform'},
-	concurrency: {key: 'c', args: 1, description: 'Number of requests to make'},
-	maxSeconds: {key: 't', args: 1, description: 'Max time in seconds to wait for responses'},
+	concurrency: {key: 'c', args: 1, description: 'Number of concurrent requests, default 10'},
 	timeout: {key: 'd', args: 1, description: 'Timeout for each request in milliseconds'},
 	contentType: {key: 'T', args: 1, description: 'MIME type for the body'},
 	cookies: {key: 'C', multiple: true, description: 'Send a cookie as name=value'},

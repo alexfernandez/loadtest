@@ -116,43 +116,53 @@ It may need installing from source though, and its interface is not `ab`-compati
 
 The following parameters are compatible with Apache ab.
 
-#### `-n requests`
+#### `-t`, `--maxSeconds`
+
+Max number of seconds to wait until requests no longer go out.
+Default is 10 seconds, applies only if no `--maxRequests` is specified.
+
+Note: this is different than Apache `ab`, which stops _receiving_ requests after the given seconds.
+
+#### `-n`, `--maxRequests`
 
 Number of requests to send out.
-Default is no limit; will keep on sending if not specified.
+Default is no limit;
+will keep on sending until the time limit in `--maxSeconds` is reached.
 
 Note: the total number of requests sent can be bigger than the parameter if there is a concurrency parameter;
 loadtest will report just the first `n`.
 
-#### `-c concurrency`
+#### `-c`, `--concurrency`
 
 loadtest will create a certain number of clients; this parameter controls how many.
 Requests from them will arrive concurrently to the server.
-Default value is 1.
+Default value is 10.
 
 Note: requests are not sent in parallel (from different processes),
 but concurrently (a second request may be sent before the first has been answered).
+Does not apply if `--requestsPerSecond` is specified.
 
-#### `-t timelimit`
+Beware: if concurrency is too low then it is possible that there will not be enough clients
+to send all the supported traffic,
+adjust it with `-c` if needed.
 
-Max number of seconds to wait until requests no longer go out.
-Default is no limit; will keep on sending if not specified.
+**Warning**: concurrency used to have a default value of 1,
+until it was changed to 10 in version 8.
 
-Note: this is different than Apache `ab`, which stops _receiving_ requests after the given seconds.
+#### `-k`, `--keepalive`
 
-#### `-k` or `--keepalive`
-
-Open connections using keep-alive: use header 'Connection: Keep-alive' instead of 'Connection: Close'.
+Open connections using keep-alive:
+use header `Connection: keep-alive` instead of `Connection: close`.
 
 Note: Uses [agentkeepalive](https://npmjs.org/package/agentkeepalive),
 which performs better than the default node.js agent.
 
-#### `-C cookie-name=value`
+#### `-C`, `--cookie cookie-name=value`
 
 Send a cookie with the request. The cookie `name=value` is then sent to the server.
 This parameter can be repeated as many times as needed.
 
-#### `-H header:value`
+#### `-H`, `--header header:value`
 
 Send a custom header with the request. The line `header:value` is then sent to the server.
 This parameter can be repeated as many times as needed.
@@ -172,19 +182,19 @@ Note: if you need to add a header with spaces, be sure to surround both header a
 
     $ loadtest -H "Authorization: Basic xxx=="
 
-#### `-T content-type`
+#### `-T`, `--contentType`
 
 Set the MIME content type for POST data. Default: `text/plain`.
 
-#### `-P POST-body`
+#### `-P`, `--postBody`
 
 Send the string as the POST body. E.g.: `-P '{"key": "a9acf03f"}'`
 
-#### `-A PATCH-body`
+#### `-A`, `--patchBody`
 
 Send the string as the PATCH body. E.g.: `-A '{"key": "a9acf03f"}'`
 
-#### `-m method`
+#### `-m`, `--method`
 
 Set method that will be sent to the test URL.
 Accepts: `GET`, `POST`, `PUT`, `DELETE`, `PATCH`,
@@ -198,7 +208,7 @@ Requires setting the method with `-m` and the type with `-T`.
 Example: `--data '{"username": "test", "password": "test"}' -T 'application/x-www-form-urlencoded' -m POST`
 
 
-#### `-p POST-file`
+#### `-p`, `--postFile`
 
 Send the data contained in the given file in the POST body.
 Remember to set `-T` to the correct content-type.
@@ -222,7 +232,7 @@ export default function request(requestId) {
 
 See sample file in `sample/post-file.js`, and test in `test/body-generator.js`.
 
-#### `-u PUT-file`
+#### `-u`, `--putFile`
 
 Send the data contained in the given file as a PUT request.
 Remember to set `-T` to the correct content-type.
@@ -233,7 +243,7 @@ to provide the body of each request.
 This is useful if you want to generate request bodies dynamically and vary them for each request.
 For examples see above for `-p`.
 
-#### `-a PATCH-file`
+#### `-a`, `--patchFile`
 
 Send the data contained in the given file as a PATCH request.
 Remember to set `-T` to the correct content-type.
@@ -244,12 +254,12 @@ to provide the body of each request.
 This is useful if you want to generate request bodies dynamically and vary them for each request.
 For examples see above for `-p`.
 
-##### `-r recover`
+##### `-r`, `--recover`
 
 Recover from errors. Always active: loadtest does not stop on errors.
 After the tests are finished, if there were errors a report with all error codes will be shown.
 
-#### `-s secureProtocol`
+#### `-s`, `--secureProtocol`
 
 The TLS/SSL method to use. (e.g. TLSv1_method)
 
@@ -257,7 +267,7 @@ Example:
 
     $ loadtest -n 1000 -s TLSv1_method https://www.example.com
 
-#### `-V version`
+#### `-V`, `--version`
 
 Show version number and exit.
 
@@ -265,25 +275,17 @@ Show version number and exit.
 
 The following parameters are _not_ compatible with Apache ab.
 
-#### `--rps requestsPerSecond`
+#### `--rps`, `--requestsPerSecond`
 
 Controls the number of requests per second that are sent.
 Cannot be fractional, e.g. `--rps 0.5`.
 In this mode each request is not sent as soon as the previous one is responded,
 but periodically even if previous requests have not been responded yet.
 
-Note: Concurrency doesn't affect the final number of requests per second,
-since rps will be shared by all the clients. E.g.:
+Note: the `--concurrency` option will be ignored if `--requestsPerSecond` is specified;
+clients will be created on demand.
 
-    loadtest <url> -c 10 --rps 10
-
-will send a total of 10 rps to the given URL, from 10 different clients
-(each client will send 1 request per second).
-
-Beware: if concurrency is too low then it is possible that there will not be enough clients
-to send all of the rps, adjust it with `-c` if needed.
-
-Note: --rps is not supported for websockets.
+Note: `--rps` is not supported for websockets.
 
 #### `--cores number`
 
