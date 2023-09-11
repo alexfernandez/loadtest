@@ -71,7 +71,9 @@ Finally with keep-alive, 3-core load tester against Nginx:
 
 ## Implementations
 
-All measurements against the test server using 3 cores (default):
+All measurements against the test server using 3 cores
+(the default configuration for our six-core machine),
+unless specified otherwise:
 
 ```console
 $ node bin/testserver.js
