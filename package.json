@@ -1,6 +1,6 @@
 {
 	"name": "loadtest",
-	"version": "7.1.1",
+	"version": "8.0.0",
 	"type": "module",
 	"description": "Run load tests for your web application. Mostly ab-compatible interface, with an option to force requests per second. Includes an API for automated load testing.",
 	"homepage": "https://github.com/alexfernandez/loadtest",
@@ -24,7 +24,8 @@
 	},
 	"devDependencies": {
 		"eslint": "^8.47.0",
-		"microprofiler": "^2.0.0"
+		"microprofiler": "^2.0.0",
+		"why-is-node-running": "^2.2.2"
 	},
 	"keywords": [
 		"testing",

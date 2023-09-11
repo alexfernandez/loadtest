@@ -23,7 +23,7 @@ function testCombineResults(callback) {
 			totalRequests: 330,
 			totalErrors: 10,
 			startTimeMs: 1000 + index * 1000,
-			endTimeMs: 1000 + index * 2000,
+			stopTimeMs: 1000 + index * 2000,
 			accumulatedMs: 5000,
 			maxLatencyMs: 350 + index,
 			minLatencyMs: 2 + index,

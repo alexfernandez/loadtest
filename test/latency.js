@@ -2,14 +2,16 @@ import testing from 'testing'
 import {Latency} from '../lib/latency.js'
 
 
+const mockLoadTest = {running: true, checkStop: () => false, countClients: () => 0}
+
 /**
  * Test latency ids.
  */
 function testLatencyIds(callback) {
-	const latency = new Latency({});
-	const firstId = latency.start();
+	const latency = new Latency(mockLoadTest);
+	const firstId = latency.begin();
 	testing.assert(firstId, 'Invalid first latency id %s', firstId, callback);
-	const secondId = latency.start();
+	const secondId = latency.begin();
 	testing.assert(secondId, 'Invalid second latency id', callback);
 	testing.assert(firstId != secondId, 'Repeated latency ids', callback);
 	testing.success(callback);
@@ -23,21 +25,21 @@ function testLatencyRequests(callback) {
 		maxRequests: 10,
 	};
 	const errorCode = '500';
-	const latency = new Latency(options, (error, result) => {
-		testing.check(error, 'Could not compute latency', callback);
-		testing.assertEquals(result.totalRequests, 10, 'Invalid total requests', callback);
-		testing.assertEquals(result.totalErrors, 1, 'Invalid total errors', callback);
-		testing.assert(errorCode in result.errorCodes, 'Error code not found', callback);
-		testing.assertEquals(result.errorCodes[errorCode], 1, 'Should have one ' + errorCode, callback);
-		testing.success(callback);
-	});
-	let id;
+	const latency = new Latency({options, ...mockLoadTest})
 	for (let i = 0; i < 9; i++) {
-		id = latency.start();
+		const id = latency.begin();
 		latency.end(id);
 	}
-	id = latency.start();
+	const id = latency.begin();
 	latency.end(id, errorCode);
+	testing.assert(latency.shouldStop(), 'Should stop now', callback);
+	latency.stop()
+	const result = latency.getResult()
+	testing.assertEquals(result.totalRequests, 10, 'Invalid total requests', callback);
+	testing.assertEquals(result.totalErrors, 1, 'Invalid total errors', callback);
+	testing.assert(errorCode in result.errorCodes, 'Error code not found', callback);
+	testing.assertEquals(result.errorCodes[errorCode], 1, 'Should have one ' + errorCode, callback);
+	testing.success(callback);
 }
 
 /**
@@ -47,8 +49,18 @@ function testLatencyPercentiles(callback) {
 	const options = {
 		maxRequests: 10
 	};
-	const latency = new Latency(options, error => {
-		testing.check(error, 'Error while testing latency percentiles', callback);
+	const latency = new Latency({options, ...mockLoadTest})
+	for (let ms = 1; ms <= 10; ms++) {
+		(function() {
+			const id = latency.begin();
+			setTimeout(() => {
+				latency.end(id);
+			}, ms);
+		})();
+	}
+	setTimeout(() => {
+		testing.assert(latency.shouldStop(), 'Should stop now', callback);
+		latency.stop()
 		const percentiles = latency.getResult().percentiles;
 
 		Object.keys(percentiles).forEach(percentile => {
@@ -56,15 +68,7 @@ function testLatencyPercentiles(callback) {
 		});
 
 		testing.success(percentiles, callback);
-	});
-	for (let ms = 1; ms <= 10; ms++) {
-		(function() {
-			const id = latency.start();
-			setTimeout(() => {
-				latency.end(id);
-			}, ms);
-		})();
-	}
+	}, 20)
 }
 
 /**

@@ -1,5 +1,5 @@
 import testing from 'testing'
-import {HttpClient} from '../lib/httpClient.js'
+import {TcpClient} from '../lib/tcpClient.js'
 
 
 function testHttpClient(callback) {
@@ -8,7 +8,8 @@ function testHttpClient(callback) {
 		maxSeconds: 0.1,
 		concurrency: 1,
 	};
-	new HttpClient({options});
+	const client = new TcpClient({options});
+	client.stop()
 	testing.success(callback);
 }
 

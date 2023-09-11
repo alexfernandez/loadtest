@@ -4,7 +4,7 @@ import {loadTest} from '../lib/loadtest.js'
 
 function testMaxSeconds(callback) {
 	const options = {
-		url: 'http://localhost:7357/',
+		url: 'http://localhost:7358/',
 		maxSeconds: 0.1,
 		concurrency: 1,
 		quiet: true,
@@ -14,7 +14,7 @@ function testMaxSeconds(callback) {
 
 function testWSEcho(callback) {
 	const options = {
-		url: 'ws://localhost:7357/',
+		url: 'ws://localhost:7358/',
 		maxSeconds: 0.1,
 		concurrency: 1,
 		quiet: true,
@@ -24,7 +24,7 @@ function testWSEcho(callback) {
 
 function testIndexParam(callback) {
 	const options = {
-		url: 'http://localhost:7357/replace',
+		url: 'http://localhost:7358/replace',
 		concurrency:1,
 		maxSeconds: 0.1,
 		indexParam: "replace",
@@ -35,7 +35,7 @@ function testIndexParam(callback) {
 
 function testIndexParamWithBody(callback) {
 	const options = {
-		url: 'http://localhost:7357/replace',
+		url: 'http://localhost:7358/replace',
 		concurrency:1,
 		maxSeconds: 0.1,
 		indexParam: "replace",
@@ -47,7 +47,7 @@ function testIndexParamWithBody(callback) {
 
 function testIndexParamWithCallback(callback) {
 	const options = {
-		url: 'http://localhost:7357/replace',
+		url: 'http://localhost:7358/replace',
 		concurrency:1,
 		maxSeconds: 0.1,
 		indexParam: "replace",
@@ -62,7 +62,7 @@ function testIndexParamWithCallback(callback) {
 
 function testIndexParamWithCallbackAndBody(callback) {
 	const options = {
-		url: 'http://localhost:7357/replace',
+		url: 'http://localhost:7358/replace',
 		concurrency:1,
 		maxSeconds: 0.1,
 		body: '{"id": "replace"}',
@@ -95,7 +95,7 @@ function testError(callback) {
  */
 function testKeepAlive(callback) {
 	const options = {
-		url: 'http://localhost:7357/',
+		url: 'http://localhost:7358/',
 		maxSeconds: 0.1,
 		concurrency: 1,
 		quiet: true,

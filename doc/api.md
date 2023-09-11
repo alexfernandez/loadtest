@@ -37,7 +37,7 @@ result.show()
 console.log('Tests run successfully')
 ```
 
-The call returns a `Result` object that contains all info about the load test, also described below.
+The call returns a `Result` object that contains all info about the load test, also described [below](#result).
 Call `result.show()` to display the results in the standard format on the console.
 
 As a legacy from before promises existed,
@@ -61,46 +61,6 @@ loadTest(options, function(error, result) {
 })
 ```
 
-
-Beware: if there are no `maxRequests` and no `maxSeconds`, then tests will run forever
-and will not call the callback.
-
-### Result
-
-The latency result returned at the end of the load test contains a full set of data, including:
-mean latency, number of errors and percentiles.
-A simplified example follows:
-
-```javascript
-{
-  url: 'http://localhost:80/',
-  maxRequests: 1000,
-  maxSeconds: 0,
-  concurrency: 10,
-  agent: 'none',
-  requestsPerSecond: undefined,
-  totalRequests: 1000,
-  percentiles: {
-	'50': 7,
-	'90': 10,
-	'95': 11,
-	'99': 15
-  },
-  effectiveRps: 2824,
-  elapsedSeconds: 0.354108,
-  meanLatencyMs: 7.72,
-  maxLatencyMs: 20,
-  totalErrors: 3,
-  errorCodes: {
-	'0': 1,
-	'500': 2
-  },
-}
-```
-
-The `result` object also has a `result.show()` function
-that displays the results on the console in the standard format.
-
 ### Options
 
 All options but `url` are, as their name implies, optional.
@@ -110,23 +70,34 @@ See also the [simplified list](../README.md#loadtest-parameters).
 
 The URL to invoke. Mandatory.
 
-#### `concurrency`
+#### `maxSeconds`
 
-How many clients to start in parallel.
+Max number of seconds to run the tests.
+Default is 10 seconds, applies only if no `maxRequests` is specified.
+
+Note: after the given number of seconds `loadtest` will stop sending requests,
+but may continue receiving tests afterwards.
+
+**Warning**: max seconds used to have no default value,
+so tests would run indefinitely if no `maxSeconds` and no `maxRequests` were specified.
+Max seconds was changed to default to 10 in version 8.
 
 #### `maxRequests`
 
 A max number of requests; after they are reached the test will end.
+Default is no limit;
+will keep on sending until the time limit in `maxSeconds` is reached.
 
 Note: the actual number of requests sent can be bigger if there is a concurrency level;
 loadtest will report just on the max number of requests.
 
-#### `maxSeconds`
+#### `concurrency`
 
-Max number of seconds to run the tests.
+How many clients to start in parallel, default is 10.
+Does not apply if `requestsPerSecond` is specified.
 
-Note: after the given number of seconds `loadtest` will stop sending requests,
-but may continue receiving tests afterwards.
+**Warning**: concurrency used to have a default value of 1,
+until it was changed to 10 in version 8.
 
 #### `timeout`
 
@@ -134,7 +105,7 @@ Timeout for each generated request in milliseconds. Setting this to 0 disables t
 
 #### `cookies`
 
-An array of cookies to send. Each cookie should be a string of the form name=value.
+An array of cookies to send. Each cookie should be a string of the form `name=value`.
 
 #### `headers`
 
@@ -145,9 +116,6 @@ like this:
     {
         accept: "text/plain;text/html"
     }
-
-Note: when using the API, the "host" header is not inferred from the URL but needs to be sent
-explicitly.
 
 #### `method`
 
@@ -317,6 +285,86 @@ function contentInspector(result) {
     }
 },
 ```
+
+#### `tcp`
+
+If true, use low-level TCP sockets.
+Faster option that can increase performance by up to 10x,
+especially in local test setups.
+
+**Warning**: Experimental option.
+May not work for your test case.
+Not compatible with options `indexParam`, `statusCallback`, `requestGenerator`.
+See [TCP Sockets Performance](doc/tcp-sockets.md) for details.
+
+### Result
+
+The latency result returned at the end of the load test contains a full set of data, including:
+mean latency, number of errors and percentiles.
+A simplified example follows:
+
+```javascript
+{
+  url: 'http://localhost:80/',
+  maxRequests: 1000,
+  maxSeconds: 0,
+  concurrency: 10,
+  agent: 'none',
+  requestsPerSecond: undefined,
+  totalRequests: 1000,
+  percentiles: {
+	'50': 7,
+	'90': 10,
+	'95': 11,
+	'99': 15
+  },
+  effectiveRps: 2824,
+  elapsedSeconds: 0.354108,
+  meanLatencyMs: 7.72,
+  maxLatencyMs: 20,
+  totalErrors: 3,
+  clients: 10,
+  errorCodes: {
+	'0': 1,
+	'500': 2
+  },
+}
+```
+
+The `result` object also has a `result.show()` function
+that displays the results on the console in the standard format.
+
+Some of the attributes (`url`, `concurrency`) will be identical to the parameters passed.
+The following attributes can also be returned.
+
+#### `totalRequests`
+
+How many requests were actually processed.
+
+#### `totalRequests`
+
+How many requests resulted in an error.
+
+#### `effectiveRps`
+
+How many requests per second were actually processed.
+
+#### `elapsedSeconds`
+
+How many seconds the test lasted.
+
+#### `meanLatencyMs`
+
+Average latency in milliseconds.
+
+#### `errorCodes`
+
+Object containing a map with all status codes received.
+
+#### `clients`
+
+Number of concurrent clients started.
+Should equal the concurrency level unless the `rps` option is specified.
     
 ### Start Test Server
 
@@ -330,13 +378,16 @@ await server.close()
 ```
 
 This function returns when the server is up and running,
-with an HTTP server which can be `close()`d when it is no longer useful.
+with a server object which can be `close()`d when it is no longer useful.
 As a legacy from before promises existed,
 if an optional callback is passed as second parameter then it will not behave as `async`:
 
 ```javascript
 const server = startServer({port: 8000}, error => console.error(error))
 ```
+
+**Warning**: up until version 7 this function returned an HTTP server;
+this was changed to a test server object with an identical `close()` method.
 
 The following options are available.
 
