@@ -1,7 +1,10 @@
 # TCP Sockets Performance
 
-To improve performance the author has tried out using raw TCP sockets
-using the [net module](https://nodejs.org/api/net.html),
+The `loadtest` module has impressive performance,
+and it has got better during the years as the Node.js core improves.
+Heavily inspired by `autocannon`,
+the author has tried out using raw TCP sockets to improve performance.
+They use the [net module](https://nodejs.org/api/net.html)
 instead of the [HTTP module](https://nodejs.org/api/http.html).
 This is the story of how it went.
 
@@ -113,8 +116,9 @@ Keep-alive cannot be used with `ab` as far as the author knows.
 
 #### Autocannon
 
-The [autocannon](https://www.npmjs.com/package/autocannon) package uses by default
-10 concurrent connections with keep-alive enabled:
+Next we will try out [`autocannon`](https://www.npmjs.com/package/autocannon),
+the package that actually inspired this approach.
+`autocannon` uses by default 10 concurrent connections with keep-alive enabled:
 
 ```console
 $ autocannon --version
