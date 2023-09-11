@@ -199,10 +199,10 @@ We are around **20 krps**.
 Again quite far from the 57 krps by `autocannon`;
 close to `ab` but it doesn't use keep-alive so the comparison is meaningless.
 
-### Proof of Concept
+### Proof of Concept: Barebones
 
 For the first implementation we want to learn if the bare sockets implementation is worth the time.
-In this naïve implementation we open the socket,
+In this naïve barebones implementation we open the socket,
 send a short canned request without taking into account any parameters or headers:
 
 ```js
