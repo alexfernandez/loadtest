@@ -404,6 +404,65 @@ Effective rps:       60331
 
 We need to do the painstaking exercise of getting back to our target performance.
 
+### Profiling and Micro-profiling
+
+We need to see where our microseconds (µs) are being spent.
+Every microsecond counts: between 67 krps (15 µs per request) to 60 krps (16.7 µs per request)
+the difference is... less than two microseconds.
+
+We use the [`microprofiler`](https://github.com/alexfernandez/microprofiler) package,
+which allows us to instrument the code that is sending and receiving requests.
+For instance the function `makeRequest()` in `lib/tcpClient.js` which is sending out the request:
+
+```js
+import microprofiler from 'microprofiler'
+
+[...]
+    makeRequest() {
+        if (!this.running) {
+            return
+        }
+        // first block: connect
+        const start1 = microprofiler.start()
+        this.connect()
+        microprofiler.measureFrom(start1, 'connect', 100000)
+        // second block: create parser
+        const start2 = microprofiler.start()
+        this.parser = new Parser(this.params.method)
+        microprofiler.measureFrom(start2, 'create parser', 100000)
+        // third block: start measuring latency
+        const start3 = microprofiler.start()
+        const id = this.latency.begin();
+        this.currentId = id
+        microprofiler.measureFrom(start3, 'latency begin', 100000)
+        // fourth block: write to socket
+        const start4 = microprofiler.start()
+        this.connection.write(this.params.request)
+        microprofiler.measureFrom(start4, 'write', 100000)
+    }
+```
+
+Each of the four calls are instrumented.
+When run the output has a lot of lines like this:
+The results are as follows:
+
+```
+Profiling connect: 100000 requests, mean time: 1.144 µs, rps: 6948026
+Profiling create parser: 100000 requests, mean time: 0.152 µs, rps: 6582446
+Profiling latency begin: 100000 requests, mean time: 1.138 µs, rps: 878664
+Profiling write: 100000 requests, mean time: 5.669 µs, rps: 176409
+```
+
+Note that the results oscillate something like 0.3 µs from time to time,
+so don't pay attention to very small differences.
+Mean time is the interesting part: from 0.152 to create the parser µs to 5.669 µs for the write.
+There is not a lot that we can do with the `connection.write()` call,
+since it's directly speaking with the Node.js core;
+we can try reducing the message size (not sending all headers)
+but it doesn't seem to do much.
+So we center on the `this.connect()` call.
+Then we repeat again on the `finishRequest()` call to see if we can squeeze another microsecond there.
+
 After some optimizing and a lot of bug fixing we are back to **68 krps**:
 
 ```
