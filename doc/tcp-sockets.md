@@ -7,10 +7,11 @@ the author has tried out using raw TCP sockets to improve performance.
 They use the [net module](https://nodejs.org/api/net.html)
 instead of the [HTTP module](https://nodejs.org/api/http.html).
 This is the story of how it went.
+Spoiler: just add `--tcp` to your command line for a speed boost!
 
 ## Rationale
 
-Keep-alive (option `-k`) makes a huge difference in performance:
+The keep-alive (option `-k`) makes a huge difference in performance:
 instead of opening a new socket for every request,
 the same connection is reused,
 so it is usually much faster.
