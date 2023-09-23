@@ -27,7 +27,8 @@ async function runTcpPerformanceTest() {
 
 function startWorkers() {
 	return new Promise(resolve => {
-		const cores = getHalfCores()
+		// do not use more than three cores for the server
+		const cores = Math.min(3, getHalfCores())
 		const workers = []
 		for (let i = 0; i < cores; i++) {
 			const worker = cluster.fork()
