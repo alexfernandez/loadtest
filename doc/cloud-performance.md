@@ -61,7 +61,7 @@ Effective rps:       68044
 ```
 
 Next a laptop with a processor: Intel Core i7-9750H (courtesy of Javier Sánchez Criado).
-Result: **42 krps**, weakest of the bunch.
+Result: **42 krps**, tied for the weakest of the bunch.
 
 ```
 Effective rps:       31878
@@ -74,6 +74,22 @@ when the processor actually has just 6 cores -- they turn to 12 using hyperthrea
 Therefore all 6 cores were busy with the server, and the `loadtest` process had to 
 So I tuned the test server to start 3 cores max and Javier was nice enough to re-run it,
 helping the result reach 42 krps.
+
+My own laptop Tuxedo InfinityBook S 14 v5, with an Intel Core i5-10210U CPU @ 1.60GHz.
+Result: **42 krps**, weakest of the bunch.
+
+```
+Effective rps:       41561
+Effective rps:       41797
+Effective rps:       42207
+```
+
+MSI Modern 15 with processor: AMD Ryzen 7 (courtesy of Juan David Guerrero).
+Result: **46 krps**.
+
+```
+Effective rps:       45940
+```
 
 Finally a Dell laptop using a processor: Intel Core i9-12900HK (courtesy of Manu Fosela).
 Result: **162 krps**, absolute record.
