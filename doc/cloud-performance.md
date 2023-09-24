@@ -225,8 +225,9 @@ Effective rps:       94349
 Effective rps:       94015
 ```
 
-C3: c3-standard-4 $160/mo
-Processor: Intel(R) Xeon(R) Platinum 8481C CPU @ 2.70GHz
+C3: c3-standard-4 $160/mo.
+Processor: Intel(R) Xeon(R) Platinum 8481C CPU @ 2.70GHz.
+Result: **69 krps**.
 
 ```
 Effective rps:       69463
@@ -234,8 +235,9 @@ Effective rps:       68472
 Effective rps:       69188
 ```
 
-N2: n2-standard-8 $312/mo "balanced price and performance"
-Processor: Intel(R) Xeon(R) CPU @ 2.80GHz
+N2: n2-standard-8 $312/mo "balanced price and performance".
+Processor: Intel(R) Xeon(R) CPU @ 2.80GHz.
+Result: **58 krps**, quite erratic.
 
 ```
 Effective rps:       55098
@@ -249,26 +251,29 @@ The new supposedly fast JS server framework, testing against a local nginx.
 Cluster mode is not working yet, so cannot use the usual script `bin/tcp-performance.js`;
 comparisons are using just one core to be fair.
 
+Bun with keepalive http mode: **14 krps**.
+
 ```
 bun bin/loadtest.js http://localhost:80/ --cores 1 -k
 Effective rps:       14401
 ```
 
-For comparison:
+For comparison, node with keepalive, http mode: **19 krps**, bit faster.
 
 ```
 node bin/loadtest.js http://localhost:80/ --cores 1 -k
 Effective rps:       18799
 ```
 
-TCP mode was broken, after a [quick fix](https://github.com/alexfernandez/loadtest/commit/059423e0f5831d6bd63d33c600ab1ee3042af1a2):
+TCP mode was broken, after a [quick fix](https://github.com/alexfernandez/loadtest/commit/059423e0f5831d6bd63d33c600ab1ee3042af1a2),
+bun with keepalive and tcp mode: **62 krps**.
 
 ```
 bun bin/loadtest.js http://localhost:80/ --cores 1 -k --tcp
 Effective rps:       62517
 ```
 
-For comparison:
+For comparison, node with keepalive and tcp mode: **60 krps**, bit slower.
 
 ```
 node bin/loadtest.js http://localhost:80/ --cores 1 -k --tcp
@@ -281,7 +286,8 @@ But a bit slower using `http` mode.
 ## Other Options
 
 Another useful benchmark: [performance](https://www.npmjs.com/package/performance),
-specifically geared towards performance.
+specifically geared towards low level performance
+(measures up to a nanosecond).
 
 ## Conclusions
 
@@ -294,6 +300,9 @@ Cloud providers are sluggish at best, super expensive at worst.
 Be sure to benchmark your intended instances as they can be charging > $300/mo
 for a bunch of cores you will not be using,
 or that will perform worse than you think.
+
+Also, the new bun is promising, but is still not consistently faster
+for TCP sockets.
 
 If necessary, create your own synthetic benchmark,
 `loadtest` can be of help here using its [powerful API](./api.md).
