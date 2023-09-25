@@ -135,6 +135,29 @@ Result: **110 krps**, best of the Apple bunch.
 Effective rps:       109672
 ```
 
+MacBookPro15,1, CPU: 8-Core Intel Core i9 (courtesy of Juan Carlos Pérez Pardo).
+Result: **38 krps**.
+
+```
+Effective rps:       38118
+```
+
+MacBook Pro Mac14,9, CPU: Apple M2 Pro (courtesy of Juan Carlos Pérez Pardo).
+Result: **68 krps**. Weird, should be faster than M2 but isn't; runs zscaler.
+
+```
+Effective rps:       67735
+```
+
+MacBookPro12,1 2015, CPU: Intel Core i5 (2 cores) (courtesy of Paco Calvo).
+Result: **11 krps**. Slowest of the series.
+
+```
+Effective rps:       9754
+Effective rps:       10002
+Effective rps:       10792
+```
+
 ### AWS
 
 Again Ubuntu 22.04 LTS.
@@ -274,7 +297,7 @@ The new supposedly fast JS server framework, testing against a local nginx.
 Cluster mode is not working yet, so cannot use the usual script `bin/tcp-performance.js`;
 comparisons are using just one core to be fair.
 
-Bun with keepalive http mode: **14 krps**.
+Bun with keepalive, http mode: **14 krps**.
 
 ```
 bun bin/loadtest.js http://localhost:80/ --cores 1 -k
