@@ -50,9 +50,9 @@ estimating a typical laptop with three years of useful life.
 
 ### Bare Iron
 
-I asked on Mastodon, Twitter and Meetup for contributions using different processors.
+I asked on Mastodon, Twitter and Meetup for contributions using different processors (CPUs).
 
-First my own cirrus7, with an Intel Core processor: i5-12400T. Result: **69 krps**.
+First my own cirrus7, with an Intel Core CPU: i5-12400T. Result: **69 krps**.
 
 ```
 Effective rps:       68391
@@ -60,7 +60,7 @@ Effective rps:       69082
 Effective rps:       68044
 ```
 
-Next a laptop with a processor: Intel Core i7-9750H (courtesy of Javier Sánchez Criado).
+Next a laptop with a CPU: Intel Core i7-9750H (courtesy of Javier Sánchez Criado).
 Result: **42 krps**, tied for the weakest of the bunch.
 
 ```
@@ -84,21 +84,21 @@ Effective rps:       41797
 Effective rps:       42207
 ```
 
-MSI Modern 15 with processor: AMD Ryzen 7 (courtesy of Juan David Guerrero).
+MSI Modern 15 with CPU: AMD Ryzen 7 (courtesy of Juan David Guerrero).
 Result: **46 krps**.
 
 ```
 Effective rps:       45940
 ```
 
-Finally a Dell laptop using a processor: Intel Core i9-12900HK (courtesy of Manu Fosela).
+Finally a Dell laptop using a CPU: Intel Core i9-12900HK (courtesy of Manu Fosela).
 Result: **162 krps**, absolute record.
 
 ```
 Effective rps:       162517
 ```
 
-Now we turn to the Apple side with a MacBook Pro 2021, sporting an Apple processor: M1 Pro (courtesy of Eduardo Reyes).
+Now we turn to the Apple side with a MacBook Pro 2021, sporting an Apple CPU: M1 Pro (courtesy of Eduardo Reyes).
 Result: **74 krps**.
 
 ```
@@ -109,19 +109,26 @@ Effective rps:       73486
 
 Note: execution improved over several iterations.
 
-Another Mac, processor: Apple M1 Max (courtesy of @slowdownitsfine@techhub.social). Result: **77 krps**.
+Another Mac, CPU: Apple M1 Max (courtesy of @slowdownitsfine@techhub.social). Result: **77 krps**.
 
 ```
 Effective rps:       77497
 ```
 
-Procesador: Apple M1 Pro (courtesy of Steve Ridout). Result: **84 krps**.
+Mac with CPU: Apple M1 Pro (courtesy of Steve Ridout). Result: **84 krps**.
 
 ```
 Effective rps:       84219
 ```
 
-A Macbook Air 2023, processor: Apple M2 (courtesy of Juan Searle).
+MacBook Pro 14-inch, 2021, CPU: Apple M1 Pro (courtesy of Iván Coleto).
+Result: **65 krps**.
+
+```
+Effective rps:       65464
+```
+
+A Macbook Air 2023, CPU: Apple M2 (courtesy of Juan Searle).
 Result: **110 krps**, best of the Apple bunch.
 
 ```
@@ -136,7 +143,7 @@ so the test server runs on several,
 but remember that performance for `loadtest` is single-core.
 
 Shared tenancy, `c5-xlarge` (4 CPUs) $138/mo.
-Processor: Intel(R) Xeon(R) Platinum 8275CL CPU @ 3.00GHz.
+CPU: Intel(R) Xeon(R) Platinum 8275CL CPU @ 3.00GHz.
 Result: **45 krps**.
 
 ```
@@ -147,7 +154,7 @@ Effective rps:       44708
 ```
 
 Shared tenancy, `c5d-2xlarge` (8 CPUs) $276/mo.
-Processor: Intel(R) Xeon(R) Platinum 8275CL CPU @ 3.00GHz.
+CPU: Intel(R) Xeon(R) Platinum 8275CL CPU @ 3.00GHz.
 Result: **66 krps**.
 
 ```
@@ -157,7 +164,7 @@ Effective rps:       65697
 ```
 
 `c7i.xlarge` (4 CPUs): $145/mo.
-Processor: Intel(R) Xeon(R) Platinum 8488C.
+CPU: Intel(R) Xeon(R) Platinum 8488C.
 Result: **93 krps**.
 
 ```
@@ -167,7 +174,7 @@ Effective rps:       91890
 ```
 
 `c7i.2xlarge` (8 CPUs): $290/mo.
-Processor: Intel(R) Xeon(R) Platinum 8488C.
+CPU: Intel(R) Xeon(R) Platinum 8488C.
 Result: **117 krps**, best of all clouds.
 
 ```
@@ -177,7 +184,7 @@ Effective rps:       116512
 ```
 
 `c6g.xlarge` (4 CPUs) $105/mo. This one is interesting because it uses the arm64 architecture, advertised as "best cost-effectiveness".
-Processor: ARM Neoverse-N1.
+CPU: ARM Neoverse-N1.
 Result: **27 krps**, very disappointing.
 
 ```
@@ -187,7 +194,7 @@ Effective rps:       26680
 ```
 
 `c6g.2xlarge` (4 CPUs) $210/mo, again using the arm64 architecture.
-Processor: ARM Neoverse-N1.
+CPU: ARM Neoverse-N1.
 Result: **28 krps**, again very disappointing.
 
 ```
@@ -199,7 +206,7 @@ Effective rps:       27727
 ### Linode
 
 Dedicated 8 GB, $72/mo, 4 CPUs.
-Processor: AMD EPYC 7713 64-Core Processor.
+CPU: AMD EPYC 7713 64-Core Processor.
 Result: **33 krps**, also very disappointing.
 
 ```
@@ -212,7 +219,7 @@ Effective rps:       32043
 ### Google Cloud
 
 C2 (8 CPUs) $315/mo "ultra-high performance".
-Processor: Intel(R) Xeon(R) CPU @ 3.10GHz.
+CPU: Intel(R) Xeon(R) CPU @ 3.10GHz.
 Result: **64 krps**, not so ultra-high.
 
 ```
@@ -222,7 +229,7 @@ Effective rps:       63274
 ```
 
 C2D: c2d-standard-8 $341/mo.
-Processor: AMD EPYC 7B13.
+CPU: AMD EPYC 7B13.
 Result: **79 krps**.
 
 ```
@@ -232,7 +239,7 @@ Effective rps:       73479
 ```
 
 C3: c3-standard-8 $321/mo "consistently high performance"
-Processor: Intel(R) Xeon(R) Platinum 8481C CPU @ 2.70GHz.
+CPU: Intel(R) Xeon(R) Platinum 8481C CPU @ 2.70GHz.
 Result: **94 krps**, best of GCP.
 
 ```
@@ -242,7 +249,7 @@ Effective rps:       94015
 ```
 
 C3: c3-standard-4 $160/mo.
-Processor: Intel(R) Xeon(R) Platinum 8481C CPU @ 2.70GHz.
+CPU: Intel(R) Xeon(R) Platinum 8481C CPU @ 2.70GHz.
 Result: **69 krps**.
 
 ```
@@ -252,7 +259,7 @@ Effective rps:       69188
 ```
 
 N2: n2-standard-8 $312/mo "balanced price and performance".
-Processor: Intel(R) Xeon(R) CPU @ 2.80GHz.
+CPU: Intel(R) Xeon(R) CPU @ 2.80GHz.
 Result: **58 krps**, quite erratic.
 
 ```
