@@ -84,6 +84,15 @@ Effective rps:       41797
 Effective rps:       42207
 ```
 
+Now my new laptop frame.work 13" with an Intel Core i5-1340P.
+Result: **173 krps**, absolute record.
+
+```
+Effective rps:       172586
+Effective rps:       171574
+Effective rps:       173009
+```
+
 MSI Modern 15 with CPU: AMD Ryzen 7 (courtesy of Juan David Guerrero).
 Result: **46 krps**.
 
@@ -92,7 +101,7 @@ Effective rps:       45940
 ```
 
 Finally a Dell laptop using a CPU: Intel Core i9-12900HK (courtesy of Manu Fosela).
-Result: **162 krps**, absolute record.
+Result: **162 krps**, previous record of the 12th generation.
 
 ```
 Effective rps:       162517
