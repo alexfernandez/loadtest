@@ -2,7 +2,7 @@
 
 [![NPM](https://nodei.co/npm/loadtest.png?downloads=true)](https://nodei.co/npm/loadtest/)
 
-[![Package quality](http://packagequality.com/badge/loadtest.png)](http://packagequality.com/#?package=loadtest)
+[![Package quality](https://packagequality.com/badge/loadtest.png)](https://packagequality.com/#?package=loadtest)
 
 # loadtest
 
