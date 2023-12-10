@@ -80,7 +80,7 @@ function testWSIntegration(callback) {
 		}
 		const options = {
 			url: `ws://localhost:${port}`,
-			maxRequests: 10,
+			maxRequests: 100,
 			concurrency: 10,
 			body: {
 				/*
