@@ -1,6 +1,6 @@
 {
 	"name": "loadtest",
-	"version": "8.0.6",
+	"version": "8.0.7",
 	"type": "module",
 	"description": "Run load tests for your web application. Mostly ab-compatible interface, with an option to force requests per second. Includes an API for automated load testing.",
 	"homepage": "https://github.com/alexfernandez/loadtest",
