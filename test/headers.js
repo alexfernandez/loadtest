@@ -3,7 +3,7 @@ import {addHeaders, addUserAgent} from '../lib/headers.js'
 
 
 function testAddHeaders(callback) {
-	const tests = [ {
+	const tests = [{
 		raw: 'k:v',
 		headers: { 'k': 'v' }
 	}, {
@@ -18,8 +18,10 @@ function testAddHeaders(callback) {
 	}, {
 		raw: 'k:v:w',
 		headers: { 'k': 'v:w' }
-	}
-	];
+	}, {
+		raw: {accept: 'text/plain;text/html'},
+		headers: {accept: 'text/plain;text/html'},
+	}];
 	tests.forEach(function(test) {
 		const headers = {};
 		addHeaders(test.raw, headers);
