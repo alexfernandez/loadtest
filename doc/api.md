@@ -109,7 +109,8 @@ An array of cookies to send. Each cookie should be a string of the form `name=va
 
 #### `headers`
 
-A map of headers. Each header should be an entry in the map with the value given as a string.
+An object containing headers of the form `key: 'value'}.
+Each attribute of the object should be a header with the value given as a string.
 If you want to have several values for a header, write a single value separated by semicolons,
 like this:
 
