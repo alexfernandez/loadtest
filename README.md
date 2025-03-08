@@ -560,7 +560,8 @@ see [doc/api.md](doc/api.md) for the full explanations with examples.
 * `requestGenerator`: custom request generator function.
 * `agentKeepAlive`: if true, will use 'Connection: Keep-alive'.
 * `quiet`: if true, do not show any messages.
-* `indexParam`: parameter to replace in URL and body with a unique index.
+* `indexParam`: regexp to replace in URL and body with a unique index. The string specified in this parameter will be passed to `new Regexp(here, 'g')`. Do not use together with `indexParamLiteral`.
+* `indexParamLiteral`: literal string to replace in URL and body with a unique index. Do not use together with `indexParam`.
 * `indexParamCallback`: function to generate unique indexes.
 * `insecure`: allow invalid and self-signed certificates over https.
 * `secureProtocol`: TLS/SSL method to use.
@@ -623,7 +624,9 @@ The expected structure of the file is the following:
 	"agentKeepAlive": "Use a keep-alive http agent",
 	"proxy": "Use a proxy for requests",
 	"requestsPerSecond": "Specify the requests per second for each client",
-	"indexParam": "Replace the value of given arg with an index in the URL"
+	"indexParam": "pattern to replace with a generated index in the URL",
+	"indexParamLiteral": "string to replace with a generated index in the URL",
+	"indexParamCallback": "function() {that generates ids to insert into the URL}"
 }
 ```
 

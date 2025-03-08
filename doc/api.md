@@ -170,14 +170,27 @@ Do not show any messages.
 
 #### `indexParam`
 
-The given string will be replaced in the final URL with a unique index.
-E.g.: if URL is `http://test.com/value` and `indexParam=value`, then the URL
+The given pattern will be replaced in the final URL with a unique index.
+E.g.: if URL is `http://test.com/value` and `indexParam = '\bvalue\b'`, then the URL
 will be:
 
 * http://test.com/1
 * http://test.com/2
 * ...
-* body will also be replaced `body:{ userid: id_value }` will be `body:{ userid: id_1 }`
+* body will also be replaced `body:{ userid: value, othervalue: 123 }` will be `body:{ userid: 1, othervalue: 123 }`
+
+#### `indexParamLiteral`
+
+The given string will be replaced in the final URL with a unique index.
+E.g.: if URL is `http://test.com/value` and `indexParam: 'value'`, then the URL
+will be:
+
+* http://test.com/1
+* http://test.com/2
+* ...
+* body will also be replaced `body:{ userid: value, othervalue: 123 }` will be `body:{ userid: 1, other1: 123 }`
+
+Use only indexParamLiteral or only indexParam. Not both at the same time!
 
 #### `indexParamCallback`
 
