@@ -6,7 +6,16 @@ const port = 10453;
 
 
 function testRequestGenerator(callback) {
-	const server = startServer({port, quiet: true}, error => {
+	const server = startServer({
+		port,
+		quiet: true,
+		shouldErrorCustom: (request) => (
+			request.body !== '{"hi": "ho"}' ||
+			request.headers['content-type'] !== 'application/json' ||
+			request.headers['content-length'] !== request.body.length.toString() ||
+			request.headers['x-test-header'] !== 'request-generator-test'
+		),
+	}, error => {
 		if (error) {
 			return callback('Could not start test server');
 		}
@@ -20,6 +29,7 @@ function testRequestGenerator(callback) {
 				const message = '{"hi": "ho"}';
 				options.headers['Content-Length'] = message.length;
 				options.headers['Content-Type'] = 'application/json';
+				options.headers['x-test-header'] = 'request-generator-test';
 				const request = client(options, callback);
 				request.write(message);
 				return request;
@@ -34,6 +44,9 @@ function testRequestGenerator(callback) {
 			server.close(error => {
 				if (error) {
 					return callback('Could not close test server');
+				}
+				if (result.totalErrors > 0) {
+					return callback(`There were ${result.totalErrors} errors in the load test`);
 				}
 				return callback(null, 'requestGenerator succeeded: ' + JSON.stringify(result));
 			});
